@@ -1,0 +1,126 @@
+// Variables
+$bg-color: #121212; // Dark background color
+$text-color: #e0e0e0; // Light text color
+$secondary-color: #03a9f4; // Cyan for highlights
+$accent-color: #6200ea; // Purple accent color
+
+.mainMobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: $bg-color; // Dark background
+  color: $text-color; // Light text
+  padding: 15px;
+  gap: 10px;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.8);
+  overflow-y: hidden;
+  z-index: 9998;
+
+  .image {
+    border-radius: 10px;
+    align-self: center;
+    border: 2px solid $text-color; // Border matching text color
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px 2px $secondary-color; // Cyan glow on hover
+    }
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 20px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    .navDiv {
+      padding: 10px 20px;
+      background-color: #162129;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+
+      &:hover {
+        background-color: $secondary-color; // Cyan background on hover
+        color: #fff; // White text on hover
+        transform: scale(1.05);
+      }
+
+      h2 {
+        margin: 0;
+      }
+    }
+
+    .active {
+      background-color: $secondary-color;
+      color: #fff;
+      transform: scale(1.05);
+    }
+  }
+}
+
+.mainClose {
+  display: none;
+}
+
+.hamburger-react {
+  position: fixed !important;
+  top: 35px;
+  right: 20px;
+  background-color: $secondary-color; // Matches nav item background
+  color: $text-color;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.6);
+  transition: all 0.1s ease-in-out;
+  z-index: 9999;
+}
+
+//laptop
+
+/* .main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: midnightblue;
+  color: white;
+  padding-left: 15px;
+  padding-right: 15px;
+  gap: 10px;
+
+  .mainClose{
+    display: none;
+  }
+
+  .image {
+    border-radius: 10px;
+    align-self: center;
+
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    gap: 30px;
+  }
+} 
+ */
