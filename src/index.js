@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider, useLocation} from "react-router-dom";
+import { createBrowserRouter, RouterProvider} from "react-router-dom";
 import { StoreProvider } from "./store";
 import "./style/index.scss";
 import App from "./pages/App";

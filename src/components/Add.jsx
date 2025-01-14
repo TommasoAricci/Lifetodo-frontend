@@ -246,7 +246,6 @@ export default function Add({ editThought }) {
             thoughtEdit ? editThought(thoughtId) : handleFormSubmit();
           }}
         >
-          {" "}
           <textarea
             name="title"
             className="add-thought-title"
