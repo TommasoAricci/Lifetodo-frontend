@@ -1,187 +1,156 @@
-import React, { useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import "../style/pages/Skills.scss";
-import htmlImg from "../images/tokens/html.png";
-import cssImg from "../images/tokens/css.png";
-import jsImg from "../images/tokens/javascript.png";
-import reactImg from "../images/tokens/react.png";
-import nodeImg from "../images/tokens/nodejs.png";
-import mongoImg from "../images/tokens/mongodb.png";
-import git from "../images/tokens/git.png";
-import copyImg from "../images/tokens/copywriting.png";
-import wpImg from "../images/tokens/wordpress.png";
-import blImg from "../images/tokens/blender.png";
-import btImg from "../images/tokens/boot.png";
-import sassImg from "../images/tokens/sass.png";
-import exImg from "../images/tokens/ex.png";
-import monImg from "../images/tokens/mon.png";
-import aiImg from "../images/tokens/ai.png";
-import psImg from "../images/tokens/ps.png";
-import seoImg from "../images/tokens/seo.png";
+import Add from "../components/Add";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import $ from "jquery";
+const { useStore } = require("../store");
 
-export default function Skills() {
-  const [activeTab, setActiveTab] = useState("frontend");
+export default function AboutMe() {
+  const {
+    thoughtSent,
+    setThoughtEdit,
+    setNewThoughtOpen,
+    thoughtTitle,
+    setThoughtTitle,
+    thoughtDescription,
+    setThoughtDescription,
+    thoughtEdit,
+    setThoughtId,
+    thoughtId
+  } = useStore();
+  const [thoughts, setThoughts] = useState([]);
 
-  // content per tab
+  console.log(thoughtEdit);
 
-  const renderTabContent = useMemo(() => {
-    switch (activeTab) {
-      case "frontend":
-        return (
-          <>
-            <div className="skills-container">
-              <h3 id="skills-h3">Languages</h3>
-              <div className="languages">
-                <div className="skill-badge">
-                  <img src={htmlImg} alt="HTML Logo" />
-                  <span>HTML</span>
-                </div>
-                <div className="skill-badge">
-                  <img src={cssImg} alt="CSS Logo" />
-                  <span>CSS</span>
-                </div>
-                <div className="skill-badge">
-                  <img src={jsImg} alt="JavaScript Logo" />
-                  <span>JavaScript</span>
-                </div>
-              </div>
+  // THOUGHTS
 
-              <h3 id="skills-h3">Libraries</h3>
-              <div className="libraries">
-                <div className="skill-badge">
-                  <img src={reactImg} alt="React Logo" />
-                  <span>ReactJS</span>
-                </div>
-                <div className="skill-badge">
-                  <img src={sassImg} alt="Sass Logo" />
-                  <span>Sass</span>
-                </div>
-                <div className="skill-badge">
-                  <img src={btImg} alt="Bootstrap Logo" />
-                  <span>Bootstrap</span>
-                </div>
-                <div className="skill-badge">
-                  <img src={git} alt="Git logo" />
-                  <span>Git</span>
-                </div>
-                {/*                 <div className="skill-badge">
-                  <img src={axImg} alt="Axios logo" />
-                  <span>Axios</span>
-                </div> */}
-              </div>
-            </div>
-          </>
-        );
-      case "backend":
-        return (
-          <>
-            <div className="skills-container">
-              <h3 id="skills-h3">Languages</h3>
-              <div className="languages">
-                <div className="skill-badge">
-                  <img src={jsImg} alt="JavaScript Logo" />
-                  <span>JavaScript</span>
-                </div>
-              </div>
-
-              <h3 id="skills-h3">Libraries - Database</h3>
-              <div className="libraries">
-                <div className="skill-badge">
-                  <img src={nodeImg} alt="Node Logo" />
-                  <span>NodeJS</span>
-                </div>
-                <div className="skill-badge">
-                  <img src={exImg} alt="Express Logo" />
-                  <span>Express</span>
-                </div>
-                <div className="skill-badge">
-                  <img src={mongoImg} alt="Mongo logo" />
-                  <span>MONGO DB</span>
-                </div>
-                <div className="skill-badge">
-                  <img src={monImg} alt="Mongoose logo" />
-                  <span>MONGOOSE</span>
-                </div>
-              </div>
-            </div>
-          </>
-        );
-      case "extra":
-        return (
-          <>
-            <div className="skills-container">
-              <h3 id="skills-h3">Blogging</h3>
-              <div className="extra">
-                <div className="skill-badge">
-                  <img src={wpImg} alt="WORDPRESS Logo" />
-                  <span>WORDPRESS</span>
-                </div>
-                <div className="skill-badge">
-                  <img src={copyImg} alt="COPYWRITING logo" />
-                  <span>COPYWRITING</span>
-                </div>
-                <div className="skill-badge">
-                  <img src={seoImg} alt="SEO logo" />
-                  <span>SEO</span>
-                </div>
-              </div>
-
-              <h3 id="skills-h3">Graphic</h3>
-              <div className="graphic">
-                <div className="skill-badge">
-                  <img src={psImg} alt="PHOTOSHOP logo" />
-                  <span>PHOTOSHOP</span>
-                </div>
-                <div className="skill-badge">
-                  <img src={aiImg} alt="ILLUSTRATOR logo" />
-                  <span>ILLUSTRATOR</span>
-                </div>
-                <div className="skill-badge">
-                  <img src={blImg} alt="BLENDER logo" />
-                  <span>BLENDER</span>
-                </div>
-              </div>
-            </div>
-          </>
-        );
-      default:
-        return null;
+  useEffect(() => {
+    async function getThoughts() {
+      try {
+        const response = await fetch("http://localhost:4000/api/thoughts");
+        const data = await response.json();
+        setThoughts(data);
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }, [activeTab]);
+    getThoughts();
+  }, [thoughtSent]);
 
-  // rendering elements
+  // api delete
+
+  const handleDelete = async (id) => {
+    console.log("Deleting item with ID:", id); // Log dell'ID che stai cercando di eliminare
+    try {
+      await fetch(`http://localhost:4000/api/thoughts/${id}`, {
+        method: "DELETE",
+      });
+
+      setThoughts(thoughts.filter((thought) => thought._id !== id));
+    } catch (error) {
+      console.error("Error while deleting:", error);
+    }
+  };
+
+  const confirmDelete = (thought) => {
+    console.log(thought); // Aggiungi un log per verificare cosa contiene `thought`
+    $.confirm({
+      theme: "modern",
+      animation: "opacity",
+      title: "Are you sure?",
+      content: "Sei sicuro di voler eliminare questo elemento?",
+      buttons: {
+        ok: {
+          text: "Delete",
+          btnClass: "btn-red",
+          action: function () {
+            handleDelete(thought._id);
+          },
+        },
+        cancel: {
+          text: "Back",
+          action: function () {
+            // Non eliminare l'elemento
+          },
+        },
+      },
+    });
+  };
+
+  // api edit
+
+  const editThought = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:4000/api/thoughts/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: thoughtTitle,
+          description: thoughtDescription,
+        }),
+      });
+
+      const data = await response.json();
+      console.log(data);
+
+      if (response.ok) {
+        setThoughtEdit(false);
+        setNewThoughtOpen(false);
+
+        const updatedThoughts = thoughts.map((thought) =>
+          thought._id === id ? data : thought
+        );
+        setThoughts(updatedThoughts);
+      } else {
+        console.error("Errore nell'aggiornamento del pensiero", data);
+      }
+    } catch (error) {
+      console.error("Errore:", error);
+    }
+  };
+
+  const handleEdit = (title, description, id) => {
+    setNewThoughtOpen(true);
+    setThoughtTitle(title);
+    setThoughtDescription(description);
+    setThoughtId(id);
+    setThoughtEdit(true);
+  };
 
   return (
     <>
       <Navbar />
+      <Add editThought={editThought}/>
       <>
-        <div className="mainAbout mainSkills">
+        <div className="mainAbout">
           <div id="aboutTitle">
-            <h1>Skills</h1>
+            <h1>Notes</h1>
           </div>
-          {renderTabContent}
         </div>
 
-        <div className="tabs-container">
-          <div className="tabs">
-            <button
-              className={`tab-link ${activeTab === "frontend" ? "active" : ""}`}
-              onClick={() => setActiveTab("frontend")}
-            >
-              Frontend
-            </button>
-            <button
-              className={`tab-link ${activeTab === "backend" ? "active" : ""}`}
-              onClick={() => setActiveTab("backend")}
-            >
-              Backend
-            </button>
-            <button
-              className={`tab-link ${activeTab === "extra" ? "active" : ""}`}
-              onClick={() => setActiveTab("extra")}
-            >
-              Other
-            </button>
+        <div className="mainWall">
+          <div className="thoughts">
+            {thoughts.map((thought) => (
+              <div className="thought" key={thought._id}>
+                <h2>{thought.title}</h2>
+                <p>{thought.description}</p>
+                <button
+                  onClick={() => confirmDelete(thought)}
+                  className="delete-button"
+                >
+                  <FontAwesomeIcon icon={faTrashCan} />
+                </button>
+                <button
+                  className="edit-button"
+                  onClick={() =>
+                    handleEdit(thought.title, thought.description, thought._id)
+                  }
+                ></button>
+              </div>
+            ))}
           </div>
         </div>
       </>

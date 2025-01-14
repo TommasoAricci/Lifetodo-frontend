@@ -4,16 +4,19 @@ import { createBrowserRouter, RouterProvider, useLocation} from "react-router-do
 import { StoreProvider } from "./store";
 import "./style/index.scss";
 import App from "./pages/App";
-import Bacheca from "./pages/Bacheca";
+import Wall from "./pages/Wall";
 import Thoughts from "./pages/Thoughts";
 import Todos from "./pages/Todos";
-import Work from "./pages/Todos";
 
 // Definisci le rotte
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Bacheca />,
+    element: <App />,
+  },
+  {
+    path: "/wall",
+    element: <Wall />,
   },
   {
     path: "/todos",

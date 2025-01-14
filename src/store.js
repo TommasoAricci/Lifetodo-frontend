@@ -23,13 +23,53 @@ export const StoreProvider = ({ children }) => {
     setIsBottomOpenState(state);
   }, []);
 
+  // thought open
+
+  const [newThoughtOpen, setNewThoughtOpen] = useState(false);
+
   // thought sent
 
   const [thoughtSent, setThoughtSent] = useState(false);
+  const [thoughtTitle, setThoughtTitle] = useState("");
+  const [thoughtId, setThoughtId] = useState("");
+  const [thoughtDescription, setThoughtDescription] = useState("");
+
+  // thought edit
+
+  const [thoughtEdit, setThoughtEdit] = useState(false);
+
+  // checkbox open
+
+  const [newCheckboxOpen, setNewCheckboxOpen] = useState(false);
+
+  // checkbox sent
+
+  const [checkboxSent, setCheckboxSent] = useState(false);
 
   return (
     <StoreContext.Provider
-      value={{ isOpen, setIsOpen, isBottomOpen, setIsBottomOpen, thoughtSent, setThoughtSent }}
+      value={{
+        isOpen,
+        setIsOpen,
+        isBottomOpen,
+        setIsBottomOpen,
+        thoughtSent,
+        setThoughtSent,
+        thoughtEdit,
+        setThoughtEdit,
+        checkboxSent,
+        setCheckboxSent,
+        newThoughtOpen,
+        setNewThoughtOpen,
+        newCheckboxOpen,
+        setNewCheckboxOpen,
+        thoughtTitle,
+        setThoughtTitle,
+        thoughtDescription,
+        setThoughtDescription,
+        thoughtId,
+        setThoughtId
+      }}
     >
       {children}
     </StoreContext.Provider>

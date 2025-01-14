@@ -3,6 +3,8 @@ import "../style/navbar.scss";
 import image from "../images/copia.jpg";
 import { Link, useLocation } from "react-router-dom";
 import { Squash as Hamburger } from "hamburger-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { useStore } from "../store";
 
 export default function Navbar() {
@@ -25,39 +27,35 @@ export default function Navbar() {
         <nav>
           <Link to="/" style={linkStyle}>
             <div
-              className={location.pathname === "/" ? "navDiv active" : "navDiv"}
-            >
-              <h2>Bacheca</h2>
+              className={location.pathname === "/" ? "navDiv active" : "navDiv"}>
+              <h2>Wall</h2>
             </div>
           </Link>
           <Link to="/thoughts" style={linkStyle}>
             <div
               className={
-                location.pathname === "/thoughts" ? "navDiv active" : "navDiv"
-              }
-            >
-              <h2>Thoughts</h2>
+                location.pathname === "/thoughts" ? "navDiv active" : "navDiv"}>
+              <h2>Notes</h2>
             </div>
           </Link>
           <Link to="/todos" style={linkStyle}>
             <div
               className={
-                location.pathname === "/todos" ? "navDiv active" : "navDiv"
-              }
-            >
+                location.pathname === "/todos" ? "navDiv active" : "navDiv"}>
               <h2>Todos</h2>
             </div>
           </Link>
           <div className="navDiv">
-            <h2>Projects</h2>
+            <h2>My Music</h2>
           </div>
           <div className="navDiv">
-            <h2>Contacts</h2>
+            <h2>My Books</h2>
           </div>
         </nav>
       </div>
 
       <Hamburger toggled={isOpen} toggle={setIsOpen} />
+      <button className={isOpen ? "bottom-menu account-button" : "hidden"}><FontAwesomeIcon icon={faUser} className="icon" /></button>
     </>
   );
 }

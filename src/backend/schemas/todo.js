@@ -5,7 +5,7 @@ const todoSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    options : {
+    items : {
         type: Array,
         required: true,
     },
