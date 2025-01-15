@@ -31,3 +31,18 @@ exports.deleteTodos = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+exports.editTodos = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, items } = req.body;
+    const updatedTodo = await Todo.findByIdAndUpdate(
+      id,
+      { title, items },
+      { new: true }
+    );
+    res.status(200).json(updatedTodo);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

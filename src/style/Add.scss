@@ -106,31 +106,23 @@ $note-text-color: #333333;
 // ADDING THOUGHT
 
 .add-thought {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80%;
-  height: 70%;
-  background: linear-gradient(
-    to bottom,
-    lighten($note-bg-color, 10%),
-    $note-bg-color
-  );
-  color: $note-text-color;
-  border-radius: 10px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  z-index: 9999;
-  padding: 30px;
+  position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #2C2C2E;
+    width: 90%;
+    max-width: 600px;
+    height: 70%;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    color: #ffffff;
+    padding: 15px;
 
   .add-thought-form {
     width: 100%;
     height: 100%;
-    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -140,67 +132,76 @@ $note-text-color: #333333;
     .add-thought-input {
       width: 100%;
       height: 100%;
-      font-size: 20px;
+      font-size: 15px;
       padding: 15px;
       border-radius: 6px;
-      border: 1px solid lighten($note-text-color, 20%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       transition: border-color 0.3s ease;
 
-      background-color: white;
-      color: $note-text-color;
+      background: #3c3c3e;
       resize: none;
       outline: none;
       line-height: 1.5;
       text-align: center;
-
-      &::placeholder {
-        font-style: italic;
-        opacity: 0.7; // Leggera trasparenza
-      }
+      color: white;
     }
 
     .add-thought-title {
       width: 100%;
-      font-size: 20px;
+      font-size: 17px;
       padding: 15px;
       border-radius: 6px;
-      border: 1px solid lighten($note-text-color, 20%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       transition: border-color 0.3s ease;
 
-      background-color: white;
+      background: #3c3c3e;
       color: $note-text-color;
       resize: none;
       outline: none;
       line-height: 1.5;
       text-align: center;
-
-      &::placeholder {
-        font-style: italic;
-        opacity: 0.7; // Leggera trasparenza
-      }
+      color: white;
     }
 
     .add-thought-buttons-div {
       width: 100%;
       display: flex;
-      justify-content: space-evenly;
+      justify-content: space-around;
     }
 
     .add-thought-button {
-      margin-top: 30px;
       padding: 12px 25px;
-      font-size: 16px;
-      background-color: $accent-color;
-      color: white;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.6);
       border: none;
-      border-radius: 6px;
       cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      transition: background 0.3s ease, color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       &:hover {
-        background-color: lighten($accent-color, 10%);
-        transform: scale(1.05);
+        background: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.9);
       }
+
+      .add-thought-icon {
+        font-size: 20px;
+      }
+    }
+
+    .add-thought-title:focus,
+    .add-thought-input:focus {
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+    }
+
+    .add-thought-input::placeholder,
+    .add-thought-title::placeholder {
+      transition: opacity 0.2s ease;
     }
   }
 }
@@ -213,127 +214,179 @@ $note-text-color: #333333;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 80%;
-  height: 70%;
-  z-index: 9999;
-  background-color: white;
+  max-width: 600px;
+  background: #2C2C2E;
+  border-radius: 12px;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &-title {
-    width: 100%;
-    font-size: 20px;
-    padding: 15px;
-    border-radius: 6px;
-    border: 1px solid lighten($note-text-color, 20%);
-    transition: border-color 0.3s ease;
-
-    background-color: white;
-    color: $note-text-color;
-    resize: none;
-    outline: none;
-    line-height: 1.5;
-    text-align: center;
-
-    &::placeholder {
-      font-style: italic;
-      opacity: 0.7; // Leggera trasparenza
-    }
-  }
+  flex-direction: column;
+  gap: 20px;
+  z-index: 9999;
+  color: #ffffff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 
   &-form {
-    width: 100%;
-    height: 100%;
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
+    gap: 16px;
+
+    .add-checkbox-list-title {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: #1C1C1E;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+      &:focus {
+        border-color: rgba(255, 255, 255, 0.5);
+        outline: none;
+      }
+    }
 
     .checkbox-list {
-      width: 100%;
-      height: 100%;
-      font-size: 20px;
-      border: none;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: space-around;
+      gap: 12px;
 
       .checkbox-item {
-        width: 100%;
         display: flex;
         align-items: center;
-        justify-content: space-around;
+        gap: 8px;
 
-        input {
-          width: 60%;
-          padding: 5px;
-          font-size: 20px;
-          border-radius: 6px;
-          border: 1px solid lighten($note-text-color, 20%);
-          transition: border-color 0.3s ease;
+        input[type="text"] {
+          flex-grow: 1;
+          padding: 10px;
+          font-size: 14px;
+          border-radius: 8px;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: #1C1C1E;
+          color: #ffffff;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-          background-color: white;
-          color: $note-text-color;
-          resize: none;
-          outline: none;
-          line-height: 1.5;
-          text-align: center;
+          &:focus {
+            border-color: rgba(255, 255, 255, 0.5);
+            outline: none;
+          }
+
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+          }
         }
       }
     }
 
-    .add-checkbox-list-buttons-div{
-      width: 100%;
+    .add-checkbox-list-buttons-div {
       display: flex;
-      justify-content: space-evenly;
+      justify-content: space-between;
+      gap: 16px;
 
       .add-checkbox-list-button {
-        padding: 12px 25px;
-        font-size: 16px;
-        background-color: $accent-color;
-        color: white;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
         border: none;
-        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.6);
         cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
+        transition: background-color 0.2s ease, color 0.2s ease;
 
         &:hover {
-          background-color: lighten($accent-color, 10%);
-          transform: scale(1.05);
+          background: rgba(255, 255, 255, 0.2);
+          color: rgba(255, 255, 255, 0.9);
+        }
+
+        .add-checkbox-icon {
+          font-size: 18px;
         }
       }
     }
   }
+
+  &.hidden {
+    display: none;
+  }
 }
 
-.hidden {
-  display: none;
-}
 
 // CONFIRMATION
 
-.jconfirm .jconfirm-box {
-  width: 90%;
-  height: 150px;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+.jconfirm {
+  .jconfirm-box {
+    width: 90%;
+    height: auto; // Altezza dinamica per adattarsi al contenuto
+    max-height: 100vh; // Evita overflow verticale
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box; // Include padding e bordo nelle dimensioni
+    overflow: hidden; // Nasconde eventuale contenuto eccedente
 
-.jconfirm-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: #28a745; /* Verde per il titolo */
-}
+    // Aggiungi un'ombra per un tocco estetico
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    background-color: #fff;
+  }
 
-.jconfirm-buttons .btn-green {
-  color: #fff;
-  border-radius: 6px;
+  .jconfirm-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #28a745; // Verde per il titolo
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .jconfirm-content {
+    flex-grow: 1;
+    margin: 0;
+    text-align: center;
+    max-height: calc(100vh - 150px);
+    box-sizing: border-box;
+
+    // Per il testo o contenuti interni
+    p {
+      margin: 0;
+      padding: 0;
+      color: #333;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  }
+
+  .jconfirm-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; // Spaziatura tra i pulsanti
+    padding: 10px;
+
+    .btn-green {
+      background-color: #28a745; // Verde pulsante
+      color: #fff;
+      border-radius: 6px;
+      border: none;
+      padding: 8px 15px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #218838; // Colore hover più scuro
+      }
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.3);
+      }
+    }
+  }
 }
 
 #blackBox {

@@ -1,14 +1,27 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Add from "../components/Add";
+import "../style/pages/Todos.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan, faPen } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
 const { useStore } = require("../store");
 
-export default function AboutMe() {
-  const { checkboxSent } = useStore();
+export default function Todos() {
+  const {
+    checkboxSent,
+    checkboxEdit,
+    setCheckboxEdit,
+    setNewCheckboxOpen,
+    checkboxTitle,
+    setCheckboxTitle,
+    checkboxItems,
+    setCheckboxItems,
+    setCheckboxId,
+  } = useStore();
   const [todos, setTodos] = useState([]);
+
+  console.log(todos);
 
   // CHECKBOX
 
@@ -62,10 +75,40 @@ export default function AboutMe() {
     });
   };
 
+  // edit
+
+  const editTodos = async (todoId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/todos/${todoId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title: checkboxTitle, items: checkboxItems }),
+        }
+      );
+      const data = await response.json();
+      setTodos(todos.map((todo) => (todo._id === todoId ? data : todo)));
+      setCheckboxEdit(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEdit = (title, items, id) => {
+    setNewCheckboxOpen(true);
+    setCheckboxTitle(title);
+    setCheckboxItems(items);
+    setCheckboxEdit(true);
+    setCheckboxId(id);
+  };
+
   return (
     <>
       <Navbar />
-      <Add />
+      <Add editTodos={editTodos} />
       <>
         <div className="mainAbout">
           <div id="aboutTitle">
@@ -79,25 +122,37 @@ export default function AboutMe() {
               <div className="todo" key={todo._id}>
                 <h2>{todo.title}</h2>
                 <div className="checkbox-list">
-                  {todo.items.map((option, index) => (
-                    <div key={index} className="checkbox-item">
-                      <input
-                        type="checkbox"
-                        id={`checkbox-${todo._id}-${index}`}
-                        name={`checkbox-${todo._id}-${index}`}
-                        value={option}
-                      />
-                      <label htmlFor={`checkbox-${todo._id}-${index}`}>
-                        {option}
-                      </label>
-                    </div>
-                  ))}
+                  {todo.items.map(
+                    (option, index) =>
+                      option.trim() !== "" && (
+                        <div key={index} className="checkbox-item">
+                          <input
+                            type="checkbox"
+                            id={`checkbox-${todo._id}-${index}`}
+                            name={`checkbox-${todo._id}-${index}`}
+                            value={option}
+                          />
+                          <label htmlFor={`checkbox-${todo._id}-${index}`}>
+                            {option}
+                          </label>
+                        </div>
+                      )
+                  )}
                 </div>
                 <button
                   onClick={() => confirmDeleteTodo(todo)}
                   className="delete-button"
                 >
                   <FontAwesomeIcon icon={faTrashCan} />
+                </button>
+                <button
+                  className="edit-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEdit(todo.title, todo.items, todo._id);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faPen} />
                 </button>
               </div>
             ))}

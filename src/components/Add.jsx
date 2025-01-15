@@ -13,7 +13,7 @@ import "jquery-confirm/dist/jquery-confirm.min.css";
 import "jquery-confirm/dist/jquery-confirm.min.js";
 import { useLocation } from "react-router-dom";
 
-export default function Add({ editThought }) {
+export default function Add({ editThought, editTodos }) {
   // variables
 
   const {
@@ -34,11 +34,17 @@ export default function Add({ editThought }) {
     setThoughtDescription,
     thoughtId,
     thoughtEdit,
+    setThoughtEdit,
+    checkboxTitle,
+    setCheckboxTitle,
+    checkboxItems,
+    setCheckboxItems,
+    checkboxEdit,
+    setCheckboxEdit,
+    checkboxId
   } = useStore();
 
   const [bottomClass, setBottomClass] = useState("");
-  const [checkboxTitle, setCheckboxTitle] = useState("");
-  const [checkboxItems, setCheckboxItems] = useState([]);
   const [plusButtonLocation, setPlusButtonLocation] = useState();
   const location = useLocation();
 
@@ -77,6 +83,7 @@ export default function Add({ editThought }) {
     setNewThoughtOpen(!newThoughtOpen);
     setThoughtTitle("");
     setThoughtDescription("");
+    setThoughtEdit(false);
   };
 
   useEffect(() => {
@@ -88,10 +95,8 @@ export default function Add({ editThought }) {
   // form submit
 
   const handleFormSubmit = async (e) => {
-    e.preventDefault();
-
-    const title = e.target.title.value;
-    const description = e.target.description.value;
+    const title = thoughtTitle;
+    const description = thoughtDescription;
 
     try {
       const response = await fetch("http://localhost:4000/api/thought", {
@@ -144,6 +149,7 @@ export default function Add({ editThought }) {
     setNewCheckboxOpen(!newCheckboxOpen);
     setCheckboxTitle("");
     setCheckboxItems([]);
+    setCheckboxEdit(false);
   };
 
   useEffect(() => {
@@ -249,16 +255,16 @@ export default function Add({ editThought }) {
           <textarea
             name="title"
             className="add-thought-title"
-            placeholder="Title"
             onChange={(e) => setThoughtTitle(e.target.value)}
             value={thoughtTitle}
+            placeholder="Title"
           ></textarea>
           <textarea
             name="description"
             className="add-thought-input"
-            placeholder="Write your thoughts here..."
             onChange={(e) => setThoughtDescription(e.target.value)}
             value={thoughtDescription}
+            placeholder="Text"
           />
           <div className="add-thought-buttons-div">
             <button className="add-thought-button" type="submit">
@@ -283,7 +289,10 @@ export default function Add({ editThought }) {
       <div className={newCheckboxOpen ? "add-checkbox-list" : "hidden"}>
         <form
           className="add-checkbox-list-form"
-          onSubmit={handleCheckboxSubmit}
+          onSubmit={(e) => {
+            e.preventDefault();
+            checkboxEdit ? editTodos(checkboxId) : handleCheckboxSubmit();
+          }}
         >
           <textarea
             name="listTitle"

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Add from "../components/Add";
+import "../style/pages/Thoughts.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faClose, faTrashCan, faPen } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
 const { useStore } = require("../store");
 
-export default function AboutMe() {
+export default function Thoughts() {
   const {
     thoughtSent,
     setThoughtEdit,
@@ -17,9 +18,10 @@ export default function AboutMe() {
     setThoughtDescription,
     thoughtEdit,
     setThoughtId,
-    thoughtId
+    thoughtId,
   } = useStore();
   const [thoughts, setThoughts] = useState([]);
+  const [thoughtView, setThoughtView] = useState(false);
 
   console.log(thoughtEdit);
 
@@ -120,10 +122,34 @@ export default function AboutMe() {
     setThoughtEdit(true);
   };
 
+  // view
+
+  const view = (title, description) => {
+    setThoughtView(true);
+    setThoughtTitle(title);
+
+    setThoughtDescription(description);
+  };
+
+  useEffect(() => {
+    const blackBox = document.createElement("div");
+    blackBox.id = "blackBox";
+    document.body.appendChild(blackBox);
+    if (thoughtView) {
+      blackBox.style.display = "block";
+    } else {
+      blackBox.style.display = "none";
+    }
+
+    return () => {
+      document.body.removeChild(blackBox);
+    };
+  }, [thoughtView]);
+
   return (
     <>
       <Navbar />
-      <Add editThought={editThought}/>
+      <Add editThought={editThought} />
       <>
         <div className="mainAbout">
           <div id="aboutTitle">
@@ -134,23 +160,51 @@ export default function AboutMe() {
         <div className="mainWall">
           <div className="thoughts">
             {thoughts.map((thought) => (
-              <div className="thought" key={thought._id}>
+              <div
+                onClick={() => view(thought.title, thought.description)}
+                className="thought"
+                key={thought._id}
+              >
                 <h2>{thought.title}</h2>
                 <p>{thought.description}</p>
+
                 <button
-                  onClick={() => confirmDelete(thought)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    confirmDelete(thought);
+                  }}
                   className="delete-button"
                 >
-                  <FontAwesomeIcon icon={faTrashCan} />
+                  <FontAwesomeIcon className="add-thought-icon" icon={faTrashCan} />
                 </button>
+
                 <button
                   className="edit-button"
-                  onClick={() =>
-                    handleEdit(thought.title, thought.description, thought._id)
-                  }
-                ></button>
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEdit(thought.title, thought.description, thought._id);
+                  }}
+                >
+                  <FontAwesomeIcon className="add-thought-icon" icon={faPen} />
+                </button>
               </div>
             ))}
+          </div>
+
+          <div className={thoughtView ? "thought-view" : "hidden"}>
+            <div className="thought-view-content">
+              <h2>{thoughtTitle}</h2>
+              <p>
+                <strong></strong> {thoughtDescription}
+              </p>
+              <button
+                onClick={() => setThoughtView(false)}
+                className="close-view"
+                aria-label="Close View"
+              >
+                <FontAwesomeIcon icon={faClose} />
+              </button>
+            </div>
           </div>
         </div>
       </>

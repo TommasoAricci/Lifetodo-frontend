@@ -7,6 +7,7 @@ export const useStore = () => {
 };
 
 export const StoreProvider = ({ children }) => {
+
   // navbar opening
 
   const [isOpen, setIsOpenState] = useState(false);
@@ -26,49 +27,56 @@ export const StoreProvider = ({ children }) => {
   // thought open
 
   const [newThoughtOpen, setNewThoughtOpen] = useState(false);
-
-  // thought sent
-
   const [thoughtSent, setThoughtSent] = useState(false);
   const [thoughtTitle, setThoughtTitle] = useState("");
   const [thoughtId, setThoughtId] = useState("");
   const [thoughtDescription, setThoughtDescription] = useState("");
-
-  // thought edit
-
   const [thoughtEdit, setThoughtEdit] = useState(false);
 
-  // checkbox open
+  // checkbox
 
   const [newCheckboxOpen, setNewCheckboxOpen] = useState(false);
-
-  // checkbox sent
-
   const [checkboxSent, setCheckboxSent] = useState(false);
+  const [checkboxEdit, setCheckboxEdit] = useState(false);
+  const [checkboxTitle, setCheckboxTitle] = useState("");
+  const [checkboxItems, setCheckboxItems] = useState([]);
+  const [checkboxId, setCheckboxId] = useState("");
 
   return (
     <StoreContext.Provider
       value={{
+        // navbar
         isOpen,
         setIsOpen,
+        // plus button
         isBottomOpen,
         setIsBottomOpen,
+        // thought
         thoughtSent,
         setThoughtSent,
         thoughtEdit,
         setThoughtEdit,
-        checkboxSent,
-        setCheckboxSent,
-        newThoughtOpen,
-        setNewThoughtOpen,
-        newCheckboxOpen,
-        setNewCheckboxOpen,
         thoughtTitle,
         setThoughtTitle,
         thoughtDescription,
         setThoughtDescription,
         thoughtId,
-        setThoughtId
+        setThoughtId,
+        newThoughtOpen,
+        setNewThoughtOpen,
+        // checkbox
+        checkboxSent,
+        setCheckboxSent,
+        newCheckboxOpen,
+        setNewCheckboxOpen,
+        checkboxEdit,
+        setCheckboxEdit,
+        checkboxTitle,
+        setCheckboxTitle,
+        checkboxItems,
+        setCheckboxItems,
+        checkboxId,
+        setCheckboxId,
       }}
     >
       {children}

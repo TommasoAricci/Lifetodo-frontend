@@ -1,0 +1,149 @@
+.mainWall {
+    padding: 20px;
+  }
+  
+  .thoughts {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px;
+  }
+  
+  .thought {
+    background: #2C2C2E;
+    border-radius: 12px;
+    padding: 30px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column; /* Aggiunta per adattare gli elementi verticalmente */
+    justify-content: space-between; /* Aggiunta per separare il contenuto e i pulsanti */
+  
+    &:hover {
+      background: #3C3C3E;
+    }
+  
+    h2 {
+      font-size: 17px;
+      text-align: center;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 0 0 12px 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+  
+    p {
+      font-size: 15px;
+      text-align: center;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.8);
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      word-wrap: break-word;
+      flex-grow: 1; /* Permette al testo di espandersi senza sovrapporsi agli altri elementi */
+    }
+  
+    .delete-button,
+    .edit-button {
+      position: absolute;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.6);
+      border: none;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      z-index: 1; /* Assicura che i pulsanti siano sopra gli altri contenuti */
+      
+      &:hover {
+        color: rgba(255, 255, 255, 0.9);
+      }
+    }
+  
+    .delete-button {
+      top: 12px;
+      right: 12px;
+    }
+  
+    .edit-button {
+      top: 12px;
+      left: 12px;
+    }
+  }
+  
+  .thought-view {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #2C2C2E;
+    width: 90%;
+    max-width: 600px;
+    height: 70%;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    z-index: 9999;
+    color: #ffffff;
+  }
+  
+  .thought-view-content {
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    overflow-y: auto;
+  
+    h2 {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 600;
+      color: #ffffff;
+      margin: 0 0 20px 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+  
+    p {
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.8);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+  }
+  
+  .close-view {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  /* Layout per schermi grandi (tablet, laptop, desktop) */
+  @media (min-width: 768px) {
+    .thoughts {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 2fr)); /* Colonne multiple che si adattano */
+    }
+  }
