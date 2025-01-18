@@ -18,7 +18,6 @@ export default function Thoughts() {
     setThoughtDescription,
     thoughtEdit,
     setThoughtId,
-    thoughtId,
   } = useStore();
   const [thoughts, setThoughts] = useState([]);
   const [thoughtView, setThoughtView] = useState(false);
@@ -163,8 +162,7 @@ export default function Thoughts() {
               <div
                 onClick={() => view(thought.title, thought.description)}
                 className="thought"
-                key={thought._id}
-              >
+                key={thought._id}>
                 <h2>{thought.title}</h2>
                 <p>{thought.description}</p>
 

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useContext, useState, useCallback, useEffect } from "react";
 
 export const StoreContext = createContext();
 
@@ -42,6 +42,23 @@ export const StoreProvider = ({ children }) => {
   const [checkboxItems, setCheckboxItems] = useState([]);
   const [checkboxId, setCheckboxId] = useState("");
 
+  // login - logout
+
+  const [userData, setUserData] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
+
+  useEffect(() => {
+    if (token) {
+      const timer = setTimeout(() => {
+        localStorage.removeItem("token");
+        setToken(null);
+        alert("Your session has expired. You have been logged out.");
+      }, 600000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [token]);
+
   return (
     <StoreContext.Provider
       value={{
@@ -77,6 +94,11 @@ export const StoreProvider = ({ children }) => {
         setCheckboxItems,
         checkboxId,
         setCheckboxId,
+        // login
+        userData,
+        setUserData,
+        token,
+        setToken
       }}
     >
       {children}

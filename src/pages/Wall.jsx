@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../style/pages/Wall.scss";
-import "../style/Tabs.scss";
 import Add from "../components/Add";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
+import { Navigate } from "react-router-dom";
 const { useStore } = require("../store");
 
 export default function AboutMe() {
-  const { thoughtSent, checkboxSent, thoughtEdit, setThoughtEdit } = useStore();
+  const { thoughtSent, checkboxSent, userData, token } = useStore();
   const [thoughts, setThoughts] = useState([]);
   const [todos, setTodos] = useState([]);
-
-  console.log(checkboxSent);
 
   // THOUGHTS
 
@@ -141,6 +139,7 @@ export default function AboutMe() {
 
   return (
     <>
+    {!token && <Navigate to="/" />}
       <Navbar />
       <Add thoughts={thoughts} />
       <>

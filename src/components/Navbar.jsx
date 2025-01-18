@@ -5,11 +5,14 @@ import { Link, useLocation } from "react-router-dom";
 import { Squash as Hamburger } from "hamburger-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useStore } from "../store";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const { isOpen, setIsOpen } = useStore();
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsOpen(false);
@@ -19,29 +22,34 @@ export default function Navbar() {
     textDecoration: "none",
     color: "inherit",
   };
-
+  
   return (
     <>
       <div className={isOpen ? "mainMobile" : "mainClose"}>
         <img className="image" src={image} alt="" width="200px" />
         <nav>
-          <Link to="/" style={linkStyle}>
+          <Link to="/wall" style={linkStyle}>
             <div
-              className={location.pathname === "/" ? "navDiv active" : "navDiv"}>
+              className={location.pathname === "/" ? "navDiv active" : "navDiv"}
+            >
               <h2>Wall</h2>
             </div>
           </Link>
           <Link to="/thoughts" style={linkStyle}>
             <div
               className={
-                location.pathname === "/thoughts" ? "navDiv active" : "navDiv"}>
+                location.pathname === "/thoughts" ? "navDiv active" : "navDiv"
+              }
+            >
               <h2>Notes</h2>
             </div>
           </Link>
           <Link to="/todos" style={linkStyle}>
             <div
               className={
-                location.pathname === "/todos" ? "navDiv active" : "navDiv"}>
+                location.pathname === "/todos" ? "navDiv active" : "navDiv"
+              }
+            >
               <h2>Todos</h2>
             </div>
           </Link>
@@ -55,7 +63,14 @@ export default function Navbar() {
       </div>
 
       <Hamburger toggled={isOpen} toggle={setIsOpen} />
-      <button className={isOpen ? "bottom-menu account-button" : "hidden"}><FontAwesomeIcon icon={faUser} className="icon" /></button>
+      <button className={isOpen ? "bottom-menu account-button" : "hidden"}>
+        <FontAwesomeIcon icon={faUser} className="icon" />
+      </button>
+      <Link to="/logout">
+        <button className={isOpen ? "bottom-menu logout-button" : "hidden"}>
+          <FontAwesomeIcon icon={faRightFromBracket} className="icon" />
+        </button>
+      </Link>
     </>
   );
 }
