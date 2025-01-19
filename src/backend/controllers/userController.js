@@ -4,13 +4,13 @@ const jwt = require("jsonwebtoken");
 
 exports.registerUser = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { fullName, username, password } = req.body;
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res.status(400).json({ success: false, message: "Username already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, password: hashedPassword });
+    const newUser = new User({ fullName, username, password: hashedPassword });
     await newUser.save();
     res.status(201).json({ success: true, message: "User registered successfully" });
   } catch (error) {
@@ -42,7 +42,7 @@ exports.loginUser = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Login successful",
-      token, // Invia il token al client
+      token,
       user: existingUser,
     });
   } catch (error) {
@@ -53,6 +53,21 @@ exports.loginUser = async (req, res) => {
 exports.logoutUser = async (req, res) => {
   try {
     res.status(200).json({ success: true, message: "Logout successful" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+exports.getCurrentUser = async (req, res) => {
+  try {
+    const { userId } = req.user;
+
+    const user = await User.findById(userId); // Escludi il campo password
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    res.status(200).json({ success: true, user });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

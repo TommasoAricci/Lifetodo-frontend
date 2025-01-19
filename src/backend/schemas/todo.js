@@ -1,14 +1,19 @@
 const mongoose = require("mongoose");
 
 const todoSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-    },
-    items : {
-        type: Array,
-        required: true,
-    },
+  title: {
+    type: String,
+    required: true,
+  },
+  items: {
+    type: Array,
+    required: true,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",  // Riferimento al modello "User"
+    required: true,
+  },
 });
 
 module.exports = mongoose.model("Todo", todoSchema);

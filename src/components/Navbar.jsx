@@ -7,12 +7,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useStore } from "../store";
-import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const { isOpen, setIsOpen } = useStore();
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     setIsOpen(false);
@@ -22,7 +20,7 @@ export default function Navbar() {
     textDecoration: "none",
     color: "inherit",
   };
-  
+
   return (
     <>
       <div className={isOpen ? "mainMobile" : "mainClose"}>
@@ -63,9 +61,11 @@ export default function Navbar() {
       </div>
 
       <Hamburger toggled={isOpen} toggle={setIsOpen} />
-      <button className={isOpen ? "bottom-menu account-button" : "hidden"}>
-        <FontAwesomeIcon icon={faUser} className="icon" />
-      </button>
+      <Link to="/account">
+        <button className={isOpen ? "bottom-menu account-button" : "hidden"}>
+          <FontAwesomeIcon icon={faUser} className="icon" />
+        </button>
+      </Link>
       <Link to="/logout">
         <button className={isOpen ? "bottom-menu logout-button" : "hidden"}>
           <FontAwesomeIcon icon={faRightFromBracket} className="icon" />

@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Authentication from "./Authentication";
 import Logout from "./Logout";
+import Account from "./pages/Account";
 
 // Definisci le rotte
 const router = createBrowserRouter([
@@ -33,6 +34,14 @@ const router = createBrowserRouter([
   {
     path: "/app",
     element: <App />,
+  },
+  {
+    path: "/account",
+    element: (
+      <Authentication>
+        <Account />
+      </Authentication>
+    ),
   },
   {
     path: "/wall",

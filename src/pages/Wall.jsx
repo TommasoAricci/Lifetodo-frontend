@@ -3,17 +3,28 @@ import Navbar from "../components/Navbar";
 import "../style/pages/Wall.scss";
 import Add from "../components/Add";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan, faClose, faPen } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
 import { Navigate } from "react-router-dom";
 const { useStore } = require("../store");
 
-export default function AboutMe() {
-  const { thoughtSent, checkboxSent, userData, token } = useStore();
+export default function Wall() {
+  const {
+    thoughtSent,
+    checkboxSent,
+    userData,
+    token,
+    thoughtView,
+    setThoughtView,
+    setThoughtTitle,
+    setThoughtDescription,
+    thoughtTitle,
+    thoughtDescription,
+  } = useStore();
   const [thoughts, setThoughts] = useState([]);
   const [todos, setTodos] = useState([]);
 
-  console.log(userData);
+  console.log(thoughtView);
 
   // THOUGHTS
 
@@ -139,93 +150,74 @@ export default function AboutMe() {
     });
   };
 
+  // view
+
+  const view = (title, description) => {
+    setThoughtView(true);
+    setThoughtTitle(title);
+
+    setThoughtDescription(description);
+  };
+
+  useEffect(() => {
+    const blackBox = document.createElement("div");
+    blackBox.id = "blackBox";
+    document.body.appendChild(blackBox);
+    if (thoughtView) {
+      blackBox.style.display = "block";
+    } else {
+      blackBox.style.display = "none";
+    }
+
+    return () => {
+      document.body.removeChild(blackBox);
+    };
+  }, [thoughtView]);
+
   return (
     <>
-    {!token && <Navigate to="/" />}
+      {!token && <Navigate to="/" />}
       <Navbar />
       <Add thoughts={thoughts} />
       <>
         <div className="mainAbout">
           <div id="aboutTitle">
-            <h1> Wall</h1>
+            <h1>
+              {userData?.fullName
+                ? `${userData.fullName.split(" ")[0]}'s Wall`
+                : "Loading..."}
+            </h1>
           </div>
         </div>
-
-        {/* <div className="mainWall">
-          {wall[0] &&
-            wall[0].entries &&
-            wall[0].entries.map((entry) => {
-              if (entry.type === "Thought" && entry.doc !== null) {
-                return (
-                  <div className="thoughts" key={entry._id}>
-                    <div className="thought">
-                      <h2>{entry.doc?.title}</h2>
-                      <p>{entry.doc?.description}</p>
-                      <button
-                        onClick={() => confirmDelete(entry.doc)} 
-                        className="delete-button"
-                      >
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </button>
-
-                      <button
-                        className="edit-button"
-                        onClick={() => handleEdit(entry.doc)}
-                      ></button>
-                    </div>
-                  </div>
-                );
-              }
-              if (entry.type === "Todo" && entry.doc !== null) {
-                return (
-                  <div className="todos" key={entry._id}>
-                    <div className="todo">
-                      <h2>{entry.doc?.title}</h2>
-                      <div className="checkbox-list">
-                        {entry.doc?.items.map((option, index) => (
-                          <div key={index} className="checkbox-item">
-                            <input
-                              type="checkbox"
-                              id={`checkbox-${entry._id}-${index}`}
-                              name={`checkbox-${entry._id}-${index}`}
-                              value={option}
-                            />
-                            <label htmlFor={`checkbox-${entry._id}-${index}`}>
-                              {option}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                      <button
-                        onClick={() => confirmDeleteTodo(entry.doc)}
-                        className="delete-button"
-                      >
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </button>
-                    </div>
-                  </div>
-                );
-              }
-              return null; 
-            })}
-        </div> */}
 
         <div className="mainWall">
           <div className="thoughts">
             {thoughts.map((thought) => (
-              <div className="thought" key={thought._id}>
+              <div
+                onClick={() => view(thought.title, thought.description)}
+                className="thought"
+                key={thought._id}
+              >
                 <h2>{thought.title}</h2>
                 <p>{thought.description}</p>
                 <button
-                  onClick={() => confirmDelete(thought)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    confirmDelete(thought);
+                  }}
                   className="delete-button"
                 >
                   <FontAwesomeIcon icon={faTrashCan} />
                 </button>
                 <button
                   className="edit-button"
-                  onClick={() => handleEdit(thought._id)}
-                ></button>
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleEdit(thought.title, thought.description, thought._id);
+                  }}
+                >
+                  <FontAwesomeIcon className="add-thought-icon" icon={faPen} />
+                </button>
               </div>
             ))}
           </div>
@@ -257,6 +249,22 @@ export default function AboutMe() {
                 </button>
               </div>
             ))}
+          </div>
+
+          <div className={thoughtView ? "thought-view" : "hidden"}>
+            <div className="thought-view-content">
+              <h2>{thoughtTitle}</h2>
+              <p>
+                <strong></strong> {thoughtDescription}
+              </p>
+              <button
+                onClick={() => setThoughtView(false)}
+                className="close-view"
+                aria-label="Close View"
+              >
+                <FontAwesomeIcon icon={faClose} />
+              </button>
+            </div>
           </div>
         </div>
       </>

@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, useCallback, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 
 export const StoreContext = createContext();
 
@@ -7,7 +13,6 @@ export const useStore = () => {
 };
 
 export const StoreProvider = ({ children }) => {
-
   // navbar opening
 
   const [isOpen, setIsOpenState] = useState(false);
@@ -32,6 +37,7 @@ export const StoreProvider = ({ children }) => {
   const [thoughtId, setThoughtId] = useState("");
   const [thoughtDescription, setThoughtDescription] = useState("");
   const [thoughtEdit, setThoughtEdit] = useState(false);
+  const [thoughtView, setThoughtView] = useState(false);
 
   // checkbox
 
@@ -44,7 +50,6 @@ export const StoreProvider = ({ children }) => {
 
   // login - logout
 
-  const [userData, setUserData] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
 
   useEffect(() => {
@@ -57,6 +62,30 @@ export const StoreProvider = ({ children }) => {
 
       return () => clearTimeout(timer);
     }
+  }, [token]);
+
+  // current user
+
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:4000/api/currentuser", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          console.log("Dati dell'utente:", data.user);
+          setUserData(data.user);
+        } else {
+          console.error("Errore:", data.message);
+        }
+      })
+      .catch((error) => console.error("Errore:", error));
   }, [token]);
 
   return (
@@ -81,6 +110,8 @@ export const StoreProvider = ({ children }) => {
         setThoughtId,
         newThoughtOpen,
         setNewThoughtOpen,
+        thoughtView,
+        setThoughtView,
         // checkbox
         checkboxSent,
         setCheckboxSent,
@@ -98,7 +129,7 @@ export const StoreProvider = ({ children }) => {
         userData,
         setUserData,
         token,
-        setToken
+        setToken,
       }}
     >
       {children}

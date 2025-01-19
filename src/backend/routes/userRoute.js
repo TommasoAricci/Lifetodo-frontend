@@ -3,9 +3,12 @@ const router = express.Router();
 const { registerUser } = require("../controllers/userController");
 const { loginUser } = require("../controllers/userController");
 const { logoutUser } = require("../controllers/userController");
+const { authenticateToken } = require("../middleware/authenticateToken");
+const { getCurrentUser } = require("../controllers/userController");
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logoutUser);
+router.get("/currentuser", authenticateToken, getCurrentUser);
 
 module.exports = router;

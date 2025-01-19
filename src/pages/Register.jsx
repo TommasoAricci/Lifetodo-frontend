@@ -6,9 +6,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
   const navigate = useNavigate();
 
   const registerUser = (event) => {
@@ -18,7 +18,7 @@ export default function Login() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ fullName, username, password }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -44,6 +44,13 @@ export default function Login() {
         </div>
         <form onSubmit={registerUser}>
           <div className="login-form">
+            <input
+              type="text"
+              id="fullName"
+              name="fullName"
+              placeholder="Full Name"
+              onChange={(e) => setFullName(e.target.value)}
+            />
             <input
               type="text"
               id="username"

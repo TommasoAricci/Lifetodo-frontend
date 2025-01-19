@@ -16,13 +16,12 @@ export default function Thoughts() {
     setThoughtTitle,
     thoughtDescription,
     setThoughtDescription,
-    thoughtEdit,
     setThoughtId,
+    thoughtView,
+    setThoughtView,
+
   } = useStore();
   const [thoughts, setThoughts] = useState([]);
-  const [thoughtView, setThoughtView] = useState(false);
-
-  console.log(thoughtEdit);
 
   // THOUGHTS
 
