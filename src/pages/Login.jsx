@@ -2,15 +2,19 @@ import React from "react";
 import "../style/pages/Login.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../store";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { userData, setUserData, setToken } = useStore();
+  const {
+    setUserData,
+    setToken,
+    username,
+    password,
+    setUsername,
+    setPassword,
+  } = useStore();
 
   const logUser = (event) => {
     event.preventDefault(); // Prevenzione del refresh della pagina

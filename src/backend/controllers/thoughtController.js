@@ -1,12 +1,16 @@
 const Thought = require("../schemas/thought");
+const User = require("../schemas/user");
 
 exports.createThought = async (req, res) => {
   try {
-    const { title, description } = req.body;
-    const newThought = new Thought({ title, description });
+    const { title, description, userId } = req.body;
+
+    const newThought = new Thought({ user: userId, title, description });
     await newThought.save();
-    res.status(201).json(newThought);
-    console.log(newThought);
+
+    const populatedThought = await Thought.findById(newThought._id).populate("user");
+
+    res.status(201).json(populatedThought);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

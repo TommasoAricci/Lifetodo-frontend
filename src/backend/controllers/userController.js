@@ -72,3 +72,18 @@ exports.getCurrentUser = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
+exports.updateUser = async (req, res) => {
+  try {
+    const { userId } = req.user;
+    const { fullName, username } = req.body;
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { fullName, username },
+      { new: true }
+    );
+    res.status(200).json({ success: true, message: "User updated successfully", user: updatedUser });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};

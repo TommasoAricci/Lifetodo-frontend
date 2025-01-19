@@ -41,7 +41,8 @@ export default function Add({ editThought, editTodos }) {
     setCheckboxItems,
     checkboxEdit,
     setCheckboxEdit,
-    checkboxId
+    checkboxId,
+    userData
   } = useStore();
 
   const [bottomClass, setBottomClass] = useState("");
@@ -97,6 +98,7 @@ export default function Add({ editThought, editTodos }) {
   const handleFormSubmit = async (e) => {
     const title = thoughtTitle;
     const description = thoughtDescription;
+    const userId = userData._id;
 
     try {
       const response = await fetch("http://localhost:4000/api/thought", {
@@ -104,7 +106,7 @@ export default function Add({ editThought, editTodos }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, description }),
+        body: JSON.stringify({ title, description, userId }),
       });
 
       const result = await response.json();

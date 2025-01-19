@@ -51,6 +51,8 @@ export const StoreProvider = ({ children }) => {
   // login - logout
 
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     if (token) {
@@ -130,6 +132,10 @@ export const StoreProvider = ({ children }) => {
         setUserData,
         token,
         setToken,
+        username,
+        setUsername,
+        password,
+        setPassword,
       }}
     >
       {children}
