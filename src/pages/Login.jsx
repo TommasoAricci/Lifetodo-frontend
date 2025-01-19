@@ -10,9 +10,7 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { userData, setUserData, token, setToken } = useStore();
-
-  console.log(token);
+  const { userData, setUserData, setToken } = useStore();
 
   const logUser = (event) => {
     event.preventDefault(); // Prevenzione del refresh della pagina

@@ -48,7 +48,7 @@ export default function Login() {
               type="text"
               id="username"
               name="username"
-              placeholder="Username"
+              placeholder="username"
               onChange={(e) => setUsername(e.target.value)}
             />
             <FontAwesomeIcon icon={faUser} className="input-icon faUser" />
@@ -56,7 +56,7 @@ export default function Login() {
               type="password"
               id="password"
               name="password"
-              placeholder="Password"
+              placeholder="password"
               onChange={(e) => setPassword(e.target.value)}
             />
             <FontAwesomeIcon icon={faLock} className="input-icon faLock" />

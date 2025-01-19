@@ -13,6 +13,8 @@ export default function AboutMe() {
   const [thoughts, setThoughts] = useState([]);
   const [todos, setTodos] = useState([]);
 
+  console.log(userData);
+
   // THOUGHTS
 
   useEffect(() => {
@@ -145,7 +147,7 @@ export default function AboutMe() {
       <>
         <div className="mainAbout">
           <div id="aboutTitle">
-            <h1>Wall</h1>
+            <h1> Wall</h1>
           </div>
         </div>
 

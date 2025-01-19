@@ -12,17 +12,22 @@ $note-text-color: #333333;
   height: 48px;
   bottom: 35px;
   right: 20px;
-  background-color: $secondary-color; // Matches nav item background
-  color: $text-color;
-  border: none;
-  border-radius: 5px;
+  background-color: #2C2C2E; // Scuro per coerenza con il tema
+  border: 1px solid rgba(255, 255, 255, 0.1); // Contorno leggero
+  border-radius: 12px; // Arrotondato per uniformità
   cursor: pointer;
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.6);
-  transition: all 0.1s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); // Ombra morbida e visibile
+  transition: background-color 0.2s ease, transform 0.2s ease; // Transizioni fluide
   z-index: 9999;
 
   .plus-icon {
     font-size: 25px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  &:hover {
+    background-color: #3C3C3E; // Colore di hover
+    transform: scale(1.05); // Leggero ingrandimento
   }
 }
 
@@ -32,13 +37,13 @@ $note-text-color: #333333;
   height: 100px;
   bottom: 105px;
   right: 20px;
-  background-color: $secondary-color;
-  color: $text-color;
-  border: none;
-  border-radius: 5px;
+  background-color: #2C2C2E; // Stesso colore del menu principale
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
   cursor: pointer;
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.6);
-  transition: all 0.1s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  transition: visibility 0s, opacity 0.3s ease, transform 0.2s ease;
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -46,18 +51,18 @@ $note-text-color: #333333;
   justify-content: center;
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s, opacity 0.3s ease;
 
   &.bottom-menu-options {
     visibility: visible;
     opacity: 1;
+    transform: translateY(-5px); // Leggero effetto di spostamento verso l'alto
   }
 
   .separatore {
     width: 100%;
     opacity: 0.5;
     height: 1px;
-    background-color: $text-color;
+    background-color: rgba(255, 255, 255, 0.3);
   }
 
   .icon-div {
@@ -66,14 +71,15 @@ $note-text-color: #333333;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
+    border-radius: 12px;
 
     &:hover {
-      background-color: lighten($secondary-color, 10%);
+      background-color: #3C3C3E; // Leggero contrasto all'hover
     }
 
     .options-icon {
       font-size: 25px;
+      color: rgba(255, 255, 255, 0.8);
     }
   }
 }
@@ -87,6 +93,7 @@ $note-text-color: #333333;
   bottom: 124px;
   right: 85px;
   font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
   z-index: 9999;
 
   animation: fadeIn 0.3s ease-in-out;
@@ -102,6 +109,7 @@ $note-text-color: #333333;
     }
   }
 }
+
 
 // ADDING THOUGHT
 
