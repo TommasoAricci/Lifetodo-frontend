@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEdit,
-  faSignOutAlt,
-  faUser,
-  faLock,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import "../style/pages/Account.scss";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../store";
+import $ from "jquery";
+import "jquery-confirm/dist/jquery-confirm.min.css";
+import "jquery-confirm/dist/jquery-confirm.min.js";
 
 export default function Account() {
   const [userData, setUserData] = useState(null);
-  const [editMode, setEditMode] = useState(false);
   const navigate = useNavigate();
   const {
     username,
@@ -21,6 +18,10 @@ export default function Account() {
     setPassword,
     fullName,
     setFullName,
+    editMode,
+    setEditMode,
+    edited,
+    setEdited,
   } = useStore();
 
   const openEditData = () => {
@@ -48,6 +49,56 @@ export default function Account() {
         .catch((error) => console.error("Errore:", error));
     }
   }, []);
+
+  const updateUser = async (e) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch("http://localhost:4000/api/update", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ fullName, username }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log(data);
+        setUserData(data.user);
+        setEdited(true);
+      } else {
+        console.error("Error updating user:", data.message);
+      }
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+  };
+
+  const showConfirmationAccount = () => {
+    $.alert({
+      theme: "modern",
+      animation: "opacity",
+      closeAnimation: "opacity",
+      autoClose: "close|50",
+      title: "Data Updated",
+      content: "",
+      buttons: {
+        close: {
+          text: "Chiudi",
+          isHidden: true, // Nasconde il pulsante
+          action: function () {},
+        },
+      },
+    });
+    setEditMode(false);
+  };
+
+  useEffect(() => {
+    if (edited) {
+      showConfirmationAccount();
+      setEdited(false);
+    }
+  }, [setEditMode, edited]);
 
   return (
     <div className="account-container">
@@ -98,8 +149,14 @@ export default function Account() {
             </button>
           </div>
 
-          <form className={editMode ? "login-div" : "hidden"}>
-            <div className="login-form">
+          <form
+            className={editMode ? "edit-div" : "hidden"}
+            onSubmit={(e) => {
+              e.preventDefault();
+              updateUser();
+            }}
+          >
+            <div className="edit-form">
               <input
                 type="text"
                 id="fullName"
@@ -114,7 +171,6 @@ export default function Account() {
                 placeholder="username"
                 onChange={(e) => setUsername(e.target.value)}
               />
-              <FontAwesomeIcon icon={faUser} className="input-icon faUser" />
               <input
                 type="password"
                 id="password"
@@ -122,8 +178,12 @@ export default function Account() {
                 placeholder="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <FontAwesomeIcon icon={faLock} className="input-icon faLock" />
-              <button type="submit">Register</button>
+              <button type="submit">Update</button>
+              <button type="button"
+                onClick={() => setEditMode(false)}
+                className="close-view"
+                aria-label="Close View"
+              ></button>
             </div>
           </form>
         </>

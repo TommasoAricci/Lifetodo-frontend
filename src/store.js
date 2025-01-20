@@ -53,6 +53,7 @@ export const StoreProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
 
   useEffect(() => {
     if (token) {
@@ -89,6 +90,11 @@ export const StoreProvider = ({ children }) => {
       })
       .catch((error) => console.error("Errore:", error));
   }, [token]);
+
+  // account
+
+  const [editMode, setEditMode] = useState(false);
+  const [edited, setEdited] = useState(false);
 
   return (
     <StoreContext.Provider
@@ -136,6 +142,13 @@ export const StoreProvider = ({ children }) => {
         setUsername,
         password,
         setPassword,
+        fullName,
+        setFullName,
+        // account
+        editMode,
+        setEditMode,
+        edited,
+        setEdited,
       }}
     >
       {children}

@@ -129,21 +129,6 @@ export default function Thoughts() {
     setThoughtDescription(description);
   };
 
-  useEffect(() => {
-    const blackBox = document.createElement("div");
-    blackBox.id = "blackBox";
-    document.body.appendChild(blackBox);
-    if (thoughtView) {
-      blackBox.style.display = "block";
-    } else {
-      blackBox.style.display = "none";
-    }
-
-    return () => {
-      document.body.removeChild(blackBox);
-    };
-  }, [thoughtView]);
-
   return (
     <>
       <Navbar />

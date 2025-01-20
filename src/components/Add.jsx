@@ -42,7 +42,9 @@ export default function Add({ editThought, editTodos }) {
     checkboxEdit,
     setCheckboxEdit,
     checkboxId,
-    userData
+    userData,
+    thoughtView,
+    editMode
   } = useStore();
 
   const [bottomClass, setBottomClass] = useState("");
@@ -55,7 +57,7 @@ export default function Add({ editThought, editTodos }) {
     const blackBox = document.createElement("div");
     blackBox.id = "blackBox";
     document.body.appendChild(blackBox);
-    if (newThoughtOpen || newCheckboxOpen) {
+    if (newThoughtOpen || newCheckboxOpen || thoughtView || editMode) {
       blackBox.style.display = "block";
     } else {
       blackBox.style.display = "none";
@@ -64,7 +66,7 @@ export default function Add({ editThought, editTodos }) {
     return () => {
       document.body.removeChild(blackBox);
     };
-  }, [newThoughtOpen, newCheckboxOpen]);
+  }, [newThoughtOpen, newCheckboxOpen, thoughtView, editMode]);
 
   // PLUS BUTTON
 
@@ -163,7 +165,6 @@ export default function Add({ editThought, editTodos }) {
   // form submit
 
   const handleCheckboxSubmit = async (e) => {
-    e.preventDefault();
 
     const title = checkboxTitle;
     const items = checkboxItems;
@@ -205,6 +206,13 @@ export default function Add({ editThought, editTodos }) {
     });
     setNewCheckboxOpen(false);
   };
+
+  useEffect(() => {
+    if (checkboxSent) {
+      showConfirmationTodo();
+      setCheckboxSent(false);
+    }
+  }, [checkboxSent, setCheckboxSent]);
 
   // location
   const handleLocationChange = () => {
@@ -326,7 +334,6 @@ export default function Add({ editThought, editTodos }) {
 
           <div className="add-checkbox-list-buttons-div">
             <button
-              onClick={showConfirmationTodo}
               className="add-checkbox-list-button"
               type="submit"
             >
