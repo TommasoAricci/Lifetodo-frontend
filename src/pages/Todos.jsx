@@ -18,10 +18,10 @@ export default function Todos() {
     checkboxItems,
     setCheckboxItems,
     setCheckboxId,
+    userData,
   } = useStore();
   const [todos, setTodos] = useState([]);
-
-  console.log(todos);
+  const filteredTodos = todos.filter((todo) => todo.user._id === userData._id);
 
   // CHECKBOX
 
@@ -118,44 +118,44 @@ export default function Todos() {
 
         <div className="mainWall">
           <div className="todos">
-            {todos.map((todo) => (
-              <div className="todo" key={todo._id}>
-                <h2>{todo.title}</h2>
-                <div className="checkbox-list">
-                  {todo.items.map(
-                    (option, index) =>
-                      option.trim() !== "" && (
-                        <div key={index} className="checkbox-item">
-                          <input
-                            type="checkbox"
-                            id={`checkbox-${todo._id}-${index}`}
-                            name={`checkbox-${todo._id}-${index}`}
-                            value={option}
-                          />
-                          <label htmlFor={`checkbox-${todo._id}-${index}`}>
-                            {option}
-                          </label>
-                        </div>
-                      )
-                  )}
+            {filteredTodos.map((todo) => (
+                <div className="todo" key={todo._id}>
+                  <h2>{todo.title}</h2>
+                  <div className="checkbox-list">
+                    {todo.items.map(
+                      (option, index) =>
+                        option.trim() !== "" && (
+                          <div key={index} className="checkbox-item">
+                            <input
+                              type="checkbox"
+                              id={`checkbox-${todo._id}-${index}`}
+                              name={`checkbox-${todo._id}-${index}`}
+                              value={option}
+                            />
+                            <label htmlFor={`checkbox-${todo._id}-${index}`}>
+                              {option}
+                            </label>
+                          </div>
+                        )
+                    )}
+                  </div>
+                  <button
+                    onClick={() => confirmDeleteTodo(todo)}
+                    className="delete-button"
+                  >
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </button>
+                  <button
+                    className="edit-button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEdit(todo.title, todo.items, todo._id);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faPen} />
+                  </button>
                 </div>
-                <button
-                  onClick={() => confirmDeleteTodo(todo)}
-                  className="delete-button"
-                >
-                  <FontAwesomeIcon icon={faTrashCan} />
-                </button>
-                <button
-                  className="edit-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEdit(todo.title, todo.items, todo._id);
-                  }}
-                >
-                  <FontAwesomeIcon icon={faPen} />
-                </button>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </>

@@ -8,7 +8,7 @@ exports.authenticateToken = (req, res, next) => {
     return res.status(401).json({ success: false, message: "Access token required" });
   }
 
-  jwt.verify(token, "your_jwt_secret", (err, user) => {
+  jwt.verify(token, "MySecretPassw0rd!", (err, user) => {
     if (err) {
       return res.status(403).json({ success: false, message: "Invalid or expired token" });
     }

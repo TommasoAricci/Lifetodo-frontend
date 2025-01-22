@@ -23,8 +23,8 @@ export default function Wall() {
   } = useStore();
   const [thoughts, setThoughts] = useState([]);
   const [todos, setTodos] = useState([]);
-
-  console.log(thoughtView);
+  const filteredThoughts = thoughts.filter((thought) => thought.user._id === userData._id);
+  const filteredTodos = todos.filter((todo) => todo.user._id === userData._id);
 
   // THOUGHTS
 
@@ -177,7 +177,7 @@ export default function Wall() {
 
         <div className="mainWall">
           <div className="thoughts">
-            {thoughts.map((thought) => (
+            {filteredThoughts.map((thought) => (
               <div
                 onClick={() => view(thought.title, thought.description)}
                 className="thought"
@@ -208,7 +208,7 @@ export default function Wall() {
           </div>
 
           <div className="todos">
-            {todos.map((todo) => (
+            {filteredTodos.map((todo) => (
               <div className="todo" key={todo._id}>
                 <h2>{todo.title}</h2>
                 <div className="checkbox-list">

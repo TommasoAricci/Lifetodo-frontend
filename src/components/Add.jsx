@@ -103,10 +103,13 @@ export default function Add({ editThought, editTodos }) {
     const userId = userData._id;
 
     try {
+      const token = localStorage.getItem("token");
+
       const response = await fetch("http://localhost:4000/api/thought", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ title, description, userId }),
       });
@@ -165,19 +168,21 @@ export default function Add({ editThought, editTodos }) {
   // form submit
 
   const handleCheckboxSubmit = async (e) => {
-
     const title = checkboxTitle;
     const items = checkboxItems;
-
+  
     try {
+      const token = localStorage.getItem("token"); // Assumendo che il token sia salvato nel localStorage
+  
       const response = await fetch("http://localhost:4000/api/todo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Includi il token nell'header
         },
         body: JSON.stringify({ title, items }),
       });
-
+  
       const result = await response.json();
       console.log(result);
       setCheckboxSent(true);
@@ -185,6 +190,7 @@ export default function Add({ editThought, editTodos }) {
       console.error("Error creating checkbox:", error);
     }
   };
+  
 
   // confirmation
 

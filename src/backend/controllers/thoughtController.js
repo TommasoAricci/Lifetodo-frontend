@@ -3,14 +3,17 @@ const User = require("../schemas/user");
 
 exports.createThought = async (req, res) => {
   try {
-    const { title, description, userId } = req.body;
+    const { title, description } = req.body;
+    const userId = req.user.userId; // Ottieni l'ID dell'utente autenticato
 
-    const newThought = new Thought({ user: userId, title, description });
+    const newThought = new Thought({
+      user: userId,
+      title,
+      description,
+    });
+
     await newThought.save();
-
-    const populatedThought = await Thought.findById(newThought._id).populate("user");
-
-    res.status(201).json(populatedThought);
+    res.status(201).json(newThought);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -18,7 +21,9 @@ exports.createThought = async (req, res) => {
 
 exports.getThoughts = async (req, res) => {
   try {
-    const thoughts = await Thought.find();
+    const thoughts = await Thought.find()
+      .populate("user", "fullName username")
+      .exec();
     res.status(200).json(thoughts);
     console.log(thoughts);
   } catch (error) {

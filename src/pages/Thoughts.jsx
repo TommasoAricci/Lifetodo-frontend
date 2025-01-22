@@ -19,9 +19,11 @@ export default function Thoughts() {
     setThoughtId,
     thoughtView,
     setThoughtView,
-
+    userData,
   } = useStore();
   const [thoughts, setThoughts] = useState([]);
+  const filteredThoughts = thoughts.filter((thought) => thought.user._id === userData._id);
+
 
   // THOUGHTS
 
@@ -142,7 +144,7 @@ export default function Thoughts() {
 
         <div className="mainWall">
           <div className="thoughts">
-            {thoughts.map((thought) => (
+            {filteredThoughts.map((thought) => (
               <div
                 onClick={() => view(thought.title, thought.description)}
                 className="thought"
