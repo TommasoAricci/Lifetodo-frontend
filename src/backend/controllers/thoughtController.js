@@ -4,7 +4,7 @@ const User = require("../schemas/user");
 exports.createThought = async (req, res) => {
   try {
     const { title, description } = req.body;
-    const userId = req.user.userId; // Ottieni l'ID dell'utente autenticato
+    const userId = req.user.userId;
 
     const newThought = new Thought({
       user: userId,

@@ -2,19 +2,23 @@ import React from "react";
 import { useStore } from "../store";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
-import { faBrain } from "@fortawesome/free-solid-svg-icons";
-import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faMagnifyingGlass,
+  faBrain,
+  faSquareCheck,
+  faFloppyDisk,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import "../style/Add.scss";
 import $ from "jquery";
+import axios from "axios";
 import "jquery-confirm/dist/jquery-confirm.min.css";
 import "jquery-confirm/dist/jquery-confirm.min.js";
 import { useLocation } from "react-router-dom";
 
 export default function Add({ editThought, editTodos }) {
-  // variables
+  // VARIABLES
 
   const {
     isOpen,
@@ -44,20 +48,36 @@ export default function Add({ editThought, editTodos }) {
     checkboxId,
     userData,
     thoughtView,
-    editMode
+    editMode,
+    songSent,
+    setSongSent,
+    newSongOpen,
+    setNewSongOpen,
+    songTitle,
+    setSongTitle,
+    songData,
+    setSongData,
   } = useStore();
-
   const [bottomClass, setBottomClass] = useState("");
   const [plusButtonLocation, setPlusButtonLocation] = useState();
+  const [songToken, setSongToken] = useState("");
   const location = useLocation();
 
-  // black box
+  console.log(songTitle);
+
+  // BLACKBOX
 
   useEffect(() => {
     const blackBox = document.createElement("div");
     blackBox.id = "blackBox";
     document.body.appendChild(blackBox);
-    if (newThoughtOpen || newCheckboxOpen || thoughtView || editMode) {
+    if (
+      newThoughtOpen ||
+      newCheckboxOpen ||
+      thoughtView ||
+      newSongOpen ||
+      editMode
+    ) {
       blackBox.style.display = "block";
     } else {
       blackBox.style.display = "none";
@@ -66,7 +86,7 @@ export default function Add({ editThought, editTodos }) {
     return () => {
       document.body.removeChild(blackBox);
     };
-  }, [newThoughtOpen, newCheckboxOpen, thoughtView, editMode]);
+  }, [newThoughtOpen, newCheckboxOpen, thoughtView, newSongOpen, editMode]);
 
   // PLUS BUTTON
 
@@ -95,8 +115,6 @@ export default function Add({ editThought, editTodos }) {
     }
   });
 
-  // form submit
-
   const handleFormSubmit = async (e) => {
     const title = thoughtTitle;
     const description = thoughtDescription;
@@ -121,8 +139,6 @@ export default function Add({ editThought, editTodos }) {
       console.error("Error creating thought:", error);
     }
   };
-
-  // confirmation
 
   const showConfirmation = () => {
     $.alert({
@@ -165,15 +181,13 @@ export default function Add({ editThought, editTodos }) {
     }
   });
 
-  // form submit
-
   const handleCheckboxSubmit = async (e) => {
     const title = checkboxTitle;
     const items = checkboxItems;
-  
+
     try {
       const token = localStorage.getItem("token"); // Assumendo che il token sia salvato nel localStorage
-  
+
       const response = await fetch("http://localhost:4000/api/todo", {
         method: "POST",
         headers: {
@@ -182,7 +196,7 @@ export default function Add({ editThought, editTodos }) {
         },
         body: JSON.stringify({ title, items }),
       });
-  
+
       const result = await response.json();
       console.log(result);
       setCheckboxSent(true);
@@ -190,9 +204,6 @@ export default function Add({ editThought, editTodos }) {
       console.error("Error creating checkbox:", error);
     }
   };
-  
-
-  // confirmation
 
   const showConfirmationTodo = () => {
     $.alert({
@@ -220,12 +231,91 @@ export default function Add({ editThought, editTodos }) {
     }
   }, [checkboxSent, setCheckboxSent]);
 
-  // location
+  // MUSIC
+
+  const handleNewSong = () => {
+    setNewSongOpen(!newSongOpen);
+    setSongTitle("");
+    setCheckboxItems([]);
+  };
+
+  useEffect(() => {
+    // Funzione per ottenere il token di Spotify
+    async function fetchSpotifyToken() {
+      try {
+        const tokenResponse = await axios.post(
+          "https://accounts.spotify.com/api/token",
+          new URLSearchParams({
+            grant_type: "client_credentials",
+            client_id: "9a8cf9cac79d4f2e869f51bcdbf61a14", // Sostituisci con il tuo Client ID
+            client_secret: "14a93dee07b9489daa24727e530b2818", // Sostituisci con il tuo Client Secret
+          }),
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        );
+        const token = tokenResponse.data.access_token;
+        setSongToken(token); // Salva il token nello stato
+      } catch (error) {
+        console.error(
+          "Errore durante l'ottenimento del token:",
+          error.response || error.message
+        );
+      }
+    }
+
+    fetchSpotifyToken();
+  }, []); 
+
+  const handleSongSubmit = async (e) => {
+
+    if (!songToken) {
+      console.error(
+        "Token non disponibile, impossibile effettuare la ricerca."
+      );
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+          songTitle
+        )}&type=track&limit=1`,
+        {
+          headers: {
+            Authorization: `Bearer ${songToken}`,
+          },
+        }
+      );
+
+      console.log("Risultato della ricerca:", response.data);
+
+      if (response.data.tracks.items.length > 0) {
+        const track = response.data.tracks.items[0];
+        setSongData(track); // Salva i dati della traccia nello stato
+        console.log("Traccia trovata:", track);
+      } else {
+        console.log("Nessuna traccia trovata.");
+      }
+    } catch (error) {
+      console.error(
+        "Errore durante la ricerca della canzone:",
+        error.response || error.message
+      );
+    }
+  };
+
+  // LOCATION
+
   const handleLocationChange = () => {
     if (location.pathname === "/thoughts") {
       setPlusButtonLocation(handleNewThought);
     } else if (location.pathname === "/todos") {
       setPlusButtonLocation(handleNewCheckbox);
+    } else if (location.pathname === "/music") {
+      setPlusButtonLocation(handleNewSong);
     } else {
       setPlusButtonLocation(setIsBottomOpen(!isBottomOpen));
     }
@@ -339,10 +429,7 @@ export default function Add({ editThought, editTodos }) {
           </div>
 
           <div className="add-checkbox-list-buttons-div">
-            <button
-              className="add-checkbox-list-button"
-              type="submit"
-            >
+            <button className="add-checkbox-list-button" type="submit">
               <FontAwesomeIcon
                 className="add-checkbox-icon"
                 icon={faFloppyDisk}
@@ -354,6 +441,41 @@ export default function Add({ editThought, editTodos }) {
               className="add-checkbox-list-button"
             >
               <FontAwesomeIcon className="add-checkbox-icon" icon={faXmark} />
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {/*music open*/}
+
+      <div className={newSongOpen ? "search-song" : "hidden"}>
+        <form
+          className="search-song-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSongSubmit();
+          }}
+        >
+          <textarea
+            name="song"
+            className="search-song-title"
+            onChange={(e) => setSongTitle(e.target.value)}
+            value={songTitle}
+            placeholder="Cerca una canzone o artista"
+          ></textarea>
+          <div className="search-song-buttons-div">
+            <button className="search-song-button" type="submit">
+              <FontAwesomeIcon
+                className="search-song-icon"
+                icon={faMagnifyingGlass}
+              />
+            </button>
+            <button
+              onClick={handleNewSong}
+              type="button"
+              className="search-song-button"
+            >
+              <FontAwesomeIcon className="search-song-icon" icon={faXmark} />
             </button>
           </div>
         </form>

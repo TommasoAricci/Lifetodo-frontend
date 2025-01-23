@@ -48,6 +48,13 @@ export const StoreProvider = ({ children }) => {
   const [checkboxItems, setCheckboxItems] = useState([]);
   const [checkboxId, setCheckboxId] = useState("");
 
+  // music
+
+  const [newSongOpen, setNewSongOpen] = useState(false);
+  const [songSent, setSongSent] = useState(false);
+  const [songTitle, setSongTitle] = useState("");
+  const [songData, setSongData] = useState(null);
+
   // login - logout
 
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -61,7 +68,7 @@ export const StoreProvider = ({ children }) => {
         localStorage.removeItem("token");
         setToken(null);
         alert("Your session has expired. You have been logged out.");
-      }, 600000);
+      }, 6000000);
 
       return () => clearTimeout(timer);
     }
@@ -133,6 +140,15 @@ export const StoreProvider = ({ children }) => {
         setCheckboxItems,
         checkboxId,
         setCheckboxId,
+        // music
+        songSent,
+        setSongSent,
+        newSongOpen,
+        setNewSongOpen,
+        songTitle,
+        setSongTitle,
+        songData,
+        setSongData,
         // login
         userData,
         setUserData,

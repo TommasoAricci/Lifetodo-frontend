@@ -51,9 +51,15 @@ export default function Navbar() {
               <h2>Todos</h2>
             </div>
           </Link>
-          <div className="navDiv">
-            <h2>My Music</h2>
-          </div>
+          <Link to="/music" style={linkStyle}>
+            <div
+              className={
+                location.pathname === "/music" ? "navDiv active" : "navDiv"
+              }
+            >
+              <h2>My Music</h2>
+            </div>
+          </Link>
           <div className="navDiv">
             <h2>My Books</h2>
           </div>

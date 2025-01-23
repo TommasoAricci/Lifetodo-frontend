@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import Authentication from "./Authentication";
 import Logout from "./Logout";
 import Account from "./pages/Account";
+import Music from "./pages/Music";
 
 // Definisci le rotte
 const router = createBrowserRouter([
@@ -67,6 +68,14 @@ const router = createBrowserRouter([
       </Authentication>
     ),
   },
+  {
+    path: "/music",
+    element: (
+      <Authentication>
+        <Music />
+      </Authentication>
+    ),
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
