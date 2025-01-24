@@ -114,7 +114,7 @@ export default function Todos() {
           <iframe
             title="Spotify Minimal Embed"
             src={`https://open.spotify.com/embed/track/${songData.id}?utm_source=generator&theme=0`}
-            width="300"
+            width="500"
             height="80"
             frameBorder="0"
             allow="encrypted-media"

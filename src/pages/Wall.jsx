@@ -20,6 +20,7 @@ export default function Wall() {
     setThoughtDescription,
     thoughtTitle,
     thoughtDescription,
+    songData,
   } = useStore();
   const [thoughts, setThoughts] = useState([]);
   const [todos, setTodos] = useState([]);
@@ -235,6 +236,21 @@ export default function Wall() {
               </div>
             ))}
           </div>
+
+          {songData !== null && (
+          <iframe
+            title="Spotify Minimal Embed"
+            src={`https://open.spotify.com/embed/track/${songData.id}?utm_source=generator&theme=0`}
+            width="500"
+            height="80"
+            frameBorder="0"
+            allow="encrypted-media"
+            style={{
+              borderRadius: "12px",
+              overflow: "hidden",
+            }}
+          ></iframe>
+        )}
 
           <div className={thoughtView ? "thought-view" : "hidden"}>
             <div className="thought-view-content">

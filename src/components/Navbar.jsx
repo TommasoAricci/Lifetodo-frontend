@@ -23,7 +23,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className={isOpen ? "mainMobile" : "mainClose"}>
+      <div className={isOpen ? "mainMobile mainLaptop" : "mainClose"}>
         <img className="image" src={image} alt="" width="200px" />
         <nav>
           <Link to="/wall" style={linkStyle}>

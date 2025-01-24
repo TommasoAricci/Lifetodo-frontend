@@ -7,6 +7,7 @@ import { useStore } from "../store";
 import $ from "jquery";
 import "jquery-confirm/dist/jquery-confirm.min.css";
 import "jquery-confirm/dist/jquery-confirm.min.js";
+import userPic from "../images/copia.jpg";
 
 export default function Account() {
   const [userData, setUserData] = useState(null);
@@ -107,10 +108,9 @@ export default function Account() {
           <div className="profile-header">
             <div className="profile-img">
               <img
-                src={userData.profilePicture || "/default-avatar.png"}
+                src={userData.profilePicture || userPic}
                 alt="User Profile"
-                width={100}
-                height={100}
+                style={{ width: "140px", height: "130px" }}
               />
             </div>
             <div className="user-info">

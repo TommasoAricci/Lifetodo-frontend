@@ -9,6 +9,7 @@ import {
   faSquareCheck,
   faFloppyDisk,
   faXmark,
+  faAdd,
 } from "@fortawesome/free-solid-svg-icons";
 import "../style/Add.scss";
 import $ from "jquery";
@@ -28,6 +29,7 @@ export default function Add({ editThought, editTodos }) {
     setThoughtSent,
     checkboxSent,
     setCheckboxSent,
+    // THOUGHT
     newThoughtOpen,
     setNewThoughtOpen,
     newCheckboxOpen,
@@ -39,6 +41,8 @@ export default function Add({ editThought, editTodos }) {
     thoughtId,
     thoughtEdit,
     setThoughtEdit,
+    thoughtView,
+    // CHECKBOX
     checkboxTitle,
     setCheckboxTitle,
     checkboxItems,
@@ -47,7 +51,6 @@ export default function Add({ editThought, editTodos }) {
     setCheckboxEdit,
     checkboxId,
     userData,
-    thoughtView,
     editMode,
     songSent,
     setSongSent,
@@ -62,8 +65,9 @@ export default function Add({ editThought, editTodos }) {
   const [plusButtonLocation, setPlusButtonLocation] = useState();
   const [songToken, setSongToken] = useState("");
   const location = useLocation();
+  const [songsToChoose, setSongsToChoose] = useState([]);
 
-  console.log(songTitle);
+  console.log(songsToChoose);
 
   // BLACKBOX
 
@@ -237,6 +241,7 @@ export default function Add({ editThought, editTodos }) {
     setNewSongOpen(!newSongOpen);
     setSongTitle("");
     setCheckboxItems([]);
+    setSongsToChoose([]);
   };
 
   useEffect(() => {
@@ -267,10 +272,9 @@ export default function Add({ editThought, editTodos }) {
     }
 
     fetchSpotifyToken();
-  }, []); 
+  }, []);
 
   const handleSongSubmit = async (e) => {
-
     if (!songToken) {
       console.error(
         "Token non disponibile, impossibile effettuare la ricerca."
@@ -282,7 +286,7 @@ export default function Add({ editThought, editTodos }) {
       const response = await axios.get(
         `https://api.spotify.com/v1/search?q=${encodeURIComponent(
           songTitle
-        )}&type=track&limit=1`,
+        )}&type=track&limit=8`,
         {
           headers: {
             Authorization: `Bearer ${songToken}`,
@@ -293,9 +297,9 @@ export default function Add({ editThought, editTodos }) {
       console.log("Risultato della ricerca:", response.data);
 
       if (response.data.tracks.items.length > 0) {
+        setSongsToChoose(response.data.tracks.items);
         const track = response.data.tracks.items[0];
         setSongData(track); // Salva i dati della traccia nello stato
-        console.log("Traccia trovata:", track);
       } else {
         console.log("Nessuna traccia trovata.");
       }
@@ -456,13 +460,35 @@ export default function Add({ editThought, editTodos }) {
             handleSongSubmit();
           }}
         >
-          <textarea
+          <input
             name="song"
             className="search-song-title"
             onChange={(e) => setSongTitle(e.target.value)}
             value={songTitle}
             placeholder="Cerca una canzone o artista"
-          ></textarea>
+          ></input>
+          <div className="songs-list-to-add">
+            {songsToChoose.map((song) => (
+              <div key={song.id} className="song-item">
+                {/* Iframe */}
+                <iframe
+                  title={`Spotify Minimal Embed for ${song.id}`}
+                  src={`https://open.spotify.com/embed/track/${song.id}?utm_source=generator&theme=0`}
+                  frameBorder="0"
+                  allow="encrypted-media"
+                  className="song-iframe"
+                ></iframe>
+
+                <button
+                  className="search-song-button add-song-button"
+                  type="button"
+                >
+                  <FontAwesomeIcon className="add-song-icon" icon={faAdd} />
+                </button>
+              </div>
+            ))}
+          </div>
+
           <div className="search-song-buttons-div">
             <button className="search-song-button" type="submit">
               <FontAwesomeIcon

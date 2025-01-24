@@ -11,6 +11,7 @@ export default function Thoughts() {
   const {
     thoughtSent,
     setThoughtEdit,
+    thoughtEdit,
     setNewThoughtOpen,
     thoughtTitle,
     setThoughtTitle,
@@ -24,6 +25,7 @@ export default function Thoughts() {
   const [thoughts, setThoughts] = useState([]);
   const filteredThoughts = thoughts.filter((thought) => thought.user._id === userData._id);
 
+  console.log(thoughtEdit);
 
   // THOUGHTS
 
@@ -38,7 +40,7 @@ export default function Thoughts() {
       }
     }
     getThoughts();
-  }, [thoughtSent]);
+  }, [thoughtSent, thoughtEdit]);
 
   // api delete
 
@@ -101,7 +103,6 @@ export default function Thoughts() {
       if (response.ok) {
         setThoughtEdit(false);
         setNewThoughtOpen(false);
-
         const updatedThoughts = thoughts.map((thought) =>
           thought._id === id ? data : thought
         );
