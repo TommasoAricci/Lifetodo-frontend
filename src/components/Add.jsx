@@ -17,6 +17,7 @@ import axios from "axios";
 import "jquery-confirm/dist/jquery-confirm.min.css";
 import "jquery-confirm/dist/jquery-confirm.min.js";
 import { useLocation } from "react-router-dom";
+import Button from "../components/Button";
 
 export default function Add({ editThought, editTodos }) {
   // VARIABLES
@@ -51,7 +52,7 @@ export default function Add({ editThought, editTodos }) {
     setCheckboxEdit,
     checkboxId,
     userData,
-    editMode,
+    // SONG
     songSent,
     setSongSent,
     newSongOpen,
@@ -60,14 +61,15 @@ export default function Add({ editThought, editTodos }) {
     setSongTitle,
     songData,
     setSongData,
+    songToken,
+    setSongToken,
+    setDeletedSong,
   } = useStore();
   const [bottomClass, setBottomClass] = useState("");
   const [plusButtonLocation, setPlusButtonLocation] = useState();
-  const [songToken, setSongToken] = useState("");
   const location = useLocation();
   const [songsToChoose, setSongsToChoose] = useState([]);
-
-  console.log(songsToChoose);
+  const [loading, setLoading] = useState(false); // Aggiungi lo stato per il caricamento
 
   // BLACKBOX
 
@@ -75,13 +77,7 @@ export default function Add({ editThought, editTodos }) {
     const blackBox = document.createElement("div");
     blackBox.id = "blackBox";
     document.body.appendChild(blackBox);
-    if (
-      newThoughtOpen ||
-      newCheckboxOpen ||
-      thoughtView ||
-      newSongOpen ||
-      editMode
-    ) {
+    if (newThoughtOpen || newCheckboxOpen || thoughtView || newSongOpen) {
       blackBox.style.display = "block";
     } else {
       blackBox.style.display = "none";
@@ -90,7 +86,7 @@ export default function Add({ editThought, editTodos }) {
     return () => {
       document.body.removeChild(blackBox);
     };
-  }, [newThoughtOpen, newCheckboxOpen, thoughtView, newSongOpen, editMode]);
+  }, [newThoughtOpen, newCheckboxOpen, thoughtView, newSongOpen]);
 
   // PLUS BUTTON
 
@@ -137,7 +133,6 @@ export default function Add({ editThought, editTodos }) {
       });
 
       const result = await response.json();
-      console.log(result);
       setThoughtSent(true);
     } catch (error) {
       console.error("Error creating thought:", error);
@@ -202,7 +197,6 @@ export default function Add({ editThought, editTodos }) {
       });
 
       const result = await response.json();
-      console.log(result);
       setCheckboxSent(true);
     } catch (error) {
       console.error("Error creating checkbox:", error);
@@ -242,45 +236,20 @@ export default function Add({ editThought, editTodos }) {
     setSongTitle("");
     setCheckboxItems([]);
     setSongsToChoose([]);
+    setSongSent(false);
+    setDeletedSong(false);
   };
 
-  useEffect(() => {
-    // Funzione per ottenere il token di Spotify
-    async function fetchSpotifyToken() {
-      try {
-        const tokenResponse = await axios.post(
-          "https://accounts.spotify.com/api/token",
-          new URLSearchParams({
-            grant_type: "client_credentials",
-            client_id: "9a8cf9cac79d4f2e869f51bcdbf61a14", // Sostituisci con il tuo Client ID
-            client_secret: "14a93dee07b9489daa24727e530b2818", // Sostituisci con il tuo Client Secret
-          }),
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-          }
-        );
-        const token = tokenResponse.data.access_token;
-        setSongToken(token); // Salva il token nello stato
-      } catch (error) {
-        console.error(
-          "Errore durante l'ottenimento del token:",
-          error.response || error.message
-        );
-      }
-    }
-
-    fetchSpotifyToken();
-  }, []);
-
   const handleSongSubmit = async (e) => {
+    e.preventDefault();
     if (!songToken) {
       console.error(
         "Token non disponibile, impossibile effettuare la ricerca."
       );
       return;
     }
+
+    setLoading(true); // Imposta loading a true prima di fare la richiesta
 
     try {
       const response = await axios.get(
@@ -294,12 +263,10 @@ export default function Add({ editThought, editTodos }) {
         }
       );
 
-      console.log("Risultato della ricerca:", response.data);
-
       if (response.data.tracks.items.length > 0) {
         setSongsToChoose(response.data.tracks.items);
         const track = response.data.tracks.items[0];
-        setSongData(track); // Salva i dati della traccia nello stato
+        setSongData(track);
       } else {
         console.log("Nessuna traccia trovata.");
       }
@@ -308,6 +275,31 @@ export default function Add({ editThought, editTodos }) {
         "Errore durante la ricerca della canzone:",
         error.response || error.message
       );
+    } finally {
+      setLoading(false); // Imposta loading a false quando la richiesta è completata
+    }
+  };
+
+  const handleAddSongToList = async (title, id) => {
+    const userId = userData._id;
+    const token = localStorage.getItem("token");
+    if (songData) {
+      try {
+        const response = await fetch("http://localhost:4000/api/newsong", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ title, id, userId }),
+        });
+
+        const result = await response.json();
+        console.log(result);
+        setSongSent(true);
+      } catch (error) {
+        console.error("Error creating song:", error);
+      }
     }
   };
 
@@ -377,19 +369,8 @@ export default function Add({ editThought, editTodos }) {
             placeholder="Text"
           />
           <div className="add-thought-buttons-div">
-            <button className="add-thought-button" type="submit">
-              <FontAwesomeIcon
-                className="add-thought-icon"
-                icon={faFloppyDisk}
-              />
-            </button>
-            <button
-              onClick={handleNewThought}
-              type="button"
-              className="add-thought-button"
-            >
-              <FontAwesomeIcon className="add-thought-icon" icon={faXmark} />
-            </button>
+            <Button icon={faFloppyDisk} func={null} type="submit" />
+            <Button icon={faXmark} func={handleNewThought} type="button" />
           </div>
         </form>
       </div>
@@ -433,19 +414,8 @@ export default function Add({ editThought, editTodos }) {
           </div>
 
           <div className="add-checkbox-list-buttons-div">
-            <button className="add-checkbox-list-button" type="submit">
-              <FontAwesomeIcon
-                className="add-checkbox-icon"
-                icon={faFloppyDisk}
-              />
-            </button>
-            <button
-              onClick={handleNewCheckbox}
-              type="button"
-              className="add-checkbox-list-button"
-            >
-              <FontAwesomeIcon className="add-checkbox-icon" icon={faXmark} />
-            </button>
+            <Button icon={faFloppyDisk} func={null} type="submit" />
+            <Button icon={faXmark} func={handleNewCheckbox} type="button" />
           </div>
         </form>
       </div>
@@ -453,56 +423,48 @@ export default function Add({ editThought, editTodos }) {
       {/*music open*/}
 
       <div className={newSongOpen ? "search-song" : "hidden"}>
-        <form
-          className="search-song-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSongSubmit();
-          }}
-        >
+        <form className="search-song-form" onSubmit={handleSongSubmit}>
           <input
             name="song"
             className="search-song-title"
             onChange={(e) => setSongTitle(e.target.value)}
             value={songTitle}
             placeholder="Cerca una canzone o artista"
-          ></input>
+          />
           <div className="songs-list-to-add">
-            {songsToChoose.map((song) => (
-              <div key={song.id} className="song-item">
-                {/* Iframe */}
-                <iframe
-                  title={`Spotify Minimal Embed for ${song.id}`}
-                  src={`https://open.spotify.com/embed/track/${song.id}?utm_source=generator&theme=0`}
-                  frameBorder="0"
-                  allow="encrypted-media"
-                  className="song-iframe"
-                ></iframe>
+            {loading ? (
+              <div className="loading-indicator">Caricamento...</div> // Mostra il caricamento se `loading` è true
+            ) : (
+              songsToChoose.map((song) => (
+                <div key={song.id} className="song-item">
+                  <iframe
+                    title={`Spotify Minimal Embed for ${song.id}`}
+                    src={`https://open.spotify.com/embed/track/${song.id}?utm_source=generator&theme=0`}
+                    frameBorder="0"
+                    allow="encrypted-media"
+                    className="song-iframe"
+                  ></iframe>
+                  <Button
+                    icon={faAdd}
+                    func={() => handleAddSongToList(song.name, song.id)}
+                    type="button"
+                  />
 
-                <button
-                  className="search-song-button add-song-button"
-                  type="button"
-                >
-                  <FontAwesomeIcon className="add-song-icon" icon={faAdd} />
-                </button>
-              </div>
-            ))}
+                  {/* <button
+                    onClick={() => handleAddSongToList(song.name, song.id)}
+                    className="search-song-button add-song-button"
+                    type="button"
+                  >
+                    <FontAwesomeIcon className="add-song-icon" icon={faAdd} />
+                  </button> */}
+                </div>
+              ))
+            )}
           </div>
 
           <div className="search-song-buttons-div">
-            <button className="search-song-button" type="submit">
-              <FontAwesomeIcon
-                className="search-song-icon"
-                icon={faMagnifyingGlass}
-              />
-            </button>
-            <button
-              onClick={handleNewSong}
-              type="button"
-              className="search-song-button"
-            >
-              <FontAwesomeIcon className="search-song-icon" icon={faXmark} />
-            </button>
+            <Button icon={faMagnifyingGlass} func={null} type="submit" />
+            <Button icon={faXmark} func={handleNewSong} type="button" />
           </div>
         </form>
       </div>

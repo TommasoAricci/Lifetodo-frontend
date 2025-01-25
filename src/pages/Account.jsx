@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faSignOutAlt,
+  faArrowLeft,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import "../style/pages/Account.scss";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../store";
@@ -8,6 +13,7 @@ import $ from "jquery";
 import "jquery-confirm/dist/jquery-confirm.min.css";
 import "jquery-confirm/dist/jquery-confirm.min.js";
 import userPic from "../images/copia.jpg";
+import Button from "../components/Button";
 
 export default function Account() {
   const [userData, setUserData] = useState(null);
@@ -28,6 +34,23 @@ export default function Account() {
   const openEditData = () => {
     setEditMode(!editMode);
   };
+
+  useEffect(() => {
+    const blackBoxAccount = document.createElement("div");
+    blackBoxAccount.id = "blackBoxAccount";
+    document.body.appendChild(blackBoxAccount);
+    if (editMode) {
+      blackBoxAccount.style.display = "block";
+    } else {
+      blackBoxAccount.style.display = "none";
+    }
+
+    return () => {
+      document.body.removeChild(blackBoxAccount);
+    };
+  }, [editMode]);
+
+  // fetch current user
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -139,7 +162,7 @@ export default function Account() {
               onClick={openEditData}
               className="action-button edit-button"
             >
-              <FontAwesomeIcon icon={faEdit} /> Edit Profile
+              <FontAwesomeIcon icon={faEdit} /> Edit
             </button>
             <button
               onClick={() => navigate("/logout")}
@@ -179,17 +202,23 @@ export default function Account() {
                 onChange={(e) => setPassword(e.target.value)}
               />
               <button type="submit">Update</button>
-              <button type="button"
-                onClick={() => setEditMode(false)}
-                className="close-view"
-                aria-label="Close View"
-              ></button>
             </div>
+            <Button
+              icon={faXmark}
+              func={() => setEditMode(false)}
+              type="button"
+            />
           </form>
         </>
       ) : (
         <h2 className="loading">Loading...</h2>
       )}
+      <Button
+        icon={faArrowLeft}
+        func={() => navigate("/wall")}
+        type="button"
+        secondClass="back-button"
+      />
     </div>
   );
 }

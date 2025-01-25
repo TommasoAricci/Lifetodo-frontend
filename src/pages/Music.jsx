@@ -1,51 +1,140 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Add from "../components/Add";
-import "../style/pages/Todos.scss";
+import "../style/pages/Music.scss";
+import "../style/Add.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import "../style/pages/Music.scss";
+import Button from "../components/Button";
+import $ from "jquery";
 const { useStore } = require("../store");
 
-export default function Todos() {
-  const { userData, songData } = useStore();
-  const [music, setMusic] = useState([]);
-  const [url, setUrl] = useState("");
-  const [song, setSong] = useState("");
-  const [searchOpen, setSearchOpen] = useState(false);
-
-  const acdc = "711MCceyCBcFnzjGY4Q7Un";
-  const metallica = "2ye2Wgw4gimLv2eAKyk1NB?utm_source=generator";
-
-  // CHECKBOX
-
-  /*   useEffect(() => {
-    async function getCheckbox() {
-      try {
-        const response = await fetch("http://localhost:4000/api/todos");
-        const data = await response.json();
-        setTodos(data);
-      } catch (error) {
-        console.error(error);
-      }
+export default function Music() {
+  const {
+    songToken,
+    setSongToken,
+    setSongDbTitle,
+    songSent,
+    songId,
+    setSongId,
+    userData,
+    deletedSong,
+    setDeletedSong,
+  } = useStore();
+  const [songsFromDb, setSongsFromDb] = useState([]);
+  const [filteredSongs, setFilteredSongs] = useState([]);
+  
+  useEffect(() => {
+    if (songsFromDb.length > 0 && userData._id) {
+      const filtered = songsFromDb.filter(
+        (song) => song.user._id === userData._id
+      );
+      setFilteredSongs(filtered);
+      console.log("filteredSongs", filtered);
     }
-    getCheckbox();
-  }, [checkboxSent]); */
+  }, [songsFromDb, userData]);
 
-  // delete
+  console.log("songsFromDb", songsFromDb);
 
-  /*  const handleCheckboxDelete = async (todoId) => {
+  // db call
+
+  const getSongsList = async () => {
     try {
-      await fetch(`http://localhost:4000/api/todos/${todoId}`, {
-        method: "DELETE",
+      const response = await fetch("http://localhost:4000/api/allsongs", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
-      setTodos(todos.filter((todo) => todo._id !== todoId));
+
+      const data = await response.json();
+      setSongsFromDb(data);
     } catch (error) {
       console.error(error);
     }
-  }; */
-  /* 
-  const confirmDeleteTodo = (todo) => {
+  };
+
+  useEffect(() => {
+    getSongsList();
+  }, [songSent, deletedSong]);
+
+  useEffect(() => {
+    if (songsFromDb.length > 0) {
+      songsFromDb.forEach((song) => {
+        setSongDbTitle(song.title);
+        setSongId(song._id);
+      });
+    }
+  }, [songsFromDb, songSent, setSongDbTitle]);
+
+  // spotify call
+
+  useEffect(() => {
+    async function fetchSpotifyToken() {
+      const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
+      const clientSecret = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
+
+      try {
+        const tokenResponse = await axios.post(
+          "https://accounts.spotify.com/api/token",
+          new URLSearchParams({
+            grant_type: "client_credentials",
+            client_id: clientId,
+            client_secret: clientSecret,
+          }),
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        );
+        const token = tokenResponse.data.access_token;
+        setSongToken(token); // Salva il token nello stato
+      } catch (error) {
+        console.error(
+          "Errore durante l'ottenimento del token:",
+          error.response || error.message
+        );
+      }
+    }
+
+    fetchSpotifyToken();
+  }, []);
+
+  const handleFetchSongs = async () => {
+    if (!songToken) {
+      return;
+    }
+
+    const songIds = songsFromDb.map((song) => song.refId);
+
+    try {
+      const response = await axios.get(
+        `https://api.spotify.com/v1/tracks?ids=${songIds.join(",")}`,
+        {
+          headers: {
+            Authorization: `Bearer ${songToken}`,
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(
+        "Errore durante il recupero dei dettagli delle canzoni:",
+        error.response || error.message
+      );
+    }
+  };
+
+  useEffect(() => {
+    handleFetchSongs();
+  }, [songToken, songsFromDb, songsFromDb]);
+
+  // delete
+
+  const confirmDeleteSong = (song) => {
     $.confirm({
       theme: "modern",
       animation: "opacity",
@@ -56,7 +145,7 @@ export default function Todos() {
           text: "Delete",
           btnClass: "btn-red",
           action: function () {
-            handleCheckboxDelete(todo._id);
+            handleDeleteSong(song._id);
           },
         },
         cancel: {
@@ -67,107 +156,60 @@ export default function Todos() {
         },
       },
     });
-  }; */
+  };
 
-  // edit
-
-  /* const editTodos = async (todoId) => {
+  const handleDeleteSong = async (id) => {
+    console.log("Song ID to delete:", id); // Aggiungi questa riga per il debug
     try {
       const response = await fetch(
-        `http://localhost:4000/api/todos/${todoId}`,
+        `http://localhost:4000/api/deletesong/${id}`,
         {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ title: checkboxTitle, items: checkboxItems }),
+          method: "DELETE",
         }
       );
-      const data = await response.json();
-      setTodos(todos.map((todo) => (todo._id === todoId ? data : todo)));
-      setCheckboxEdit(false);
+      if (response.ok) {
+        console.log("Song deleted successfully");
+        setDeletedSong(true);
+        setTimeout(() => {
+          setDeletedSong(false);
+        }, 1000);
+      } else {
+        console.error("Failed to delete song");
+      }
     } catch (error) {
       console.error(error);
     }
   };
- */
-  /*   const handleEdit = (title, items, id) => {
-    setNewCheckboxOpen(true);
-    setCheckboxTitle(title);
-    setCheckboxItems(items);
-    setCheckboxEdit(true);
-    setCheckboxId(id);
-  };
- */
+
   return (
     <>
       <Navbar />
       <Add /* editTodos={editTodos} */ />
-      <>
-        <div className="mainAbout">
-          <div id="aboutTitle">
-            <h1>My Music</h1>
-          </div>
+      <div className="mainAbout">
+        <div id="aboutTitle">
+          <h1>My Music</h1>
         </div>
+      </div>
 
-        {songData !== null && (
-          <iframe
-            title="Spotify Minimal Embed"
-            src={`https://open.spotify.com/embed/track/${songData.id}?utm_source=generator&theme=0`}
-            width="500"
-            height="80"
-            frameBorder="0"
-            allow="encrypted-media"
-            style={{
-              borderRadius: "12px",
-              overflow: "hidden",
-            }}
-          ></iframe>
-        )}
-
-        {/*        <div className="mainWall">
-          <div className="todos">
-            {filteredTodos.map((todo) => (
-                <div className="todo" key={todo._id}>
-                  <h2>{todo.title}</h2>
-                  <div className="checkbox-list">
-                    {todo.items.map(
-                      (option, index) =>
-                        option.trim() !== "" && (
-                          <div key={index} className="checkbox-item">
-                            <input
-                              type="checkbox"
-                              id={`checkbox-${todo._id}-${index}`}
-                              name={`checkbox-${todo._id}-${index}`}
-                              value={option}
-                            />
-                            <label htmlFor={`checkbox-${todo._id}-${index}`}>
-                              {option}
-                            </label>
-                          </div>
-                        )
-                    )}
-                  </div>
-                  <button
-                    onClick={() => confirmDeleteTodo(todo)}
-                    className="delete-button"
-                  >
-                    <FontAwesomeIcon icon={faTrashCan} />
-                  </button>
-                  <button
-                    className="edit-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEdit(todo.title, todo.items, todo._id);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faPen} />
-                  </button>
-                </div>
-              ))}
+      <div className="songs-list">
+        {filteredSongs.length > 0 && filteredSongs.map((song) => (
+          <div key={song.id} className="song-item">
+            {/* Embed di Spotify */}
+            <iframe
+              title={`Spotify Minimal Embed for ${song.refId}`}
+              src={`https://open.spotify.com/embed/track/${song.refId}?utm_source=generator&theme=0`}
+              frameBorder="0"
+              allow="encrypted-media"
+              className="song-iframe"
+            ></iframe>
+            <Button
+              icon={faTrashCan}
+              func={() => confirmDeleteSong(song)}
+              type="button"
+            />
           </div>
-        </div> */}
-      </>
+        ))}
+      </div>
     </>
   );
 }

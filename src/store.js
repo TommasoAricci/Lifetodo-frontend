@@ -54,6 +54,10 @@ export const StoreProvider = ({ children }) => {
   const [songSent, setSongSent] = useState(false);
   const [songTitle, setSongTitle] = useState("");
   const [songData, setSongData] = useState(null);
+  const [songId, setSongId] = useState("");
+  const [songToken, setSongToken] = useState("");
+  const [songDbTitle, setSongDbTitle] = useState("");
+  const [deletedSong, setDeletedSong] = useState(false);
 
   // login - logout
 
@@ -149,6 +153,14 @@ export const StoreProvider = ({ children }) => {
         setSongTitle,
         songData,
         setSongData,
+        songId,
+        setSongId,
+        songToken,
+        setSongToken,
+        songDbTitle,
+        setSongDbTitle,
+        deletedSong,
+        setDeletedSong,
         // login
         userData,
         setUserData,

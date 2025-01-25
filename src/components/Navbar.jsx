@@ -9,12 +9,29 @@ import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useStore } from "../store";
 
 export default function Navbar() {
-  const { isOpen, setIsOpen } = useStore();
+  const {
+    isOpen,
+    setIsOpen,
+/*     newThougthOpen,
+    setNewThoughtOpen,
+    thoughtView,
+    setThoughtView,
+    newCheckboxOpen,
+    setNewCheckboxOpen, */
+  } = useStore();
   const location = useLocation();
 
   useEffect(() => {
     setIsOpen(false);
   }, [setIsOpen]);
+
+/*   useEffect(() => {
+    if (isOpen) {
+      setNewThoughtOpen(false);
+      setThoughtView(false);
+      setNewCheckboxOpen(false);
+    }
+  }, [newThougthOpen, isOpen, thoughtView, newCheckboxOpen]); */
 
   const linkStyle = {
     textDecoration: "none",

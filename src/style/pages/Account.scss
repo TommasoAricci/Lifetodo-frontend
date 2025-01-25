@@ -5,17 +5,10 @@ $hover-color: #6200ea;
 $border-radius: 8px;
 
 .account-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #1e1e1e;
   color: $text-color;
   padding: 20px;
   gap: 20px;
@@ -89,9 +82,12 @@ $border-radius: 8px;
   display: flex;
   gap: 20px;
   justify-content: center;
+  align-items: center;
   margin-top: 30px;
 
   .action-button {
+    width: 100%;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -105,7 +101,6 @@ $border-radius: 8px;
     transition: transform 0.2s, background-color 0.3s;
 
     &:hover {
-      background-color: $hover-color;
       transform: scale(1.05);
     }
 
@@ -124,7 +119,7 @@ $border-radius: 8px;
 }
 
 .edit-div {
-  position: fixed ! important;
+  position: fixed !important;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -135,9 +130,15 @@ $border-radius: 8px;
   margin: 0 auto;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
   z-index: 9999;
 
   .edit-form {
+    width: 100%;
     display: flex;
     flex-direction: column;
 
@@ -197,26 +198,6 @@ $border-radius: 8px;
         border-color: rgba(255, 255, 255, 0.4);
       }
     }
-
-    .input-icon {
-      position: absolute;
-      right: 30px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 18px;
-      pointer-events: none; // Rende l'icona non cliccabile
-    }
-
-    .faUser {
-      position: absolute;
-      top: 140px;
-    }
-
-    .faLock {
-      position: absolute;
-      top: 198px;
-    }
   }
 }
 
@@ -235,4 +216,14 @@ $border-radius: 8px;
       transform: translateY(0);
     }
   }
+}
+
+#blackBoxAccount {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
 }
