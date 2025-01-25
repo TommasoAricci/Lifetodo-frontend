@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
@@ -21,7 +21,6 @@ export default function Account() {
   const {
     username,
     setUsername,
-    password,
     setPassword,
     fullName,
     setFullName,
@@ -98,7 +97,7 @@ export default function Account() {
     }
   };
 
-  const showConfirmationAccount = () => {
+  const showConfirmationAccount = useCallback(() => {
     $.alert({
       theme: "modern",
       animation: "opacity",
@@ -115,14 +114,14 @@ export default function Account() {
       },
     });
     setEditMode(false);
-  };
+  }, [setEditMode]);
 
   useEffect(() => {
     if (edited) {
       showConfirmationAccount();
       setEdited(false);
     }
-  }, [setEditMode, edited]);
+  }, [setEditMode, edited, showConfirmationAccount, setEdited]);
 
   return (
     <div className="account-container">

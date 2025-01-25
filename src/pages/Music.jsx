@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Navbar from "../components/Navbar";
 import Add from "../components/Add";
 import "../style/pages/Music.scss";
 import "../style/Add.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import "../style/pages/Music.scss";
@@ -17,7 +16,6 @@ export default function Music() {
     setSongToken,
     setSongDbTitle,
     songSent,
-    songId,
     setSongId,
     userData,
     deletedSong,
@@ -67,7 +65,7 @@ export default function Music() {
         setSongId(song._id);
       });
     }
-  }, [songsFromDb, songSent, setSongDbTitle]);
+  }, [songsFromDb, songSent, setSongDbTitle, setSongId]);
 
   // spotify call
 
@@ -101,9 +99,9 @@ export default function Music() {
     }
 
     fetchSpotifyToken();
-  }, []);
+  }, [setSongToken]);
 
-  const handleFetchSongs = async () => {
+  const handleFetchSongs = useCallback(async () => {
     if (!songToken) {
       return;
     }
@@ -126,11 +124,11 @@ export default function Music() {
         error.response || error.message
       );
     }
-  };
+  }, [songToken, songsFromDb]); // Dipendenze necessarie.
 
   useEffect(() => {
     handleFetchSongs();
-  }, [songToken, songsFromDb, songsFromDb]);
+  }, [songToken, songsFromDb, songsFromDb, handleFetchSongs]);
 
   // delete
 

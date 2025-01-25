@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "../style/navbar.scss";
 import image from "../images/copia.jpg";
 import { Link, useLocation } from "react-router-dom";
@@ -12,7 +12,7 @@ export default function Navbar() {
   const {
     isOpen,
     setIsOpen,
-/*     newThougthOpen,
+    /*     newThougthOpen,
     setNewThoughtOpen,
     thoughtView,
     setThoughtView,
@@ -25,7 +25,7 @@ export default function Navbar() {
     setIsOpen(false);
   }, [setIsOpen]);
 
-/*   useEffect(() => {
+  /*   useEffect(() => {
     if (isOpen) {
       setNewThoughtOpen(false);
       setThoughtView(false);

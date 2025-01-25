@@ -1,6 +1,6 @@
 import React from "react";
 import { useStore } from "../store";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
@@ -64,7 +64,6 @@ export default function Add({ editThought, editTodos }) {
     setDeletedSong,
   } = useStore();
   const [bottomClass, setBottomClass] = useState("");
-  const [plusButtonLocation, setPlusButtonLocation] = useState();
   const location = useLocation();
   const [songsToChoose, setSongsToChoose] = useState([]);
   const [loading, setLoading] = useState(false); // Aggiungi lo stato per il caricamento
@@ -121,7 +120,7 @@ export default function Add({ editThought, editTodos }) {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch("http://localhost:4000/api/thought", {
+      await fetch("http://localhost:4000/api/thought", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -130,14 +129,13 @@ export default function Add({ editThought, editTodos }) {
         body: JSON.stringify({ title, description, userId }),
       });
 
-      const result = await response.json();
       setThoughtSent(true);
     } catch (error) {
       console.error("Error creating thought:", error);
     }
   };
 
-  const showConfirmation = () => {
+  const showConfirmation = useCallback(() => {
     $.alert({
       theme: "modern",
       animation: "opacity",
@@ -154,14 +152,14 @@ export default function Add({ editThought, editTodos }) {
       },
     });
     setNewThoughtOpen(false);
-  };
+  }, [setNewThoughtOpen]); // Nessuna dipendenza, poiché non usa variabili esterne.
 
   useEffect(() => {
     if (thoughtSent) {
       showConfirmation();
       setThoughtSent(false);
     }
-  }, [thoughtSent, setThoughtSent]);
+  }, [thoughtSent, setThoughtSent, showConfirmation]);
 
   // CHECKBOX
 
@@ -185,7 +183,7 @@ export default function Add({ editThought, editTodos }) {
     try {
       const token = localStorage.getItem("token"); // Assumendo che il token sia salvato nel localStorage
 
-      const response = await fetch("http://localhost:4000/api/todo", {
+      await fetch("http://localhost:4000/api/todo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -194,14 +192,13 @@ export default function Add({ editThought, editTodos }) {
         body: JSON.stringify({ title, items }),
       });
 
-      const result = await response.json();
       setCheckboxSent(true);
     } catch (error) {
       console.error("Error creating checkbox:", error);
     }
   };
 
-  const showConfirmationTodo = () => {
+  const showConfirmationTodo = useCallback(() => {
     $.alert({
       theme: "modern",
       animation: "opacity",
@@ -218,14 +215,14 @@ export default function Add({ editThought, editTodos }) {
       },
     });
     setNewCheckboxOpen(false);
-  };
+  }, [setNewCheckboxOpen]);
 
   useEffect(() => {
     if (checkboxSent) {
       showConfirmationTodo();
       setCheckboxSent(false);
     }
-  }, [checkboxSent, setCheckboxSent]);
+  }, [checkboxSent, setCheckboxSent, showConfirmationTodo]);
 
   // MUSIC
 
@@ -305,13 +302,13 @@ export default function Add({ editThought, editTodos }) {
 
   const handleLocationChange = () => {
     if (location.pathname === "/thoughts") {
-      setPlusButtonLocation(handleNewThought);
+      handleNewThought();
     } else if (location.pathname === "/todos") {
-      setPlusButtonLocation(handleNewCheckbox);
+      handleNewCheckbox();
     } else if (location.pathname === "/music") {
-      setPlusButtonLocation(handleNewSong);
+      handleNewSong();
     } else {
-      setPlusButtonLocation(setIsBottomOpen(!isBottomOpen));
+      setIsBottomOpen(!isBottomOpen);
     }
   };
 
