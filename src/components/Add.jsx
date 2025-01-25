@@ -53,7 +53,6 @@ export default function Add({ editThought, editTodos }) {
     checkboxId,
     userData,
     // SONG
-    songSent,
     setSongSent,
     newSongOpen,
     setNewSongOpen,
@@ -62,7 +61,6 @@ export default function Add({ editThought, editTodos }) {
     songData,
     setSongData,
     songToken,
-    setSongToken,
     setDeletedSong,
   } = useStore();
   const [bottomClass, setBottomClass] = useState("");
