@@ -10,7 +10,6 @@ const { useStore } = require("../store");
 export default function Todos() {
   const {
     checkboxSent,
-    checkboxEdit,
     setCheckboxEdit,
     setNewCheckboxOpen,
     checkboxTitle,
