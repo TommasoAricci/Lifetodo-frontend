@@ -1,5 +1,7 @@
 import React from "react";
 import "../style/pages/Login.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../store";
 
@@ -57,6 +59,7 @@ export default function Login() {
               placeholder="Username"
               onChange={(e) => setUsername(e.target.value)}
             />
+            <FontAwesomeIcon icon={faUser} className="input-icon faUser" />
             <input
               type="password"
               id="password"
@@ -64,6 +67,7 @@ export default function Login() {
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
             />
+            <FontAwesomeIcon icon={faLock} className="input-icon faLock" />
             <button type="submit">Login</button>
           </div>
         </form>
