@@ -8,7 +8,7 @@ export default function App() {
 useEffect(() => {
   async function getTodos() {
     try {
-      const response = await axios.get("http://localhost:4000/api/todos");
+      const response = await axios.get("/api/todos");
       console.log(response.data);
     } catch (error) {
       console.error(error);

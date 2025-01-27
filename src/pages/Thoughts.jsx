@@ -32,7 +32,7 @@ export default function Thoughts() {
   useEffect(() => {
     async function getThoughts() {
       try {
-        const response = await fetch("http://localhost:4000/api/thoughts");
+        const response = await fetch("/api/thoughts");
         const data = await response.json();
         setThoughts(data);
       } catch (error) {
@@ -47,7 +47,7 @@ export default function Thoughts() {
   const handleDelete = async (id) => {
     console.log("Deleting item with ID:", id); // Log dell'ID che stai cercando di eliminare
     try {
-      await fetch(`http://localhost:4000/api/thoughts/${id}`, {
+      await fetch(`/api/thoughts/${id}`, {
         method: "DELETE",
       });
 
@@ -86,7 +86,7 @@ export default function Thoughts() {
 
   const editThought = async (id) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/thoughts/${id}`, {
+      const response = await fetch(`/api/thoughts/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

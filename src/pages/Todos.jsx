@@ -27,7 +27,7 @@ export default function Todos() {
   useEffect(() => {
     async function getCheckbox() {
       try {
-        const response = await fetch("http://localhost:4000/api/todos");
+        const response = await fetch("/api/todos");
         const data = await response.json();
         setTodos(data);
       } catch (error) {
@@ -41,7 +41,7 @@ export default function Todos() {
 
   const handleCheckboxDelete = async (todoId) => {
     try {
-      await fetch(`http://localhost:4000/api/todos/${todoId}`, {
+      await fetch(`/api/todos/${todoId}`, {
         method: "DELETE",
       });
       setTodos(todos.filter((todo) => todo._id !== todoId));
@@ -79,7 +79,7 @@ export default function Todos() {
   const editTodos = async (todoId) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/todos/${todoId}`,
+        `/todos/${todoId}`,
         {
           method: "PUT",
           headers: {

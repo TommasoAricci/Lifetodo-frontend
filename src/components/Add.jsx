@@ -120,7 +120,7 @@ export default function Add({ editThought, editTodos }) {
     try {
       const token = localStorage.getItem("token");
 
-      await fetch("http://localhost:4000/api/thought", {
+      await fetch("/api/thought", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -183,7 +183,7 @@ export default function Add({ editThought, editTodos }) {
     try {
       const token = localStorage.getItem("token"); // Assumendo che il token sia salvato nel localStorage
 
-      await fetch("http://localhost:4000/api/todo", {
+      await fetch("/api/todo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -280,7 +280,7 @@ export default function Add({ editThought, editTodos }) {
     const token = localStorage.getItem("token");
     if (songData) {
       try {
-        const response = await fetch("http://localhost:4000/api/newsong", {
+        const response = await fetch("/api/newsong", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

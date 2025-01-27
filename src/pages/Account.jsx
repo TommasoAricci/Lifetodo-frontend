@@ -54,7 +54,7 @@ export default function Account() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      fetch("http://localhost:4000/api/currentuser", {
+      fetch("/api/currentuser", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -76,7 +76,7 @@ export default function Account() {
   const updateUser = async (e) => {
     const token = localStorage.getItem("token");
     try {
-      const response = await fetch("http://localhost:4000/api/update", {
+      const response = await fetch("/api/update", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

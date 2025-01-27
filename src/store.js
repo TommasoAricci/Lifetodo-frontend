@@ -83,7 +83,7 @@ export const StoreProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/currentuser", {
+    fetch("/api/currentuser", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

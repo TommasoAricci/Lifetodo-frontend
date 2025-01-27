@@ -32,7 +32,7 @@ export default function Wall() {
   useEffect(() => {
     async function getThoughts() {
       try {
-        const response = await fetch("http://localhost:4000/api/thoughts");
+        const response = await fetch("/api/thoughts");
         const data = await response.json();
         setThoughts(data);
       } catch (error) {
@@ -47,7 +47,7 @@ export default function Wall() {
   const handleDelete = async (id) => {
     console.log("Deleting item with ID:", id); // Log dell'ID che stai cercando di eliminare
     try {
-      await fetch(`http://localhost:4000/api/thoughts/${id}`, {
+      await fetch(`/api/thoughts/${id}`, {
         method: "DELETE",
       });
 
@@ -87,7 +87,7 @@ export default function Wall() {
   const handleEdit = async (thoughtId) => {
     try {
       const response = await fetch(
-        `http://localhost:4000/api/thoughts/${thoughtId}`,
+        `/api/thoughts/${thoughtId}`,
         {
           method: "PUT",
         }
@@ -104,7 +104,7 @@ export default function Wall() {
   useEffect(() => {
     async function getCheckbox() {
       try {
-        const response = await fetch("http://localhost:4000/api/todos");
+        const response = await fetch("/api/todos");
         const data = await response.json();
         setTodos(data);
       } catch (error) {
@@ -118,7 +118,7 @@ export default function Wall() {
 
   const handleCheckboxDelete = async (todoId) => {
     try {
-      await fetch(`http://localhost:4000/api/todos/${todoId}`, {
+      await fetch(`/api/todos/${todoId}`, {
         method: "DELETE",
       });
       setTodos(todos.filter((todo) => todo._id !== todoId));

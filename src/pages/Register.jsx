@@ -18,7 +18,7 @@ export default function Login() {
 
   const registerUser = (event) => {
     event.preventDefault(); // Prevenzione del refresh della pagina
-    fetch("http://localhost:4000/api/register", {
+    fetch("/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
