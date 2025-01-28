@@ -58,5 +58,5 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   },
-"proxy": "https://lifeist.netlify.app/"
+"proxy": "http://localhost:4000"
 }
