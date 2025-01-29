@@ -83,7 +83,7 @@ export const StoreProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    fetch("/api/currentuser", {
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/currentuser`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
