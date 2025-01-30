@@ -17,8 +17,8 @@ export default function Login() {
   } = useStore();
 
   const logUser = (event) => {
-    event.preventDefault(); // Prevenzione del refresh della pagina
-    fetch("/api/login", {
+    event.preventDefault();
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

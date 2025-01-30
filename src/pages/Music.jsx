@@ -40,7 +40,7 @@ export default function Music() {
 
   const getSongsList = async () => {
     try {
-      const response = await fetch("/api/allsongs", {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/allsongs`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -160,7 +160,7 @@ export default function Music() {
     console.log("Song ID to delete:", id); // Aggiungi questa riga per il debug
     try {
       const response = await fetch(
-        `/api/deletesong/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/api/deletesong/${id}`,
         {
           method: "DELETE",
         }
