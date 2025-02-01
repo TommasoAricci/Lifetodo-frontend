@@ -29,6 +29,10 @@ export const StoreProvider = ({ children }) => {
     setIsBottomOpenState(state);
   }, []);
 
+  // view
+
+  const [viewContent, setViewContent] = useState(false);
+
   // thought open
 
   const [newThoughtOpen, setNewThoughtOpen] = useState(false);
@@ -37,7 +41,6 @@ export const StoreProvider = ({ children }) => {
   const [thoughtId, setThoughtId] = useState("");
   const [thoughtDescription, setThoughtDescription] = useState("");
   const [thoughtEdit, setThoughtEdit] = useState(false);
-  const [thoughtView, setThoughtView] = useState(false);
 
   // checkbox
 
@@ -68,15 +71,23 @@ export const StoreProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      const timer = setTimeout(() => {
+      const warningTimer = setTimeout(() => {
+        alert("Your session is about to expire. You will be logged out soon.");
+      }, 540000);
+  
+      const logoutTimer = setTimeout(() => {
         localStorage.removeItem("token");
         setToken(null);
         alert("Your session has expired. You have been logged out.");
-      }, 6000000);
-
-      return () => clearTimeout(timer);
+      }, 600000);
+  
+      return () => {
+        clearTimeout(warningTimer);
+        clearTimeout(logoutTimer);
+      };
     }
   }, [token]);
+  
 
   // current user
 
@@ -113,6 +124,8 @@ export const StoreProvider = ({ children }) => {
         // navbar
         isOpen,
         setIsOpen,
+        viewContent,
+        setViewContent,
         // plus button
         isBottomOpen,
         setIsBottomOpen,
@@ -129,8 +142,6 @@ export const StoreProvider = ({ children }) => {
         setThoughtId,
         newThoughtOpen,
         setNewThoughtOpen,
-        thoughtView,
-        setThoughtView,
         // checkbox
         checkboxSent,
         setCheckboxSent,

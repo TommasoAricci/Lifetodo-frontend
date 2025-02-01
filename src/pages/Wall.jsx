@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import "../style/pages/Wall.scss";
-import Add from "../components/Add";
+import Add from "../components/Add/AddButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan, faClose, faPen } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";

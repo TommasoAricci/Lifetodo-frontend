@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import Add from "../components/Add";
+import AddThought from "../components/Add/AddThought";
 import "../style/pages/Thoughts.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faTrashCan, faPen } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
+import Button from "../components/Button";
+import Overlay from "../components/Overlay";
 const { useStore } = require("../store");
 
 export default function Thoughts() {
@@ -18,12 +19,15 @@ export default function Thoughts() {
     thoughtDescription,
     setThoughtDescription,
     setThoughtId,
-    thoughtView,
-    setThoughtView,
+    viewContent,
+    setViewContent,
     userData,
   } = useStore();
+
   const [thoughts, setThoughts] = useState([]);
-  const filteredThoughts = thoughts.filter((thought) => thought.user._id === userData._id);
+  const filteredThoughts = thoughts.filter(
+    (thought) => thought.user._id === userData._id
+  );
 
   console.log(thoughtEdit);
 
@@ -32,7 +36,9 @@ export default function Thoughts() {
   useEffect(() => {
     async function getThoughts() {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/thoughts`);
+        const response = await fetch(
+          `${process.env.REACT_APP_BASE_URL}/api/thoughts`
+        );
         const data = await response.json();
         setThoughts(data);
       } catch (error) {
@@ -86,16 +92,19 @@ export default function Thoughts() {
 
   const editThought = async (id) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/thoughts/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: thoughtTitle,
-          description: thoughtDescription,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/api/thoughts/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: thoughtTitle,
+            description: thoughtDescription,
+          }),
+        }
+      );
 
       const data = await response.json();
       console.log(data);
@@ -126,16 +135,16 @@ export default function Thoughts() {
   // view
 
   const view = (title, description) => {
-    setThoughtView(true);
+    setViewContent(true);
     setThoughtTitle(title);
-
     setThoughtDescription(description);
   };
 
   return (
     <>
       <Navbar />
-      <Add editThought={editThought} />
+      <AddThought editThought={editThought} />
+      <Overlay />
       <>
         <div className="mainAbout">
           <div id="aboutTitle">
@@ -149,46 +158,48 @@ export default function Thoughts() {
               <div
                 onClick={() => view(thought.title, thought.description)}
                 className="thought"
-                key={thought._id}>
+                key={thought._id}
+              >
                 <h2>{thought.title}</h2>
                 <p>{thought.description}</p>
 
-                <button
-                  onClick={(e) => {
+                <Button
+                  func={(e) => {
                     e.stopPropagation();
                     confirmDelete(thought);
                   }}
-                  className="delete-button"
-                >
-                  <FontAwesomeIcon className="add-thought-icon" icon={faTrashCan} />
-                </button>
+                  type="button"
+                  secondClass="delete-button"
+                  className="add-thought-icon"
+                  icon={faTrashCan}
+                />
 
-                <button
-                  className="edit-button"
-                  onClick={(e) => {
+                <Button
+                  func={(e) => {
                     e.stopPropagation();
                     handleEdit(thought.title, thought.description, thought._id);
                   }}
-                >
-                  <FontAwesomeIcon className="add-thought-icon" icon={faPen} />
-                </button>
+                  type="button"
+                  secondClass="edit-button"
+                  className="add-thought-icon"
+                  icon={faPen}
+                />
               </div>
             ))}
           </div>
 
-          <div className={thoughtView ? "thought-view" : "hidden"}>
-            <div className="thought-view-content">
+          <div className={viewContent ? "view" : "hidden"}>
+            <div className="view-content">
               <h2>{thoughtTitle}</h2>
               <p>
                 <strong></strong> {thoughtDescription}
               </p>
-              <button
-                onClick={() => setThoughtView(false)}
-                className="close-view"
-                aria-label="Close View"
-              >
-                <FontAwesomeIcon icon={faClose} />
-              </button>
+              <Button
+                func={() => setViewContent(false)}
+                type="button"
+                icon={faClose}
+                secondClass="close-view"
+              />
             </div>
           </div>
         </div>

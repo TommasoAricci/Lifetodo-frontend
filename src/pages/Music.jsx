@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Navbar from "../components/Navbar";
-import Add from "../components/Add";
+import Add from "../components/Add/AddButton";
 import "../style/pages/Music.scss";
 import "../style/Add.scss";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
@@ -8,6 +8,8 @@ import axios from "axios";
 import "../style/pages/Music.scss";
 import Button from "../components/Button";
 import $ from "jquery";
+import AddMusic from "../components/Add/AddMusic";
+import Overlay from "../components/Overlay";
 const { useStore } = require("../store");
 
 export default function Music() {
@@ -23,7 +25,7 @@ export default function Music() {
   } = useStore();
   const [songsFromDb, setSongsFromDb] = useState([]);
   const [filteredSongs, setFilteredSongs] = useState([]);
-  
+
   useEffect(() => {
     if (songsFromDb.length > 0 && userData._id) {
       const filtered = songsFromDb.filter(
@@ -40,12 +42,15 @@ export default function Music() {
 
   const getSongsList = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/allsongs`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/api/allsongs`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await response.json();
       setSongsFromDb(data);
@@ -182,7 +187,8 @@ export default function Music() {
   return (
     <>
       <Navbar />
-      <Add /* editTodos={editTodos} */ />
+      <AddMusic /* editTodos={editTodos} */ />
+      <Overlay />
       <div className="mainAbout">
         <div id="aboutTitle">
           <h1>My Music</h1>
@@ -190,23 +196,24 @@ export default function Music() {
       </div>
 
       <div className="songs-list">
-        {filteredSongs.length > 0 && filteredSongs.map((song) => (
-          <div key={song.id} className="song-item">
-            {/* Embed di Spotify */}
-            <iframe
-              title={`Spotify Minimal Embed for ${song.refId}`}
-              src={`https://open.spotify.com/embed/track/${song.refId}?utm_source=generator&theme=0`}
-              frameBorder="0"
-              allow="encrypted-media"
-              className="song-iframe"
-            ></iframe>
-            <Button
-              icon={faTrashCan}
-              func={() => confirmDeleteSong(song)}
-              type="button"
-            />
-          </div>
-        ))}
+        {filteredSongs.length > 0 &&
+          filteredSongs.map((song) => (
+            <div key={song.id} className="song-item">
+              {/* Embed di Spotify */}
+              <iframe
+                title={`Spotify Minimal Embed for ${song.refId}`}
+                src={`https://open.spotify.com/embed/track/${song.refId}?utm_source=generator&theme=0`}
+                frameBorder="0"
+                allow="encrypted-media"
+                className="song-iframe"
+              ></iframe>
+              <Button
+                icon={faTrashCan}
+                func={() => confirmDeleteSong(song)}
+                type="button"
+              />
+            </div>
+          ))}
       </div>
     </>
   );

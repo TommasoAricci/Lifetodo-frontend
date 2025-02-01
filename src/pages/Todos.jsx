@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
-import Add from "../components/Add";
+import AddTodo from "../components/Add/AddTodo";
 import "../style/pages/Todos.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan, faPen } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan, faPen, faClose } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
+import Button from "../components/Button";
+import Overlay from "../components/Overlay";
 const { useStore } = require("../store");
 
 export default function Todos() {
   const {
     checkboxSent,
     setCheckboxEdit,
+    checkboxEdit,
     setNewCheckboxOpen,
     checkboxTitle,
     setCheckboxTitle,
@@ -18,6 +20,8 @@ export default function Todos() {
     setCheckboxItems,
     setCheckboxId,
     userData,
+    viewContent,
+    setViewContent,
   } = useStore();
   const [todos, setTodos] = useState([]);
   const filteredTodos = todos.filter((todo) => todo.user._id === userData._id);
@@ -27,7 +31,9 @@ export default function Todos() {
   useEffect(() => {
     async function getCheckbox() {
       try {
-        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/todos`);
+        const response = await fetch(
+          `${process.env.REACT_APP_BASE_URL}/api/todos`
+        );
         const data = await response.json();
         setTodos(data);
       } catch (error) {
@@ -35,7 +41,7 @@ export default function Todos() {
       }
     }
     getCheckbox();
-  }, [checkboxSent]);
+  }, [checkboxSent, checkboxEdit]);
 
   // delete
 
@@ -91,6 +97,7 @@ export default function Todos() {
       const data = await response.json();
       setTodos(todos.map((todo) => (todo._id === todoId ? data : todo)));
       setCheckboxEdit(false);
+      setNewCheckboxOpen(false);
     } catch (error) {
       console.error(error);
     }
@@ -104,10 +111,19 @@ export default function Todos() {
     setCheckboxId(id);
   };
 
+  // view
+
+  const view = (title, items) => {
+    setViewContent(true);
+    setCheckboxTitle(title);
+    setCheckboxItems(items);
+  };
+
   return (
     <>
       <Navbar />
-      <Add editTodos={editTodos} />
+      <AddTodo editTodos={editTodos} />
+      <Overlay />
       <>
         <div className="mainAbout">
           <div id="aboutTitle">
@@ -118,43 +134,69 @@ export default function Todos() {
         <div className="mainWall">
           <div className="todos">
             {filteredTodos.map((todo) => (
-                <div className="todo" key={todo._id}>
-                  <h2>{todo.title}</h2>
-                  <div className="checkbox-list">
-                    {todo.items.map(
-                      (option, index) =>
-                        option.trim() !== "" && (
-                          <div key={index} className="checkbox-item">
-                            <input
-                              type="checkbox"
-                              id={`checkbox-${todo._id}-${index}`}
-                              name={`checkbox-${todo._id}-${index}`}
-                              value={option}
-                            />
-                            <label htmlFor={`checkbox-${todo._id}-${index}`}>
-                              {option}
-                            </label>
-                          </div>
-                        )
-                    )}
-                  </div>
-                  <button
-                    onClick={() => confirmDeleteTodo(todo)}
-                    className="delete-button"
-                  >
-                    <FontAwesomeIcon icon={faTrashCan} />
-                  </button>
-                  <button
-                    className="edit-button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleEdit(todo.title, todo.items, todo._id);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faPen} />
-                  </button>
+              <div
+                onClick={() => view(todo.title, todo.items)}
+                className="todo"
+                key={todo._id}
+              >
+                <h2>{todo.title}</h2>
+                <div className="checkbox-list">
+                  {todo.items.map(
+                    (option, index) =>
+                      option.trim() !== "" && (
+                        <div key={index} className="checkbox-item">
+                          <input
+                            type="checkbox"
+                            id={`checkbox-${todo._id}-${index}`}
+                            name={`checkbox-${todo._id}-${index}`}
+                            value={option}
+                          />
+                          <label htmlFor={`checkbox-${todo._id}-${index}`}>
+                            {option}
+                          </label>
+                        </div>
+                      )
+                  )}
                 </div>
+                <Button
+                  func={(e) => {
+                    e.stopPropagation();
+                    confirmDeleteTodo(todo);
+                  }}
+                  icon={faTrashCan}
+                  type="button"
+                  secondClass="delete-button"
+                />
+
+                <Button
+                  func={(e) => {
+                    e.stopPropagation();
+                    handleEdit(todo.title, todo.items, todo._id);
+                  }}
+                  icon={faPen}
+                  type="button"
+                  secondClass="edit-button"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className={viewContent ? "view" : "hidden"}>
+          <div className="view-content">
+            <h2>{checkboxTitle}</h2>
+            <div className="items-list">
+              {checkboxItems.map((item, index) => (
+                <p key={index}>{item}</p>
               ))}
+            </div>
+
+            <Button
+              func={() => setViewContent(false)}
+              type="button"
+              icon={faClose}
+              secondClass="close-view"
+            />
           </div>
         </div>
       </>

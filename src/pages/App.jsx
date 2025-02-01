@@ -1,21 +1,26 @@
-import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import "../style/App.scss";
 import Navbar from "../components/Navbar";
-import axios from "axios";
+import { useStore } from "../store";
 
 export default function App() {
 
-useEffect(() => {
-  async function getTodos() {
-    try {
-      const response = await axios.get("/api/todos");
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  getTodos();
-}, []);
+  const { token, setToken } = useStore();
+  const navigate = useNavigate();
+
+    useEffect(() => {
+      if (token) {
+        const timer = setTimeout(() => {
+          localStorage.removeItem("token");
+          setToken(null);
+          navigate("/login");  // Reindirizza direttamente alla pagina di login
+          alert("Your session has expired. You have been logged out.");
+        }, 6000);
+    
+        return () => clearTimeout(timer);
+      }
+    }, [token, navigate, setToken]);
 
   return (
     <>

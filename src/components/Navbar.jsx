@@ -12,12 +12,12 @@ export default function Navbar() {
   const {
     isOpen,
     setIsOpen,
-    /*     newThougthOpen,
+    newThougthOpen,
     setNewThoughtOpen,
-    thoughtView,
-    setThoughtView,
+    viewContent,
+    setViewContent,
     newCheckboxOpen,
-    setNewCheckboxOpen, */
+    setNewCheckboxOpen,
   } = useStore();
   const location = useLocation();
 
@@ -25,13 +25,14 @@ export default function Navbar() {
     setIsOpen(false);
   }, [setIsOpen]);
 
-  /*   useEffect(() => {
+  useEffect(() => {
     if (isOpen) {
       setNewThoughtOpen(false);
-      setThoughtView(false);
+      setViewContent(false);
       setNewCheckboxOpen(false);
     }
-  }, [newThougthOpen, isOpen, thoughtView, newCheckboxOpen]); */
+  }, [newThougthOpen, isOpen, viewContent, newCheckboxOpen, setNewCheckboxOpen,
+    setNewThoughtOpen, setViewContent]);
 
   const linkStyle = {
     textDecoration: "none",
@@ -77,9 +78,15 @@ export default function Navbar() {
               <h2>My Music</h2>
             </div>
           </Link>
-          <div className="navDiv">
-            <h2>My Books</h2>
-          </div>
+          <Link to="/books" style={linkStyle}>
+            <div
+              className={
+                location.pathname === "/books" ? "navDiv active" : "navDiv"
+              }
+            >
+              <h2>My Books</h2>
+            </div>
+          </Link>
         </nav>
       </div>
 
