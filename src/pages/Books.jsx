@@ -1,7 +1,6 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import Add from '../components/Add/AddButton'
-import { useStore } from '../store'
 
 export default function Books() {
   return (

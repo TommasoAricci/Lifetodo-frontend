@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Navbar from "../components/Navbar";
-import Add from "../components/Add/AddButton";
 import "../style/pages/Music.scss";
 import "../style/Add.scss";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
