@@ -7,7 +7,6 @@ import {
   faAdd,
 } from "@fortawesome/free-solid-svg-icons";
 import "../../style/Add.scss";
-import $ from "jquery";
 import axios from "axios";
 import "jquery-confirm/dist/jquery-confirm.min.css";
 import "jquery-confirm/dist/jquery-confirm.min.js";

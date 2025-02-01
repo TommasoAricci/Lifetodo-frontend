@@ -8,7 +8,6 @@ import {
   faSquareCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import "../../style/Add.scss";
-import $ from "jquery";
 import "jquery-confirm/dist/jquery-confirm.min.css";
 import "jquery-confirm/dist/jquery-confirm.min.js";
 import { useLocation } from "react-router-dom";

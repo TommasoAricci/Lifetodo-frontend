@@ -1,14 +1,11 @@
 import React from "react";
 import { useStore } from "../../store";
-import { useState, useEffect, useCallback } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useEffect, useCallback } from "react";
 import { faFloppyDisk, faXmark } from "@fortawesome/free-solid-svg-icons";
 import "../../style/Add.scss";
 import $ from "jquery";
-import axios from "axios";
 import "jquery-confirm/dist/jquery-confirm.min.css";
 import "jquery-confirm/dist/jquery-confirm.min.js";
-import { useLocation } from "react-router-dom";
 import Button from "../Button";
 import AddButton from "../Add/AddButton";
 
