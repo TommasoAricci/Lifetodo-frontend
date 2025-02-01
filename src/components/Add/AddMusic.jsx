@@ -28,6 +28,8 @@ export default function AddMusic() {
     setCheckboxItems,
   } = useStore();
 
+  console.log(newSongOpen);
+
   const [songsToChoose, setSongsToChoose] = useState([]);
   const [loading, setLoading] = useState(false);
   const handleNewSong = () => {

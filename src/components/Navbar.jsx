@@ -18,6 +18,8 @@ export default function Navbar() {
     setViewContent,
     newCheckboxOpen,
     setNewCheckboxOpen,
+    newSongOpen,
+    setNewSongOpen
   } = useStore();
   const location = useLocation();
 
@@ -30,9 +32,10 @@ export default function Navbar() {
       setNewThoughtOpen(false);
       setViewContent(false);
       setNewCheckboxOpen(false);
+      setNewSongOpen(false);
     }
   }, [newThougthOpen, isOpen, viewContent, newCheckboxOpen, setNewCheckboxOpen,
-    setNewThoughtOpen, setViewContent]);
+    setNewThoughtOpen, setViewContent, newSongOpen, setNewSongOpen]);
 
   const linkStyle = {
     textDecoration: "none",

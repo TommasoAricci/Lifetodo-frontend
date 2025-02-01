@@ -62,6 +62,14 @@ export const StoreProvider = ({ children }) => {
   const [songDbTitle, setSongDbTitle] = useState("");
   const [deletedSong, setDeletedSong] = useState(false);
 
+  // books
+
+  const [newBookOpen, setNewBookOpen] = useState(false);
+  const [bookTitle, setBookTitle] = useState("");
+  const [bookSent, setBookSent] = useState(false);
+  const [bookData, setBookData] = useState(null);
+  const [bookId, setBookId] = useState("");
+
   // login - logout
 
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -74,20 +82,19 @@ export const StoreProvider = ({ children }) => {
       const warningTimer = setTimeout(() => {
         alert("Your session is about to expire. You will be logged out soon.");
       }, 540000);
-  
+
       const logoutTimer = setTimeout(() => {
         localStorage.removeItem("token");
         setToken(null);
         alert("Your session has expired. You have been logged out.");
       }, 600000);
-  
+
       return () => {
         clearTimeout(warningTimer);
         clearTimeout(logoutTimer);
       };
     }
   }, [token]);
-  
 
   // current user
 
@@ -188,6 +195,17 @@ export const StoreProvider = ({ children }) => {
         setEditMode,
         edited,
         setEdited,
+        // books
+        newBookOpen,
+        setNewBookOpen,
+        bookTitle,
+        setBookTitle,
+        bookSent,
+        setBookSent,
+        bookData,
+        setBookData,
+        bookId,
+        setBookId,
       }}
     >
       {children}

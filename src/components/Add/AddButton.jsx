@@ -26,6 +26,7 @@ export default function AddButton({
     setIsBottomOpen,
     newThoughtOpen,
     newCheckboxOpen,
+    newBookOpen
   } = useStore();
   const [bottomClass, setBottomClass] = useState("");
   const location = useLocation();
@@ -33,14 +34,14 @@ export default function AddButton({
   // PLUS BUTTON
 
   useEffect(() => {
-    if (isOpen || newThoughtOpen || newCheckboxOpen) {
+    if (isOpen || newThoughtOpen || newCheckboxOpen || newBookOpen) {
       setBottomClass("hidden");
     } else if (isBottomOpen) {
       setBottomClass("bottom-menu-options");
     } else {
       setBottomClass("hidden");
     }
-  }, [isBottomOpen, isOpen, newThoughtOpen, newCheckboxOpen]);
+  }, [isBottomOpen, isOpen, newThoughtOpen, newCheckboxOpen, newBookOpen]);
 
   // LOCATION
 
@@ -51,6 +52,8 @@ export default function AddButton({
       handleNewCheckbox();
     } else if (location.pathname === "/music") {
       handleNewSong();
+    } else if (location.pathname === "/books") {
+      handleNewBook();
     } else {
       setIsBottomOpen(!isBottomOpen);
     }
