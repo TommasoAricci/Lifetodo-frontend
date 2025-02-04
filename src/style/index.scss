@@ -18,6 +18,13 @@ body {
   font-family: "VT323", monospace;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .fade-enter {
   opacity: 0;
 }

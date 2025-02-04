@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 
 export default function AddBooks() {
+  const { userData, setBookSent } = useStore();
   const [booksToChoose, setBooksToChoose] = useState([]);
   const [loading, setLoading] = useState(false);
   const { newBookOpen, setNewBookOpen, bookTitle, setBookTitle } = useStore();
@@ -23,7 +24,9 @@ export default function AddBooks() {
     setBooksToChoose([]);
   };
 
-  const handleAddBook = async (e) => {
+  // get books from api
+
+  const handleBookSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios
@@ -39,11 +42,37 @@ export default function AddBooks() {
     }
   };
 
+  // save on db
+
+  const handleAddBookToList = async (title, author, description, image, id) => {
+    const userId = userData._id;
+    const token = localStorage.getItem("token");
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_BASE_URL}/api/newbook`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ title, author, description, image, id, userId }),
+          }
+        );
+
+        const result = await response.json();
+        console.log(result);
+        setBookSent(true);
+      } catch (error) {
+        console.error("Error creating song:", error);
+      }
+  };
+
   return (
     <>
       <AddButton handleNewBook={handleNewBook} />
       <div className={newBookOpen ? "search-song" : "hidden"}>
-        <form className="search-song-form" onSubmit={handleAddBook}>
+        <form className="search-song-form" onSubmit={handleBookSubmit}>
           <input
             name="song"
             className="search-song-title"
@@ -57,15 +86,21 @@ export default function AddBooks() {
             ) : (
               booksToChoose.map((book) => (
                 <div key={book.id} className="book-to-add">
-                  <img src={book.volumeInfo.imageLinks.thumbnail} alt="" />
+                  <img src={book.volumeInfo.imageLinks?.thumbnail || book.volumeInfo.imageLinks?.smallThumbnail} alt="" />
                   <div className="book-info">
                     <p id="book-title">{book.volumeInfo.title}</p>
                     <p id="book-author">{book.volumeInfo.authors}</p>
                   </div>
                   <Button
                     icon={faAdd}
-                    /*                     func={() => handleAddSongToList(song.name, song.id)}
-                     */ type="button"
+                    func={() => handleAddBookToList(
+                      book.volumeInfo.title,
+                      book.volumeInfo.authors[0],
+                      book.volumeInfo.infoLink,
+                      book.volumeInfo.imageLinks.thumbnail,
+                      book.id
+                    )}
+                    type="button"
                   />
                 </div>
               ))
@@ -74,7 +109,7 @@ export default function AddBooks() {
 
           <div className="search-song-buttons-div">
             <Button icon={faMagnifyingGlass} func={null} type="submit" />
-            <Button icon={faXmark} /* func={handleNewSong} */ type="button" />
+            <Button icon={faXmark} func={handleNewBook} type="button" />
           </div>
         </form>
       </div>
