@@ -46,7 +46,7 @@ export default function AddBooks() {
     const userId = userData._id;
     const token = localStorage.getItem("token");
       try {
-        const response = await fetch(
+        await fetch(
           `${process.env.REACT_APP_BASE_URL}/api/newbook`,
           {
             method: "POST",

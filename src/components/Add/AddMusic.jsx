@@ -84,7 +84,7 @@ export default function AddMusic() {
     const token = localStorage.getItem("token");
     if (songData) {
       try {
-        const response = await fetch(
+        await fetch(
           `${process.env.REACT_APP_BASE_URL}/api/newsong`,
           {
             method: "POST",

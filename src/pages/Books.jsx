@@ -14,6 +14,8 @@ export default function Books() {
   const [booksList, setBooksList] = useState([]);
   const [bookInfo, setBookInfo] = useState({});
 
+  console.log(bookInfo);
+
   const filteredBooks = booksList.filter(
     (thought) => thought.user._id === userData?._id
   );
