@@ -2,16 +2,20 @@ import React from "react";
 import { useEffect } from "react";
 import Navbar from "../components/Navbar";
 import AddBooks from "../components/Add/AddBooks";
+import Overlay from "../components/Overlay";
 import { useStore } from "../store";
 import Button from "../components/Button";
-import { faTrashCan, faInfo } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan, faInfo, faClose } from "@fortawesome/free-solid-svg-icons";
 import "../style/pages/Books.scss";
+import $ from "jquery";
 
 export default function Books() {
-  const { bookSent } = useStore();
+  const { bookSent, viewContent, setViewContent } = useStore();
   const [booksList, setBooksList] = React.useState([]);
+  const [bookInfo, setBookInfo] = React.useState({});
 
   console.log(booksList);
+  console.log(bookInfo);
 
   const getBookLists = () => {
     try {
@@ -29,9 +33,64 @@ export default function Books() {
     getBookLists();
   }, [bookSent]);
 
+  // delete
+
+  const deleteBook = async (id) => {
+    try {
+      await fetch(`${process.env.REACT_APP_BASE_URL}/api/deletebook/${id}`, {
+        method: "DELETE",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const confirmDeleteBook = (book) => {
+    $.confirm({
+      theme: "modern",
+      animation: "opacity",
+      title: "Are you sure?",
+      content: "Sei sicuro di voler eliminare questo elemento?",
+      buttons: {
+        ok: {
+          text: "Delete",
+          btnClass: "btn-red",
+          action: function () {
+            deleteBook(book._id);
+            getBookLists();
+          },
+        },
+        cancel: {
+          text: "Back",
+          action: function () {
+            // Non eliminare l'elemento
+          },
+        },
+      },
+    });
+  };
+
+  // info
+
+  const getInfo = async (refId) => {
+    setViewContent(true);
+    try {
+      await fetch(
+        `https://www.googleapis.com/books/v1/volumes/${refId}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setBookInfo(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Navbar />
+      <Overlay />
       <AddBooks /* editTodos={editTodos} */ />
       <div className="mainAbout">
         <div id="aboutTitle">
@@ -41,17 +100,45 @@ export default function Books() {
 
       <div className="booksList">
         {booksList.map((book) => (
-          <div className="book" key={book.id}>
-            <img src={book.image} alt="" />
-            <div className="info">
-              <h1>{book.title}</h1>
-              <p>{book.author}</p>
+          <>
+            <div className="book-container" key={book.id}>
+              <div className="book">
+                <img src={book.image} alt={book.title} />
+                <div className="info">
+                  <h1>{book.title}</h1>
+                  <p>{book.author}</p>
+                </div>
+              </div>
               <div className="book-buttons">
-                <Button icon={faTrashCan} type="button" onClick={() => {}} />
-                <Button icon={faInfo} type="button" onClick={() => {}} />
+                <Button
+                  icon={faTrashCan}
+                  type="button"
+                  func={() => confirmDeleteBook(book)}
+                />
+                <Button
+                  icon={faInfo}
+                  type="button"
+                  func={() => {
+                    getInfo(book.refId);
+                  }}
+                  secondClass={"info-button"}
+                />
               </div>
             </div>
-          </div>
+            <div className={viewContent ? "view" : "hidden"}>
+              <div className="view-content">
+                <p>
+                  <strong></strong> 
+                </p>
+                <Button
+                  func={() => setViewContent(false)}
+                  type="button"
+                  icon={faClose}
+                  secondClass="close-view"
+                />
+              </div>
+            </div>
+          </>
         ))}
       </div>
     </>

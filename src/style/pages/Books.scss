@@ -1,56 +1,82 @@
 .booksList {
   width: 80%;
+  max-width: 600px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  gap: 15px;
+  padding: 10px;
 
-  .book {
-    width: 70%;
+  .book-container {
+    width: 90%;
     display: flex;
     align-items: center;
-    justify-content: center;
-    background-color: #2c2c2e;
-    border-radius: 12px;
-    padding: 10px;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #1e1e1f, #29292b);
+    border-radius: 15px;
+    padding: 15px;
     color: #ffffff;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+    }
+  }
+
+  .book {
+    display: flex;
+    align-items: center;
+    
     img {
-      width: 70px;
-      border-radius: 12px;
+      width: 90px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
     }
 
     .info {
-      width: 60%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-left: 10px;
+      margin-left: 15px;
+      text-align: left;
 
       h1 {
-        font-size: 15px;
-        font-weight: 500;
+        font-size: 16px;
+        font-weight: 600;
         color: #03a9f4;
-        text-align: center;
+        margin-bottom: 5px;
       }
 
       p {
-        font-size: 12px;
-        font-weight: 300;
-        color: #e0e0e0;
+        font-size: 13px;
+        font-weight: 400;
+        color: #b0b0b0;
       }
     }
+  }
 
-    .book-buttons{
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-evenly;
-      gap: 10px;
+  .book-buttons {
+    display: flex;
+    gap: 10px;
+    
+    button {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+      }
     }
   }
 }
