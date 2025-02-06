@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import AddBooks from "../components/Add/AddBooks";
 import Overlay from "../components/Overlay";
@@ -10,12 +10,13 @@ import "../style/pages/Books.scss";
 import $ from "jquery";
 
 export default function Books() {
-  const { bookSent, viewContent, setViewContent } = useStore();
-  const [booksList, setBooksList] = React.useState([]);
-  const [bookInfo, setBookInfo] = React.useState({});
+  const { bookSent, viewContent, setViewContent, userData } = useStore();
+  const [booksList, setBooksList] = useState([]);
+  const [bookInfo, setBookInfo] = useState({});
 
-  console.log(booksList);
-  console.log(bookInfo);
+  const filteredBooks = booksList.filter(
+    (thought) => thought.user._id === userData?._id
+  );
 
   const getBookLists = () => {
     try {
@@ -40,6 +41,7 @@ export default function Books() {
       await fetch(`${process.env.REACT_APP_BASE_URL}/api/deletebook/${id}`, {
         method: "DELETE",
       });
+      getBookLists();
     } catch (error) {
       console.log(error);
     }
@@ -75,9 +77,7 @@ export default function Books() {
   const getInfo = async (refId) => {
     setViewContent(true);
     try {
-      await fetch(
-        `https://www.googleapis.com/books/v1/volumes/${refId}`
-      )
+      await fetch(`https://www.googleapis.com/books/v1/volumes/${refId}`)
         .then((res) => res.json())
         .then((data) => {
           setBookInfo(data);
@@ -91,7 +91,7 @@ export default function Books() {
     <>
       <Navbar />
       <Overlay />
-      <AddBooks /* editTodos={editTodos} */ />
+      <AddBooks />
       <div className="mainAbout">
         <div id="aboutTitle">
           <h1>My Books</h1>
@@ -99,9 +99,9 @@ export default function Books() {
       </div>
 
       <div className="booksList">
-        {booksList.map((book) => (
-          <>
-            <div className="book-container" key={book.id}>
+        {filteredBooks.map((book) => (
+          <div key={book._id}>
+            <div className="book-container">
               <div className="book">
                 <img src={book.image} alt={book.title} />
                 <div className="info">
@@ -128,7 +128,7 @@ export default function Books() {
             <div className={viewContent ? "view" : "hidden"}>
               <div className="view-content">
                 <p>
-                  <strong></strong> 
+                  <strong></strong>
                 </p>
                 <Button
                   func={() => setViewContent(false)}
@@ -138,7 +138,7 @@ export default function Books() {
                 />
               </div>
             </div>
-          </>
+          </div>
         ))}
       </div>
     </>

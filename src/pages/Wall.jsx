@@ -1,274 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Navbar from "../components/Navbar";
 import "../style/pages/Wall.scss";
 import Add from "../components/Add/AddButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan, faClose, faPen } from "@fortawesome/free-solid-svg-icons";
-import $ from "jquery";
-import { Navigate } from "react-router-dom";
+import Books from "./Books";
+import Todos from "./Todos";
+import Music from "./Music";
 const { useStore } = require("../store");
 
 export default function Wall() {
-  const {
-    thoughtSent,
-    checkboxSent,
-    userData,
-    token,
-    thoughtView,
-    setThoughtView,
-    setThoughtTitle,
-    setThoughtDescription,
-    thoughtTitle,
-    thoughtDescription,
-    songData,
-  } = useStore();
-  const [thoughts, setThoughts] = useState([]);
-  const [todos, setTodos] = useState([]);
-  const filteredThoughts = thoughts.filter((thought) => thought.user._id === userData._id);
-  const filteredTodos = todos.filter((todo) => todo.user._id === userData._id);
-
-  // THOUGHTS
-
-  useEffect(() => {
-    async function getThoughts() {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/thoughts`);
-        const data = await response.json();
-        setThoughts(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getThoughts();
-  }, [thoughtSent]);
-
-  // api delete
-
-  const handleDelete = async (id) => {
-    console.log("Deleting item with ID:", id); // Log dell'ID che stai cercando di eliminare
-    try {
-      await (`${process.env.REACT_APP_BASE_URL}/api/thoughts/${id}`, {
-        method: "DELETE",
-      });
-
-      setThoughts(thoughts.filter((thought) => thought._id !== id));
-    } catch (error) {
-      console.error("Error while deleting:", error);
-    }
-  };
-
-  const confirmDelete = (thought) => {
-    console.log(thought); // Aggiungi un log per verificare cosa contiene `thought`
-    $.confirm({
-      theme: "modern",
-      animation: "opacity",
-      title: "Are you sure?",
-      content: "Sei sicuro di voler eliminare questo elemento?",
-      buttons: {
-        ok: {
-          text: "Delete",
-          btnClass: "btn-red",
-          action: function () {
-            handleDelete(thought._id);
-          },
-        },
-        cancel: {
-          text: "Back",
-          action: function () {
-            // Non eliminare l'elemento
-          },
-        },
-      },
-    });
-  };
-
-  // api edit
-
-  const handleEdit = async (thoughtId) => {
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/api/thoughts/${thoughtId}`,
-        {
-          method: "PUT",
-        }
-      );
-      const data = await response.json();
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // CHECKBOX
-
-  useEffect(() => {
-    async function getCheckbox() {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/todos`);
-        const data = await response.json();
-        setTodos(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getCheckbox();
-  }, [checkboxSent]);
-
-  // delete
-
-  const handleCheckboxDelete = async (todoId) => {
-    try {
-      await fetch(`${process.env.REACT_APP_BASE_URL}/api/todos/${todoId}`, {
-        method: "DELETE",
-      });
-      setTodos(todos.filter((todo) => todo._id !== todoId));
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const confirmDeleteTodo = (todo) => {
-    $.confirm({
-      theme: "modern",
-      animation: "opacity",
-      title: "Are you sure?", // Aggiungi un'emoji qui
-      content: "Sei sicuro di voler eliminare questo elemento?",
-      buttons: {
-        ok: {
-          text: "Delete",
-          btnClass: "btn-red",
-          action: function () {
-            handleCheckboxDelete(todo._id);
-          },
-        },
-        cancel: {
-          text: "Back",
-          action: function () {
-            // Non eliminare l'elemento
-          },
-        },
-      },
-    });
-  };
-
-  // view
-
-  const view = (title, description) => {
-    setThoughtView(true);
-    setThoughtTitle(title);
-
-    setThoughtDescription(description);
-  };
+  const { userData, thoughts } = useStore();
 
   return (
     <>
-      {!token && <Navigate to="/" />}
-      <Navbar />
-      <Add thoughts={thoughts} />
-      <>
+      <div className="mainWall">
         <div className="mainAbout">
           <div id="aboutTitle">
             <h1>
               {userData?.fullName
-                ? `${userData.fullName.split(" ")[0]}'s Wall`
+                ? `${userData?.fullName.split(" ")[0]}'s Wall`
                 : "Loading..."}
             </h1>
           </div>
         </div>
 
-        <div className="mainWall">
-          <div className="thoughts">
-            {filteredThoughts.map((thought) => (
-              <div
-                onClick={() => view(thought.title, thought.description)}
-                className="thought"
-                key={thought._id}
-              >
-                <h2>{thought.title}</h2>
-                <p>{thought.description}</p>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    confirmDelete(thought);
-                  }}
-                  className="delete-button"
-                >
-                  <FontAwesomeIcon icon={faTrashCan} />
-                </button>
-                <button
-                  className="edit-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleEdit(thought.title, thought.description, thought._id);
-                  }}
-                >
-                  <FontAwesomeIcon className="add-thought-icon" icon={faPen} />
-                </button>
-              </div>
-            ))}
-          </div>
+        <Books />
+        <Music />
+        <Todos />
+        <Navbar />
 
-          <div className="todos">
-            {filteredTodos.map((todo) => (
-              <div className="todo" key={todo._id}>
-                <h2>{todo.title}</h2>
-                <div className="checkbox-list">
-                  {todo.items.map((option, index) => (
-                    <div key={index} className="checkbox-item">
-                      <input
-                        type="checkbox"
-                        id={`checkbox-${todo._id}-${index}`}
-                        name={`checkbox-${todo._id}-${index}`}
-                        value={option}
-                      />
-                      <label htmlFor={`checkbox-${todo._id}-${index}`}>
-                        {option}
-                      </label>
-                    </div>
-                  ))}
-                </div>
-                <button
-                  onClick={() => confirmDeleteTodo(todo)}
-                  className="delete-button"
-                >
-                  <FontAwesomeIcon icon={faTrashCan} />
-                </button>
-              </div>
-            ))}
-          </div>
-
-          {songData !== null && (
-          <iframe
-            title="Spotify Minimal Embed"
-            src={`https://open.spotify.com/embed/track/${songData.id}?utm_source=generator&theme=0`}
-            width="500"
-            height="80"
-            frameBorder="0"
-            allow="encrypted-media"
-            style={{
-              borderRadius: "12px",
-              overflow: "hidden",
-            }}
-          ></iframe>
-        )}
-
-          <div className={thoughtView ? "thought-view" : "hidden"}>
-            <div className="thought-view-content">
-              <h2>{thoughtTitle}</h2>
-              <p>
-                <strong></strong> {thoughtDescription}
-              </p>
-              <button
-                onClick={() => setThoughtView(false)}
-                className="close-view"
-                aria-label="Close View"
-              >
-                <FontAwesomeIcon icon={faClose} />
-              </button>
-            </div>
-          </div>
-        </div>
-      </>
+        <Add thoughts={thoughts} />
+      </div>
     </>
   );
 }

@@ -26,10 +26,8 @@ export default function Thoughts() {
 
   const [thoughts, setThoughts] = useState([]);
   const filteredThoughts = thoughts.filter(
-    (thought) => thought.user._id === userData._id
+    (thought) => thought.user._id === userData?._id
   );
-
-  console.log(thoughtEdit);
 
   // THOUGHTS
 
@@ -51,7 +49,6 @@ export default function Thoughts() {
   // api delete
 
   const handleDelete = async (id) => {
-    console.log("Deleting item with ID:", id); // Log dell'ID che stai cercando di eliminare
     try {
       await fetch(`${process.env.REACT_APP_BASE_URL}/api/thoughts/${id}`, {
         method: "DELETE",
@@ -64,7 +61,6 @@ export default function Thoughts() {
   };
 
   const confirmDelete = (thought) => {
-    console.log(thought); // Aggiungi un log per verificare cosa contiene `thought`
     $.confirm({
       theme: "modern",
       animation: "opacity",
@@ -107,7 +103,6 @@ export default function Thoughts() {
       );
 
       const data = await response.json();
-      console.log(data);
 
       if (response.ok) {
         setThoughtEdit(false);

@@ -30,15 +30,16 @@ body {
     text-transform: uppercase;
     font-weight: 700;
     margin-bottom: 1rem;
+    font-size: 2rem;
   }
 }
 
 .mainWall {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
 
   // About Section
   .aboutDescription {
@@ -69,20 +70,9 @@ body {
 
 
 // Media Queries
-@media (max-width: 768px) {
-  .mainAbout {
-    padding: 1rem;
-
-    h1 {
-      font-size: 2rem;
-    }
-
-    h3 {
-      font-size: 1rem;
-    }
-
-    .aboutDescription {
-      padding: 1rem;
-    }
-  }
-}
+/* @media (min-width: 768px) {
+  .mainWall {
+    flex-direction: row;
+    flex-wrap: wrap;
+}}
+ */

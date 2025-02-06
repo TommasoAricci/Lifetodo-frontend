@@ -28,8 +28,6 @@ export default function AddMusic() {
     setCheckboxItems,
   } = useStore();
 
-  console.log(newSongOpen);
-
   const [songsToChoose, setSongsToChoose] = useState([]);
   const [loading, setLoading] = useState(false);
   const handleNewSong = () => {
@@ -97,9 +95,6 @@ export default function AddMusic() {
             body: JSON.stringify({ title, id, userId }),
           }
         );
-
-        const result = await response.json();
-        console.log(result);
         setSongSent(true);
       } catch (error) {
         console.error("Error creating song:", error);

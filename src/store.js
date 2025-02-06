@@ -111,7 +111,6 @@ export const StoreProvider = ({ children }) => {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          console.log("Dati dell'utente:", data.user);
           setUserData(data.user);
         } else {
           console.error("Errore:", data.message);

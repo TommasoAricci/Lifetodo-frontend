@@ -26,16 +26,13 @@ export default function Music() {
   const [filteredSongs, setFilteredSongs] = useState([]);
 
   useEffect(() => {
-    if (songsFromDb.length > 0 && userData._id) {
+    if (songsFromDb.length > 0 && userData?._id) {
       const filtered = songsFromDb.filter(
-        (song) => song.user._id === userData._id
+        (song) => song.user._id === userData?._id
       );
       setFilteredSongs(filtered);
-      console.log("filteredSongs", filtered);
     }
   }, [songsFromDb, userData]);
-
-  console.log("songsFromDb", songsFromDb);
 
   // db call
 
@@ -113,7 +110,7 @@ export default function Music() {
     const songIds = songsFromDb.map((song) => song.refId);
 
     try {
-      const response = await axios.get(
+      await axios.get(
         `https://api.spotify.com/v1/tracks?ids=${songIds.join(",")}`,
         {
           headers: {
@@ -121,7 +118,6 @@ export default function Music() {
           },
         }
       );
-      console.log(response.data);
     } catch (error) {
       console.error(
         "Errore durante il recupero dei dettagli delle canzoni:",
@@ -161,7 +157,6 @@ export default function Music() {
   };
 
   const handleDeleteSong = async (id) => {
-    console.log("Song ID to delete:", id); // Aggiungi questa riga per il debug
     try {
       const response = await fetch(
         `${process.env.REACT_APP_BASE_URL}/api/deletesong/${id}`,
@@ -170,7 +165,6 @@ export default function Music() {
         }
       );
       if (response.ok) {
-        console.log("Song deleted successfully");
         setDeletedSong(true);
         setTimeout(() => {
           setDeletedSong(false);
@@ -197,8 +191,7 @@ export default function Music() {
       <div className="songs-list">
         {filteredSongs.length > 0 &&
           filteredSongs.map((song) => (
-            <div key={song.id} className="song-item">
-              {/* Embed di Spotify */}
+            <div key={song._id} className="song-item">
               <iframe
                 title={`Spotify Minimal Embed for ${song.refId}`}
                 src={`https://open.spotify.com/embed/track/${song.refId}?utm_source=generator&theme=0`}

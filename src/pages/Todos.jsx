@@ -24,7 +24,7 @@ export default function Todos() {
     setViewContent,
   } = useStore();
   const [todos, setTodos] = useState([]);
-  const filteredTodos = todos.filter((todo) => todo.user._id === userData._id);
+  const filteredTodos = todos.filter((todo) => todo.user._id === userData?._id);
 
   // CHECKBOX
 
@@ -131,7 +131,7 @@ export default function Todos() {
           </div>
         </div>
 
-        <div className="mainWall">
+
           <div className="todos">
             {filteredTodos.map((todo) => (
               <div
@@ -150,6 +150,7 @@ export default function Todos() {
                             id={`checkbox-${todo._id}-${index}`}
                             name={`checkbox-${todo._id}-${index}`}
                             value={option}
+                            onClick={(e) => e.stopPropagation()}
                           />
                           <label htmlFor={`checkbox-${todo._id}-${index}`}>
                             {option}
@@ -180,7 +181,7 @@ export default function Todos() {
               </div>
             ))}
           </div>
-        </div>
+
 
         <div className={viewContent ? "view" : "hidden"}>
           <div className="view-content">

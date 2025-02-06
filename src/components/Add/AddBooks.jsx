@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useStore } from "../../store";
 import AddButton from "./AddButton";
 import Button from "../Button";
@@ -11,12 +11,10 @@ import {
 import axios from "axios";
 
 export default function AddBooks() {
-  const { userData, setBookSent } = useStore();
+  const { userData, setBookSent, bookSent } = useStore();
   const [booksToChoose, setBooksToChoose] = useState([]);
   const [loading, setLoading] = useState(false);
   const { newBookOpen, setNewBookOpen, bookTitle, setBookTitle } = useStore();
-
-  console.log(booksToChoose);
 
   const handleNewBook = () => {
     setNewBookOpen(!newBookOpen);
@@ -59,14 +57,17 @@ export default function AddBooks() {
             body: JSON.stringify({ title, author, description, image, id, userId }),
           }
         );
-
-        const result = await response.json();
-        console.log(result);
         setBookSent(true);
       } catch (error) {
         console.error("Error creating song:", error);
       }
   };
+
+  useEffect(() => {
+    if (bookSent) {
+      setBookSent(false);
+    }
+  }, [bookSent, setBookSent]);
 
   return (
     <>
@@ -78,7 +79,7 @@ export default function AddBooks() {
             className="search-song-title"
             onChange={(e) => setBookTitle(e.target.value)}
             value={bookTitle}
-            placeholder="Cerca una canzone o artista"
+            placeholder="Cerca un titolo o un autore"
           />
           <div className="books-list-to-add">
             {loading ? (

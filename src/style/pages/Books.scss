@@ -1,15 +1,28 @@
 .booksList {
-  width: 80%;
-  max-width: 600px;
+  width: 100%;
+  max-width: 400px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
   padding: 10px;
+  overflow-x: hidden;
+
+  @media (min-width: 768px) {
+    max-width: 90%;
+    display: grid;
+    grid-template-columns: repeat(
+      auto-fill,
+      minmax(150px, 1fr)
+    ); /* Crea una griglia con colonne che si adattano */
+    gap: 20px; /* Aumenta il gap tra gli elementi */
+    align-items: start; /* Allinea gli articoli al top della griglia */
+    padding: 20px;
+  }
 
   .book-container {
-    width: 90%;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -29,7 +42,7 @@
   .book {
     display: flex;
     align-items: center;
-    
+
     img {
       width: 90px;
       height: 120px;
@@ -47,6 +60,7 @@
       text-align: left;
 
       h1 {
+        width: 60%;
         font-size: 16px;
         font-weight: 600;
         color: #03a9f4;
@@ -63,8 +77,9 @@
 
   .book-buttons {
     display: flex;
+    flex-direction: column;
     gap: 10px;
-    
+
     button {
       background: rgba(255, 255, 255, 0.1);
       border: none;
@@ -72,11 +87,50 @@
       border-radius: 8px;
       cursor: pointer;
       transition: background 0.3s ease, transform 0.2s ease;
-      
+
       &:hover {
         background: rgba(255, 255, 255, 0.2);
         transform: scale(1.1);
       }
     }
+  }
+}
+
+
+@media (min-width: 768px) {
+  .book-container {
+    height: fit-content;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+  }
+
+  .booksList .book {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+      width: 130px;
+      height: 180px;
+    }
+
+    .info {
+      margin-left: 0px;
+      h1 {
+        text-align: center;
+        width: 100%;
+        font-size: 12px; /* Riduce ulteriormente la dimensione del titolo */
+      }
+      p {
+        text-align: center;
+        font-size: 12px; /* Riduce la dimensione del testo */
+      }
+    }
+  }
+  .booksList .book-buttons {
+    flex-direction: row;
   }
 }
