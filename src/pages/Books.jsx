@@ -31,6 +31,8 @@ export default function Books() {
     (thought) => thought.user._id === userData?._id
   );
 
+  console.log(bookInfo);
+
   const handleNewBook = () => {
     setNewBookOpen(!newBookOpen);
     setBookTitle("");

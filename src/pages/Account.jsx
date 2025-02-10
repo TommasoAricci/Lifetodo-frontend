@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEdit,
   faSignOutAlt,
-  faArrowLeft,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import "../style/pages/Account.scss";
