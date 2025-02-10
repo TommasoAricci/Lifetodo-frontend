@@ -6,6 +6,8 @@ import {
   faPlus,
   faBrain,
   faSquareCheck,
+  faBook,
+  faMusic,
 } from "@fortawesome/free-solid-svg-icons";
 import "../../style/Add.scss";
 import "jquery-confirm/dist/jquery-confirm.min.css";
@@ -17,6 +19,7 @@ export default function AddButton({
   handleNewCheckbox,
   handleNewSong,
   handleNewBook,
+  newThoughtOpen,
 }) {
   // VARIABLES
 
@@ -24,9 +27,8 @@ export default function AddButton({
     isOpen,
     isBottomOpen,
     setIsBottomOpen,
-    newThoughtOpen,
     newCheckboxOpen,
-    newBookOpen
+    newBookOpen,
   } = useStore();
   const [bottomClass, setBottomClass] = useState("");
   const location = useLocation();
@@ -54,8 +56,6 @@ export default function AddButton({
       handleNewSong();
     } else if (location.pathname === "/books") {
       handleNewBook();
-    } else {
-      setIsBottomOpen(!isBottomOpen);
     }
   };
 
@@ -63,28 +63,14 @@ export default function AddButton({
 
   return (
     <>
-      <button
-        onClick={handleLocationChange}
-        className={isOpen ? "hidden" : "bottom-menu"}
-      >
-        <FontAwesomeIcon className="plus-icon" icon={faPlus} />
-      </button>
-
-      {/*wall buttons*/}
-
-      <div className={bottomClass}>
-        <div onClick={handleNewThought} className="icon-div">
-          <FontAwesomeIcon className="options-icon" icon={faBrain} />
-        </div>
-        <div className="separatore"></div>
-        <div onClick={handleNewCheckbox} className="icon-div">
-          <FontAwesomeIcon className="options-icon" icon={faSquareCheck} />
-        </div>
-        <div className={isBottomOpen ? "bottom-menu-descriptions" : "hidden"}>
-          <p id="add-thought-description ">Add Thought</p>
-          <p id="add-thought-description">Add List</p>
-        </div>
-      </div>
+      {location.pathname !== "/wall" && (
+        <button
+          onClick={handleLocationChange}
+          className={isOpen ? "hidden" : "bottom-menu"}
+        >
+          <FontAwesomeIcon className="plus-icon" icon={faPlus} />
+        </button>
+      )}
     </>
   );
 }

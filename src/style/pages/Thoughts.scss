@@ -1,89 +1,95 @@
-.mainWall {
-    padding: 20px;
+.thoughts {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+}
+
+.thought {
+  width: 400px;
+  height: 250px;
+  background: #2c2c2e;
+  border-radius: 12px;
+  padding: 30px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &:hover {
+    background: #3c3c3e;
   }
-  
-  .thoughts {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 20px;
+
+  h2 {
+    font-size: 17px;
+    text-align: center;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0 0 12px 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif;
   }
-  
-  .thought {
-    min-width: 300px;
-    background: #2C2C2E;
-    border-radius: 12px;
-    padding: 30px;
-    position: relative;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+
+  p {
+    font-size: 15px;
+    text-align: center;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      sans-serif;
+    word-wrap: break-word;
+    overflow-y: auto;
+  }
+
+  .delete-button,
+  .edit-button {
+    position: absolute;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    border: none;
+    width: 32px;
+    height: 32px;
     display: flex;
-    flex-direction: column; /* Aggiunta per adattare gli elementi verticalmente */
-    justify-content: space-between; /* Aggiunta per separare il contenuto e i pulsanti */
-  
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    z-index: 1;
+
     &:hover {
-      background: #3C3C3E;
+      color: rgba(255, 255, 255, 0.9);
     }
-  
-    h2 {
-      font-size: 17px;
-      text-align: center;
-      font-weight: 600;
-      color: #ffffff;
-      margin: 0 0 12px 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-  
-    p {
-      font-size: 15px;
-      text-align: center;
-      line-height: 1.5;
-      color: rgba(255, 255, 255, 0.8);
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      word-wrap: break-word;
-      flex-grow: 1; /* Permette al testo di espandersi senza sovrapporsi agli altri elementi */
-    }
-  
-    .delete-button,
-    .edit-button {
-      position: absolute;
-      background: transparent;
-      color: rgba(255, 255, 255, 0.6);
-      border: none;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: color 0.2s ease;
-      z-index: 1; /* Assicura che i pulsanti siano sopra gli altri contenuti */
-      
-      &:hover {
-        color: rgba(255, 255, 255, 0.9);
+  }
+
+  .delete-button {
+    top: 12px;
+    right: 12px;
+  }
+
+  .edit-button {
+    top: 12px;
+    left: 12px;
+  }
+}
+
+.hidden {
+  display: none;
+}
+@media (min-width: 768px) {
+  .thoughts {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .thought {
+      width: 300px;
+      p {
+        font-size: 14px;
       }
     }
-  
-    .delete-button {
-      top: 12px;
-      right: 12px;
-    }
-  
-    .edit-button {
-      top: 12px;
-      left: 12px;
-    }
   }
-    
-  .hidden {
-    display: none;
-  }
-  
-  /* Layout per schermi grandi (tablet, laptop, desktop) */
-  @media (min-width: 768px) {
-    .thoughts {
-      grid-template-columns: repeat(auto-fill, minmax(300px, 2fr)); /* Colonne multiple che si adattano */
-    }
-  }
+}

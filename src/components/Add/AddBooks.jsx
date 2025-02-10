@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useStore } from "../../store";
-import AddButton from "./AddButton";
 import Button from "../Button";
 import {
   faXmark,
@@ -10,17 +9,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
-export default function AddBooks() {
-  const { userData, setBookSent, bookSent } = useStore();
-  const [booksToChoose, setBooksToChoose] = useState([]);
+export default function AddBooks({ handleNewBook }) {
+  const { userData, setBookSent, bookSent, booksToChoose, setBooksToChoose } =
+    useStore();
   const [loading, setLoading] = useState(false);
-  const { newBookOpen, setNewBookOpen, bookTitle, setBookTitle } = useStore();
-
-  const handleNewBook = () => {
-    setNewBookOpen(!newBookOpen);
-    setBookTitle("");
-    setBooksToChoose([]);
-  };
+  const { newBookOpen, bookTitle, setBookTitle } = useStore();
 
   // get books from api
 
@@ -45,22 +38,19 @@ export default function AddBooks() {
   const handleAddBookToList = async (title, author, description, image, id) => {
     const userId = userData._id;
     const token = localStorage.getItem("token");
-      try {
-        await fetch(
-          `${process.env.REACT_APP_BASE_URL}/api/newbook`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({ title, author, description, image, id, userId }),
-          }
-        );
-        setBookSent(true);
-      } catch (error) {
-        console.error("Error creating song:", error);
-      }
+    try {
+      await fetch(`${process.env.REACT_APP_BASE_URL}/api/newbook`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ title, author, description, image, id, userId }),
+      });
+      setBookSent(true);
+    } catch (error) {
+      console.error("Error creating song:", error);
+    }
   };
 
   useEffect(() => {
@@ -71,7 +61,6 @@ export default function AddBooks() {
 
   return (
     <>
-      <AddButton handleNewBook={handleNewBook} />
       <div className={newBookOpen ? "search-song" : "hidden"}>
         <form className="search-song-form" onSubmit={handleBookSubmit}>
           <input
@@ -87,20 +76,30 @@ export default function AddBooks() {
             ) : (
               booksToChoose.map((book) => (
                 <div key={book.id} className="book-to-add">
-                  <img src={book.volumeInfo.imageLinks?.thumbnail || book.volumeInfo.imageLinks?.smallThumbnail} alt="" />
-                  <div className="book-info">
-                    <p id="book-title">{book.volumeInfo.title}</p>
-                    <p id="book-author">{book.volumeInfo.authors}</p>
+                  <div className="book">
+                    <img
+                      src={
+                        book.volumeInfo.imageLinks?.thumbnail ||
+                        book.volumeInfo.imageLinks?.smallThumbnail
+                      }
+                      alt=""
+                    />
+                    <div className="book-info">
+                      <p id="book-title">{book.volumeInfo.title}</p>
+                      <p id="book-author">{book.volumeInfo.authors}</p>
+                    </div>
                   </div>
                   <Button
                     icon={faAdd}
-                    func={() => handleAddBookToList(
-                      book.volumeInfo.title,
-                      book.volumeInfo.authors[0],
-                      book.volumeInfo.infoLink,
-                      book.volumeInfo.imageLinks.thumbnail,
-                      book.id
-                    )}
+                    func={() =>
+                      handleAddBookToList(
+                        book.volumeInfo.title,
+                        book.volumeInfo.authors[0],
+                        book.volumeInfo.infoLink,
+                        book.volumeInfo.imageLinks.thumbnail,
+                        book.id
+                      )
+                    }
                     type="button"
                   />
                 </div>

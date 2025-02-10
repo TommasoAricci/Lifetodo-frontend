@@ -9,7 +9,7 @@ import "jquery-confirm/dist/jquery-confirm.min.js";
 import Button from "../Button";
 import AddButton from "../Add/AddButton";
 
-export default function AddThought({ editThought }) {
+export default function AddThought({ editThought, handleNewThought }) {
   const {
     newThoughtOpen,
     setNewThoughtOpen,
@@ -19,19 +19,11 @@ export default function AddThought({ editThought }) {
     setThoughtDescription,
     thoughtId,
     thoughtEdit,
-    setThoughtEdit,
     userData,
     setThoughtSent,
     thoughtSent,
     setIsBottomOpen,
   } = useStore();
-
-  const handleNewThought = () => {
-    setNewThoughtOpen(!newThoughtOpen);
-    setThoughtTitle("");
-    setThoughtDescription("");
-    setThoughtEdit(false);
-  };
 
   useEffect(() => {
     if (newThoughtOpen) {
@@ -90,35 +82,38 @@ export default function AddThought({ editThought }) {
 
   return (
     <>
-      <AddButton handleNewThought={handleNewThought} />
-      <div className={newThoughtOpen ? "add-thought" : "hidden"}>
-        <form
-          className="add-thought-form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            thoughtEdit ? editThought(thoughtId) : handleFormSubmit();
-          }}
-        >
-          <textarea
-            name="title"
-            className="add-thought-title"
-            onChange={(e) => setThoughtTitle(e.target.value)}
-            value={thoughtTitle}
-            placeholder="Title"
-          ></textarea>
-          <textarea
-            name="description"
-            className="add-thought-input"
-            onChange={(e) => setThoughtDescription(e.target.value)}
-            value={thoughtDescription}
-            placeholder="Text"
-          />
-          <div className="add-thought-buttons-div">
-            <Button icon={faFloppyDisk} func={null} type="submit" />
-            <Button icon={faXmark} func={handleNewThought} type="button" />
+      {newThoughtOpen && (
+        <>
+          <div className={newThoughtOpen ? "add-thought" : "hidden"}>
+            <form
+              className="add-thought-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                thoughtEdit ? editThought(thoughtId) : handleFormSubmit();
+              }}
+            >
+              <textarea
+                name="title"
+                className="add-thought-title"
+                onChange={(e) => setThoughtTitle(e.target.value)}
+                value={thoughtTitle}
+                placeholder="Title"
+              ></textarea>
+              <textarea
+                name="description"
+                className="add-thought-input"
+                onChange={(e) => setThoughtDescription(e.target.value)}
+                value={thoughtDescription}
+                placeholder="Text"
+              />
+              <div className="add-thought-buttons-div">
+                <Button icon={faFloppyDisk} func={null} type="submit" />
+                <Button icon={faXmark} func={handleNewThought} type="button" />
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
+        </>
+      )}
     </>
   );
 }

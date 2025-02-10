@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import AddThought from "../components/Add/AddThought";
+import AddButton from "../components/Add/AddButton";
 import "../style/pages/Thoughts.scss";
 import { faClose, faTrashCan, faPen } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
 import Button from "../components/Button";
 import Overlay from "../components/Overlay";
+import NavbarLaptop from "../components/Navbar-laptop";
 const { useStore } = require("../store");
 
 export default function Thoughts() {
@@ -22,14 +25,23 @@ export default function Thoughts() {
     viewContent,
     setViewContent,
     userData,
+    newThoughtOpen,
   } = useStore();
 
   const [thoughts, setThoughts] = useState([]);
+  const location = useLocation();
   const filteredThoughts = thoughts.filter(
     (thought) => thought.user._id === userData?._id
   );
 
   // THOUGHTS
+
+  const handleNewThought = () => {
+    setNewThoughtOpen(!newThoughtOpen);
+    setThoughtTitle("");
+    setThoughtDescription("");
+    setThoughtEdit(false);
+  };
 
   useEffect(() => {
     async function getThoughts() {
@@ -138,14 +150,27 @@ export default function Thoughts() {
   return (
     <>
       <Navbar />
-      <AddThought editThought={editThought} />
+      <NavbarLaptop />
+      <AddButton handleNewThought={handleNewThought} />
+      <AddThought
+        editThought={editThought}
+        handleNewThought={handleNewThought}
+      />
       <Overlay />
       <>
-        <div className="mainAbout">
+        <div
+          className={location.pathname === "/thoughts" ? "mainAbout" : "hidden"}
+        >
           <div id="aboutTitle">
             <h1>Notes</h1>
           </div>
         </div>
+
+        {location.pathname === "/wall" && filteredThoughts.length > 0 && (
+        <div className="smallTitleWrapper">
+          <small id="smallTitleWall">notes</small>
+        </div>
+      )}
 
         <div className="mainWall">
           <div className="thoughts">

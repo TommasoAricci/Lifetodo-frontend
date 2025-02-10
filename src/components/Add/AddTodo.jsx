@@ -9,14 +9,13 @@ import "jquery-confirm/dist/jquery-confirm.min.js";
 import Button from "../../components/Button";
 import AddButton from "../Add/AddButton";
 
-export default function AddTodo({ editTodos }) {
+export default function AddTodo({ editTodos, handleNewCheckbox }) {
   const {
     checkboxTitle,
     setCheckboxTitle,
     checkboxItems,
     setCheckboxItems,
     checkboxEdit,
-    setCheckboxEdit,
     checkboxId,
     checkboxSent,
     setCheckboxSent,
@@ -24,13 +23,6 @@ export default function AddTodo({ editTodos }) {
     setNewCheckboxOpen,
     setIsBottomOpen,
   } = useStore();
-
-  const handleNewCheckbox = () => {
-    setNewCheckboxOpen(!newCheckboxOpen);
-    setCheckboxTitle("");
-    setCheckboxItems([]);
-    setCheckboxEdit(false);
-  };
 
   useEffect(() => {
     if (newCheckboxOpen) {
@@ -88,7 +80,6 @@ export default function AddTodo({ editTodos }) {
 
   return (
     <>
-      <AddButton handleNewCheckbox={handleNewCheckbox} />
       <div className={newCheckboxOpen ? "add-checkbox-list" : "hidden"}>
         <form
           className="add-checkbox-list-form"

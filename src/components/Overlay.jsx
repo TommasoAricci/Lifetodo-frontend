@@ -4,14 +4,14 @@ import { useStore } from "../store";
 
 export default function Overlay() {
   const [showOverlay, setShowOverlay] = useState(false);
-  const { newThoughtOpen, newCheckboxOpen, viewContent, newSongOpen } =
+  const { newThoughtOpen, newCheckboxOpen, viewContent, newSongOpen, newBookOpen } =
     useStore();
 
   useEffect(() => {
     setShowOverlay(
-      newThoughtOpen || newCheckboxOpen || viewContent || newSongOpen
+      newThoughtOpen || newCheckboxOpen || viewContent || newSongOpen || newBookOpen
     );
-  }, [newThoughtOpen, newCheckboxOpen, viewContent, newSongOpen]);
+  }, [newThoughtOpen, newCheckboxOpen, viewContent, newSongOpen, newBookOpen]);
 
   return (
     <div>

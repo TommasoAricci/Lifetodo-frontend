@@ -1,47 +1,33 @@
 .booksList {
-  width: 100%;
-  max-width: 400px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 14px;
-  padding: 10px;
+  padding: 20px;
   overflow-x: hidden;
 
-  @media (min-width: 768px) {
-    max-width: 90%;
-    display: grid;
-    grid-template-columns: repeat(
-      auto-fill,
-      minmax(150px, 1fr)
-    ); /* Crea una griglia con colonne che si adattano */
-    gap: 20px; /* Aumenta il gap tra gli elementi */
-    align-items: start; /* Allinea gli articoli al top della griglia */
-    padding: 20px;
-  }
-
   .book-container {
-    width: 100%;
+    width: 400px;
+    overflow-y: auto;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     background: linear-gradient(135deg, #1e1e1f, #29292b);
     border-radius: 15px;
     padding: 15px;
     color: #ffffff;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-    &:hover {
-      transform: scale(1.02);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
-    }
   }
 
   .book {
+    width: 100%;
     display: flex;
     align-items: center;
+    gap: 10px;
 
     img {
       width: 90px;
@@ -49,6 +35,7 @@
       object-fit: cover;
       border-radius: 10px;
       transition: transform 0.3s ease;
+      border: 1px solid #ccc;
 
       &:hover {
         transform: scale(1.05);
@@ -60,8 +47,8 @@
       text-align: left;
 
       h1 {
-        width: 60%;
-        font-size: 16px;
+        width: 100%;
+        font-size: 14px;
         font-weight: 600;
         color: #03a9f4;
         margin-bottom: 5px;
@@ -77,60 +64,52 @@
 
   .book-buttons {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    button {
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
-      padding: 8px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.2s ease;
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.2);
-        transform: scale(1.1);
-      }
-    }
-  }
+    flex-direction: row;
+    gap: 30px;  }
 }
 
-
 @media (min-width: 768px) {
-  .book-container {
-    height: fit-content;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
-  }
-
-  .booksList .book {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    img {
-      width: 130px;
-      height: 180px;
-    }
-
-    .info {
-      margin-left: 0px;
-      h1 {
-        text-align: center;
-        width: 100%;
-        font-size: 12px; /* Riduce ulteriormente la dimensione del titolo */
-      }
-      p {
-        text-align: center;
-        font-size: 12px; /* Riduce la dimensione del testo */
-      }
-    }
-  }
-  .booksList .book-buttons {
+  .booksList {
     flex-direction: row;
+    flex-wrap: wrap;
+    max-width: none;
+    gap: 20px;
+
+    .book-container {
+      width: 250px;
+      height: 300px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      text-align: center;
+
+      .book {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+
+        .info {
+          text-align: center;
+          margin-left: 0;
+
+          h1 {
+            width: 100%;
+            font-size: 14px;
+          }
+        }
+
+        img{
+          width: 70px;
+          height: 120px;
+        }
+      }
+    }
+
+    .book-buttons {
+      flex-direction: row;
+      padding: 10px;
+    }
   }
 }

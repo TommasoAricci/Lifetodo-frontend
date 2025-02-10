@@ -1,12 +1,14 @@
 .todos {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 16px;
   padding: 20px;
-  width: 80%;
-  max-width: 500px;
 
   .todo {
+    width: 300px;
+    height: 250px;
     background: #2c2c2e;
     border-radius: 12px;
     padding: 20px;
@@ -15,7 +17,8 @@
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
     gap: 16px;
     position: relative;
 
@@ -92,5 +95,11 @@
       top: 10px;
       left: 10px;
     }
+  }
+}
+@media only screen and (min-width: 768px) {
+  .todos {
+    flex-direction: row;
+    flex-wrap: wrap;
   }
 }

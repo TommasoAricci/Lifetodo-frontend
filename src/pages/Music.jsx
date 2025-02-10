@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import AddButton from "../components/Add/AddButton";
 import "../style/pages/Music.scss";
 import "../style/Add.scss";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +11,7 @@ import Button from "../components/Button";
 import $ from "jquery";
 import AddMusic from "../components/Add/AddMusic";
 import Overlay from "../components/Overlay";
+import NavbarLaptop from "../components/Navbar-laptop";
 const { useStore } = require("../store");
 
 export default function Music() {
@@ -21,9 +24,23 @@ export default function Music() {
     userData,
     deletedSong,
     setDeletedSong,
+    newSongOpen,
+    setNewSongOpen,
+    setSongTitle,
+    setSongsToChoose,
+    setSongSent,
   } = useStore();
   const [songsFromDb, setSongsFromDb] = useState([]);
   const [filteredSongs, setFilteredSongs] = useState([]);
+  const location = useLocation();
+
+  const handleNewSong = () => {
+    setNewSongOpen(!newSongOpen);
+    setSongTitle("");
+    setSongsToChoose([]);
+    setSongSent(false);
+    setDeletedSong(false);
+  };
 
   useEffect(() => {
     if (songsFromDb.length > 0 && userData?._id) {
@@ -180,13 +197,21 @@ export default function Music() {
   return (
     <>
       <Navbar />
-      <AddMusic /* editTodos={editTodos} */ />
+      <NavbarLaptop />
+      <AddButton handleNewSong={handleNewSong} />
+      <AddMusic  handleNewSong={handleNewSong} />
       <Overlay />
-      <div className="mainAbout">
+      <div className={location.pathname === "/music" ? "mainAbout" : "hidden"}>
         <div id="aboutTitle">
           <h1>My Music</h1>
         </div>
       </div>
+
+      {location.pathname === "/wall" && filteredSongs.length > 0 && (
+        <div className="smallTitleWrapper">
+          <small id="smallTitleWall">songs</small>
+        </div>
+      )}
 
       <div className="songs-list">
         {filteredSongs.length > 0 &&

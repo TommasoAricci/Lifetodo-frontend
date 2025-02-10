@@ -1,41 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "../style/navbar.scss";
 import image from "../images/copia.jpg";
 import { Link, useLocation } from "react-router-dom";
-import { Squash as Hamburger } from "hamburger-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { useStore } from "../store";
 
 export default function Navbar() {
-  const {
-    isOpen,
-    setIsOpen,
-    newThougthOpen,
-    setNewThoughtOpen,
-    viewContent,
-    setViewContent,
-    newCheckboxOpen,
-    setNewCheckboxOpen,
-    newSongOpen,
-    setNewSongOpen
-  } = useStore();
   const location = useLocation();
-
-  useEffect(() => {
-    setIsOpen(false);
-  }, [setIsOpen]);
-
-  useEffect(() => {
-    if (isOpen) {
-      setNewThoughtOpen(false);
-      setViewContent(false);
-      setNewCheckboxOpen(false);
-      setNewSongOpen(false);
-    }
-  }, [newThougthOpen, isOpen, viewContent, newCheckboxOpen, setNewCheckboxOpen,
-    setNewThoughtOpen, setViewContent, newSongOpen, setNewSongOpen]);
 
   const linkStyle = {
     textDecoration: "none",
@@ -44,7 +16,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className={isOpen ? "mainMobile" : "mainClose"}>
+      <div className="mainLaptop">
         <img className="image" src={image} alt="" width="100px" />
         <nav>
           <Link to="/wall" style={linkStyle}>
@@ -91,19 +63,14 @@ export default function Navbar() {
             </div>
           </Link>
         </nav>
-      </div>
 
-      <Hamburger toggled={isOpen} toggle={setIsOpen} />
-      <Link to="/account">
-        <button className={isOpen ? "bottom-menu account-button" : "hidden"}>
-          <FontAwesomeIcon icon={faUser} className="icon" />
-        </button>
-      </Link>
-      <Link to="/logout">
-        <button className={isOpen ? "bottom-menu logout-button" : "hidden"}>
-          <FontAwesomeIcon icon={faRightFromBracket} className="icon" />
-        </button>
-      </Link>
+        <button className="bottom-menu">
+            <FontAwesomeIcon icon={faUser} className="icon" />
+          </button>
+        <div className="logout-laptop">
+
+        </div>
+      </div>
     </>
   );
 }

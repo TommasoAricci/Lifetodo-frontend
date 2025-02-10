@@ -27,3 +27,12 @@
   top: 35px;
   right: 20px;
 }
+
+@media only screen and (min-width: 768px) {
+  .add-functions-button {
+    padding:0;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+}

@@ -11,33 +11,22 @@ import axios from "axios";
 import "jquery-confirm/dist/jquery-confirm.min.css";
 import "jquery-confirm/dist/jquery-confirm.min.js";
 import Button from "../../components/Button";
-import AddButton from "../Add/AddButton";
 
-export default function AddMusic() {
+export default function AddMusic({ handleNewSong }) {
   const {
     setSongSent,
     newSongOpen,
-    setNewSongOpen,
     songTitle,
     setSongTitle,
     songData,
     setSongData,
     songToken,
-    setDeletedSong,
     userData,
-    setCheckboxItems,
+    setSongsToChoose,
+    songsToChoose,
   } = useStore();
 
-  const [songsToChoose, setSongsToChoose] = useState([]);
   const [loading, setLoading] = useState(false);
-  const handleNewSong = () => {
-    setNewSongOpen(!newSongOpen);
-    setSongTitle("");
-    setCheckboxItems([]);
-    setSongsToChoose([]);
-    setSongSent(false);
-    setDeletedSong(false);
-  };
 
   const handleSongSubmit = async (e) => {
     e.preventDefault();
@@ -104,7 +93,6 @@ export default function AddMusic() {
 
   return (
     <>
-      <AddButton handleNewSong={handleNewSong} />
       <div className={newSongOpen ? "search-song" : "hidden"}>
         <form className="search-song-form" onSubmit={handleSongSubmit}>
           <input

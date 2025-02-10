@@ -1,24 +1,41 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import AddButton from "../components/Add/AddButton";
 import AddBooks from "../components/Add/AddBooks";
 import Overlay from "../components/Overlay";
-import { useStore } from "../store";
-import Button from "../components/Button";
-import { faTrashCan, faInfo, faClose } from "@fortawesome/free-solid-svg-icons";
 import "../style/pages/Books.scss";
+import { useStore } from "../store";
+import { useLocation } from "react-router-dom";
+import Button from "../components/Button";
+import NavbarLaptop from "../components/Navbar-laptop";
+import { faTrashCan, faInfo, faClose } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
 
 export default function Books() {
-  const { bookSent, viewContent, setViewContent, userData } = useStore();
+  const {
+    bookSent,
+    viewContent,
+    setViewContent,
+    userData,
+    newBookOpen,
+    setNewBookOpen,
+    setBooksToChoose,
+    setBookTitle,
+  } = useStore();
+
   const [booksList, setBooksList] = useState([]);
   const [bookInfo, setBookInfo] = useState({});
-
-  console.log(bookInfo);
-
+  const location = useLocation();
   const filteredBooks = booksList.filter(
     (thought) => thought.user._id === userData?._id
   );
+
+  const handleNewBook = () => {
+    setNewBookOpen(!newBookOpen);
+    setBookTitle("");
+    setBooksToChoose([]);
+  };
 
   const getBookLists = () => {
     try {
@@ -92,13 +109,22 @@ export default function Books() {
   return (
     <>
       <Navbar />
+      <NavbarLaptop />
       <Overlay />
-      <AddBooks />
-      <div className="mainAbout">
+      <AddButton handleNewBook={handleNewBook} />
+      <AddBooks handleNewBook={handleNewBook} />
+
+      <div className={location.pathname === "/books" ? "mainAbout" : "hidden"}>
         <div id="aboutTitle">
           <h1>My Books</h1>
         </div>
       </div>
+
+      {location.pathname === "/wall" && filteredBooks.length > 0 && (
+        <div className="smallTitleWrapper">
+          <small id="smallTitleWall">books</small>
+        </div>
+      )}
 
       <div className="booksList">
         {filteredBooks.map((book) => (

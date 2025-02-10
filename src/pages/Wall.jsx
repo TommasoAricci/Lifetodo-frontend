@@ -1,17 +1,22 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import "../style/pages/Wall.scss";
-import Add from "../components/Add/AddButton";
 import Books from "./Books";
 import Todos from "./Todos";
 import Music from "./Music";
+import Thoughts from "./Thoughts";
+import NavbarLaptop from "../components/Navbar-laptop";
 const { useStore } = require("../store");
 
 export default function Wall() {
-  const { userData, thoughts } = useStore();
+  const { userData, newThoughtOpen } = useStore();
+
+  console.log(newThoughtOpen);
 
   return (
     <>
+      <Navbar />
+      <NavbarLaptop />
       <div className="mainWall">
         <div className="mainAbout">
           <div id="aboutTitle">
@@ -23,12 +28,10 @@ export default function Wall() {
           </div>
         </div>
 
-        <Books />
-        <Music />
+        <Thoughts />
         <Todos />
-        <Navbar />
-
-        <Add thoughts={thoughts} />
+        <Music />
+        <Books />
       </div>
     </>
   );

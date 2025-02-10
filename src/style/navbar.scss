@@ -1,8 +1,8 @@
 // Variables
-$bg-color: #121212; // Dark background color
-$text-color: #e0e0e0; // Light text color
-$secondary-color: #03a9f4; // Cyan for highlights
-$accent-color: #6200ea; // Purple accent color
+$bg-color: #121212;
+$text-color: #e0e0e0;
+$secondary-color: #03a9f4;
+$accent-color: #6200ea;
 
 .mainMobile {
   position: fixed;
@@ -14,8 +14,8 @@ $accent-color: #6200ea; // Purple accent color
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #2c2c2e; // Dark background similar to the thoughts section
-  color: #ffffff; // White text color
+  background-color: #2c2c2e;
+  color: #ffffff;
   padding: 20px;
   gap: 10px;
   box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.8);
@@ -24,12 +24,12 @@ $accent-color: #6200ea; // Purple accent color
   .image {
     border-radius: 10px;
     align-self: center;
-    border: 2px solid rgba(255, 255, 255, 0.1); // Subtle border
+    border: 2px solid rgba(255, 255, 255, 0.1);
     transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 
     &:hover {
       transform: scale(1.1);
-      box-shadow: 0 0 15px 2px #6200ea; // Purple glow on hover
+      box-shadow: 0 0 15px 2px #6200ea;
     }
   }
 
@@ -45,15 +45,15 @@ $accent-color: #6200ea; // Purple accent color
 
     .navDiv {
       padding: 10px 20px;
-      background-color: #2c2c2e; // Consistent dark background with slight border for depth
-      border-radius: 12px; // Rounded corners like the "thought" box
+      background-color: #2c2c2e;
+      border-radius: 12px; 
       cursor: pointer;
       transition: background-color 0.2s ease, transform 0.2s ease;
-      border: 1px solid rgba(255, 255, 255, 0.2); // Subtle border to match design
+      border: 1px solid rgba(255, 255, 255, 0.2);
 
       &:hover {
-        background-color: #6200ea; // Purple background on hover
-        color: #ffffff; // White text on hover
+        background-color: #6200ea;
+        color: #ffffff;
         transform: scale(1.05);
       }
 
@@ -64,7 +64,7 @@ $accent-color: #6200ea; // Purple accent color
     }
 
     .active {
-      background-color: #03a9f4; // Cyan highlight for active nav item
+      background-color: #03a9f4;
       color: #ffffff;
       transform: scale(1.05);
     }
@@ -79,19 +79,19 @@ $accent-color: #6200ea; // Purple accent color
   position: fixed !important;
   top: 35px;
   right: 20px;
-  background-color: #2c2c2e; // Scuro per coerenza con il tema generale
-  color: rgba(255, 255, 255, 0.8); // Testo leggero per il contrasto
-  border: 1px solid rgba(255, 255, 255, 0.1); // Leggera linea di contorno
-  border-radius: 12px; // Più arrotondato come nel resto del design
+  background-color: #2c2c2e;
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6); // Ombra più morbida e pronunciata
-  transition: background-color 0.2s ease, transform 0.2s ease; // Aggiunta una transizione per il colore e l'animazione
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  transition: background-color 0.2s ease, transform 0.2s ease;
   z-index: 10000;
 
   &:hover {
-    background-color: #3c3c3e; // Colore di hover leggermente più chiaro
-    transform: scale(1.05); // Leggero effetto di ingrandimento
-    color: rgba(255, 255, 255, 1); // Colore testo più chiaro
+    background-color: #3c3c3e;
+    transform: scale(1.05);
+    color: rgba(255, 255, 255, 1);
   }
 }
 
@@ -105,13 +105,13 @@ $accent-color: #6200ea; // Purple accent color
 }
 
 .icon {
-  color: #1e303f !important; // Dark color for the icons
+  color: #1e303f !important;
   font-size: 25px !important;
 }
 
 .logout-button,
 .account-button {
-  background-color: #6200ea; // Purple background for bottom buttons
+  background-color: #6200ea;
   color: white;
   border-radius: 50%;
   padding: 10px;
@@ -123,22 +123,29 @@ $accent-color: #6200ea; // Purple accent color
 
 .logout-button:hover,
 .account-button:hover {
-  background-color: #03a9f4; // Cyan background on hover
+  background-color: #03a9f4;
 }
 
 .hidden {
   display: none;
 }
 
+.mainLaptop {
+  display: none;
+}
+
 /* Mobile Layout */
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
+  .mainMobile, .hamburger-react, .logout-button, .account-button {
+    display: none;
+  }
 
   .mainLaptop {
     position: fixed;
     top: 0;
     left: 0;
     height: 100vh;
-    width: 220px;
+    width: 180px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -148,7 +155,7 @@ $accent-color: #6200ea; // Purple accent color
     padding-left: 15px;
     padding-right: 15px;
     gap: 10px;
-    
+  
     .mainClose {
       display: none;
     }
@@ -167,7 +174,3 @@ $accent-color: #6200ea; // Purple accent color
     }
   }
 }
-
-//laptop
-
-

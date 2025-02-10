@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import AddButton from "../components/Add/AddButton";
 import AddTodo from "../components/Add/AddTodo";
 import "../style/pages/Todos.scss";
 import { faTrashCan, faPen, faClose } from "@fortawesome/free-solid-svg-icons";
 import $ from "jquery";
 import Button from "../components/Button";
 import Overlay from "../components/Overlay";
+import NavbarLaptop from "../components/Navbar-laptop";
 const { useStore } = require("../store");
 
 export default function Todos() {
@@ -22,11 +25,20 @@ export default function Todos() {
     userData,
     viewContent,
     setViewContent,
+    newCheckboxOpen,
   } = useStore();
   const [todos, setTodos] = useState([]);
+  const location = useLocation();
   const filteredTodos = todos.filter((todo) => todo.user._id === userData?._id);
 
   // CHECKBOX
+
+  const handleNewCheckbox = () => {
+    setNewCheckboxOpen(!newCheckboxOpen);
+    setCheckboxTitle("");
+    setCheckboxItems([]);
+    setCheckboxEdit(false);
+  };
 
   useEffect(() => {
     async function getCheckbox() {
@@ -122,66 +134,74 @@ export default function Todos() {
   return (
     <>
       <Navbar />
-      <AddTodo editTodos={editTodos} />
+      <NavbarLaptop />
+      <AddButton handleNewCheckbox={handleNewCheckbox} />
+      <AddTodo editTodos={editTodos} handleNewCheckbox={handleNewCheckbox} />
       <Overlay />
       <>
-        <div className="mainAbout">
+        <div
+          className={location.pathname === "/todos" ? "mainAbout" : "hidden"}
+        >
           <div id="aboutTitle">
             <h1>Todos</h1>
           </div>
         </div>
 
+        {location.pathname === "/wall" && filteredTodos.length > 0 && (
+        <div className="smallTitleWrapper">
+          <small id="smallTitleWall">todos</small>
+        </div>
+      )}
 
-          <div className="todos">
-            {filteredTodos.map((todo) => (
-              <div
-                onClick={() => view(todo.title, todo.items)}
-                className="todo"
-                key={todo._id}
-              >
-                <h2>{todo.title}</h2>
-                <div className="checkbox-list">
-                  {todo.items.map(
-                    (option, index) =>
-                      option.trim() !== "" && (
-                        <div key={index} className="checkbox-item">
-                          <input
-                            type="checkbox"
-                            id={`checkbox-${todo._id}-${index}`}
-                            name={`checkbox-${todo._id}-${index}`}
-                            value={option}
-                            onClick={(e) => e.stopPropagation()}
-                          />
-                          <label htmlFor={`checkbox-${todo._id}-${index}`}>
-                            {option}
-                          </label>
-                        </div>
-                      )
-                  )}
-                </div>
-                <Button
-                  func={(e) => {
-                    e.stopPropagation();
-                    confirmDeleteTodo(todo);
-                  }}
-                  icon={faTrashCan}
-                  type="button"
-                  secondClass="delete-button"
-                />
-
-                <Button
-                  func={(e) => {
-                    e.stopPropagation();
-                    handleEdit(todo.title, todo.items, todo._id);
-                  }}
-                  icon={faPen}
-                  type="button"
-                  secondClass="edit-button"
-                />
+        <div className="todos">
+          {filteredTodos.map((todo) => (
+            <div
+              onClick={() => view(todo.title, todo.items)}
+              className="todo"
+              key={todo._id}
+            >
+              <h2>{todo.title}</h2>
+              <div className="checkbox-list">
+                {todo.items.map(
+                  (option, index) =>
+                    option.trim() !== "" && (
+                      <div key={index} className="checkbox-item">
+                        <input
+                          type="checkbox"
+                          id={`checkbox-${todo._id}-${index}`}
+                          name={`checkbox-${todo._id}-${index}`}
+                          value={option}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                        <label htmlFor={`checkbox-${todo._id}-${index}`}>
+                          {option}
+                        </label>
+                      </div>
+                    )
+                )}
               </div>
-            ))}
-          </div>
+              <Button
+                func={(e) => {
+                  e.stopPropagation();
+                  confirmDeleteTodo(todo);
+                }}
+                icon={faTrashCan}
+                type="button"
+                secondClass="delete-button"
+              />
 
+              <Button
+                func={(e) => {
+                  e.stopPropagation();
+                  handleEdit(todo.title, todo.items, todo._id);
+                }}
+                icon={faPen}
+                type="button"
+                secondClass="edit-button"
+              />
+            </div>
+          ))}
+        </div>
 
         <div className={viewContent ? "view" : "hidden"}>
           <div className="view-content">

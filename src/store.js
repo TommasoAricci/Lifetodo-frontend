@@ -61,6 +61,7 @@ export const StoreProvider = ({ children }) => {
   const [songToken, setSongToken] = useState("");
   const [songDbTitle, setSongDbTitle] = useState("");
   const [deletedSong, setDeletedSong] = useState(false);
+  const [songsToChoose, setSongsToChoose] = useState([]);
 
   // books
 
@@ -69,6 +70,7 @@ export const StoreProvider = ({ children }) => {
   const [bookSent, setBookSent] = useState(false);
   const [bookData, setBookData] = useState(null);
   const [bookId, setBookId] = useState("");
+  const [booksToChoose, setBooksToChoose] = useState([]);
 
   // login - logout
 
@@ -81,13 +83,13 @@ export const StoreProvider = ({ children }) => {
     if (token) {
       const warningTimer = setTimeout(() => {
         alert("Your session is about to expire. You will be logged out soon.");
-      }, 540000);
+      }, 54000000);
 
       const logoutTimer = setTimeout(() => {
         localStorage.removeItem("token");
         setToken(null);
         alert("Your session has expired. You have been logged out.");
-      }, 600000);
+      }, 60000000);
 
       return () => {
         clearTimeout(warningTimer);
@@ -178,6 +180,8 @@ export const StoreProvider = ({ children }) => {
         setSongDbTitle,
         deletedSong,
         setDeletedSong,
+        songsToChoose,
+        setSongsToChoose,
         // login
         userData,
         setUserData,
@@ -205,6 +209,8 @@ export const StoreProvider = ({ children }) => {
         setBookData,
         bookId,
         setBookId,
+        booksToChoose,
+        setBooksToChoose,
       }}
     >
       {children}
