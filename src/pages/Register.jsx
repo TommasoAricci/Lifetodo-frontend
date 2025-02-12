@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../store";
+import { Helmet } from "react-helmet-async";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -41,6 +42,11 @@ export default function Login() {
 
   return (
     <>
+      <Helmet>
+        <title>Register</title>
+        <meta name="description" content="register section of lifetodo app" />
+        <meta name="keywords" content="React, SEO, Helmet" />
+      </Helmet>
       <div className="login-div">
         <div className="mainAbout">
           <div id="aboutTitle">

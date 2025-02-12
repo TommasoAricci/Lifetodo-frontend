@@ -10,6 +10,7 @@ import { useLocation } from "react-router-dom";
 import Button from "../components/Button";
 import NavbarLaptop from "../components/Navbar-laptop";
 import { faTrashCan, faInfo, faClose } from "@fortawesome/free-solid-svg-icons";
+import { Helmet } from "react-helmet-async";
 import $ from "jquery";
 
 export default function Books() {
@@ -31,8 +32,6 @@ export default function Books() {
   const filteredBooks = booksList.filter(
     (thought) => thought.user._id === userData?._id
   );
-
-  console.log(filteredBooks);
 
   console.log(bookInfo);
 
@@ -76,7 +75,7 @@ export default function Books() {
       theme: "modern",
       animation: "opacity",
       title: "Are you sure?",
-      content: "Sei sicuro di voler eliminare questo elemento?",
+      content: "Press delete to remove this book",
       buttons: {
         ok: {
           text: "Delete",
@@ -120,6 +119,11 @@ export default function Books() {
 
   return (
     <>
+      <Helmet>
+        <title>books</title>
+        <meta name="description" content="book section of lifetodo app" />
+        <meta name="keywords" content="React, SEO, Helmet" />
+      </Helmet>
       <Navbar />
       <NavbarLaptop />
       <Overlay />
@@ -149,7 +153,7 @@ export default function Books() {
                   <p>{book.author}</p>
                 </div>
               </div>
-              <div className="book-buttons">
+              <div style={{ display: "flex", justifyContent: "center" }}>
                 <Button
                   icon={faTrashCan}
                   type="button"
@@ -166,10 +170,30 @@ export default function Books() {
               </div>
             </div>
             <div className={viewContent ? "view" : "hidden"}>
-              <div className="view-content">
-                <p>
-                  <strong>
-                    {infoLoaded ? (
+              <div className="view-content book-info">
+                {infoLoaded ? (
+                  <>
+                    <h1>{bookInfo?.volumeInfo?.title}</h1>
+                    <img
+                      src={bookInfo?.volumeInfo?.imageLinks?.thumbnail || ""}
+                      alt={bookInfo?.volumeInfo?.title || "Book Image"}
+                    />
+                    <div className="single-book-info">
+                      <p>
+                        <strong>Author:</strong>{" "}
+                        {bookInfo?.volumeInfo?.authors?.join(", ") || "Unknown"}
+                      </p>
+                      <p>
+                        <strong>Pages:</strong>{" "}
+                        {bookInfo?.volumeInfo?.pageCount || "N/A"}
+                      </p>
+                      <p>
+                        <strong>Genre:</strong>{" "}
+                        {bookInfo?.volumeInfo?.categories?.join(", ") ||
+                          "Unknown"}
+                      </p>
+                    </div>
+                    <p>
                       <span
                         dangerouslySetInnerHTML={{
                           __html:
@@ -177,11 +201,11 @@ export default function Books() {
                             "No description available.",
                         }}
                       />
-                    ) : (
-                      "Loading..."
-                    )}
-                  </strong>
-                </p>
+                    </p>
+                  </>
+                ) : (
+                  "Loading..."
+                )}
                 <Button
                   func={() => handleInfo()}
                   type="button"

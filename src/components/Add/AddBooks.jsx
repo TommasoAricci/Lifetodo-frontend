@@ -126,32 +126,58 @@ export default function AddBooks({ handleNewBook }) {
                       <p id="book-author">{book.volumeInfo.authors}</p>
                     </div>
                   </div>
-                  <Button
-                    icon={faAdd}
-                    func={() =>
-                      handleAddBookToList(
-                        book.volumeInfo?.title || "",
-                        book.volumeInfo?.authors?.[0] || "",
-                        book.volumeInfo?.description || "",
-                        book.volumeInfo?.imageLinks?.thumbnail || "",
-                        book.id || ""
-                      )
-                    }
-                    type="button"
-                  />
-                  <Button
-                    icon={faInfo}
-                    type="button"
-                    func={() => {
-                      getInfo(book.id);
-                    }}
-                    secondClass={"info-button"}
-                  />
+                  <div className="book-buttons">
+                    <Button
+                      icon={faAdd}
+                      func={() =>
+                        handleAddBookToList(
+                          book.volumeInfo?.title || "",
+                          book.volumeInfo?.authors?.[0] || "",
+                          book.volumeInfo?.description || "",
+                          book.volumeInfo?.imageLinks?.thumbnail || "",
+                          book.id || ""
+                        )
+                      }
+                      type="button"
+                    />
+                    <Button
+                      icon={faInfo}
+                      type="button"
+                      func={() => {
+                        getInfo(book.id);
+                      }}
+                      secondClass={"info-button"}
+                    />
+                  </div>
                   <div className={viewInfo ? "view" : "hidden"}>
-                    <div className="view-content">
-                      <p>
-                        <strong>
-                          {infoLoaded ? (
+                    <div className="view-content book-info">
+                      {infoLoaded ? (
+                        <>
+                          <h1>{bookInfo?.volumeInfo?.title}</h1>
+                          <img
+                            src={
+                              bookInfo?.volumeInfo?.imageLinks?.thumbnail || ""
+                            }
+                            alt={bookInfo?.volumeInfo?.title || "Book Image"}
+                          />
+                          <div className="single-book-info">
+                            <p>
+                              <strong>Author:</strong>{" "}
+                              {bookInfo?.volumeInfo?.authors?.join(", ") ||
+                                "Unknown"}
+                            </p>
+                            <p>
+                              <strong>Pages:</strong>{" "}
+                              {bookInfo?.volumeInfo?.pageCount || "N/A"}
+                            </p>
+                            <p>
+                              <strong>Genre:</strong>{" "}
+                              {bookInfo?.volumeInfo?.categories?.join(", ") ||
+                                "Unknown"}
+                            </p>
+                          </div>
+
+                          <p>
                             <span
                               dangerouslySetInnerHTML={{
                                 __html:
@@ -159,11 +185,11 @@ export default function AddBooks({ handleNewBook }) {
                                   "No description available.",
                               }}
                             />
-                          ) : (
-                            "Loading..."
-                          )}
-                        </strong>
-                      </p>
+                          </p>
+                        </>
+                      ) : (
+                        "Loading..."
+                      )}
                       <Button
                         func={() => handleInfo()}
                         type="button"

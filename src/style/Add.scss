@@ -414,6 +414,7 @@ $note-text-color: #333333;
   border-radius: 8px;
 
   .book-to-add {
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 15px;
@@ -424,7 +425,6 @@ $note-text-color: #333333;
     transition: transform 0.2s ease-in-out;
 
     .book {
-      width: 85%;
       display: flex;
       align-items: center;
       gap: 15px;
@@ -440,9 +440,11 @@ $note-text-color: #333333;
       .book-info {
         display: flex;
         flex-direction: column;
+        align-items: flex-start;
         gap: 3px;
 
         #book-title {
+          text-align: left;
           font-size: 14px;
           font-weight: bold;
         }
@@ -465,7 +467,7 @@ $note-text-color: #333333;
   background: #2c2c2e;
   width: 90%;
   max-width: 600px;
-  max-height: 600px;
+  max-height: 500px;
   overflow-y: auto;
   border-radius: 16px;
   z-index: 9999;
@@ -536,17 +538,17 @@ $note-text-color: #333333;
 .jconfirm {
   .jconfirm-box {
     width: 90%;
-    height: auto; // Altezza dinamica per adattarsi al contenuto
-    max-height: 100vh; // Evita overflow verticale
+    max-width: 400px;
+    height: auto;
+    max-height: 100vh;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box; // Include padding e bordo nelle dimensioni
-    overflow: hidden; // Nasconde eventuale contenuto eccedente
+    box-sizing: border-box;
+    overflow: hidden;
 
-    // Aggiungi un'ombra per un tocco estetico
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
     background-color: #fff;
   }
@@ -554,7 +556,7 @@ $note-text-color: #333333;
   .jconfirm-title {
     font-size: 18px;
     font-weight: bold;
-    color: #28a745; // Verde per il titolo
+    color: #28a745;
     text-align: center;
     margin: 10px 0;
   }
@@ -566,7 +568,6 @@ $note-text-color: #333333;
     max-height: calc(100vh - 150px);
     box-sizing: border-box;
 
-    // Per il testo o contenuti interni
     p {
       margin: 0;
       padding: 0;
@@ -580,11 +581,11 @@ $note-text-color: #333333;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px; // Spaziatura tra i pulsanti
+    gap: 10px;
     padding: 10px;
 
     .btn-green {
-      background-color: #28a745; // Verde pulsante
+      background-color: #28a745;
       color: #fff;
       border-radius: 6px;
       border: none;
@@ -594,7 +595,7 @@ $note-text-color: #333333;
       transition: background-color 0.3s;
 
       &:hover {
-        background-color: #218838; // Colore hover più scuro
+        background-color: #218838;
       }
 
       &:focus {
@@ -617,4 +618,49 @@ $note-text-color: #333333;
 
 .hidden {
   display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .book-to-add {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out;
+
+    .book {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      img {
+        width: 60px;
+        height: 85px;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
+
+      .book-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3px;
+
+        #book-title {
+          font-size: 16px !important;
+          font-weight: bold;
+        }
+
+        #book-author {
+          font-size: 14px !important;
+        }
+      }
+    }
+  }
 }

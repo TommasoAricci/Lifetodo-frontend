@@ -15,6 +15,7 @@ import userPic from "../images/copia.jpg";
 import Button from "../components/Button";
 import Navbar from "../components/Navbar";
 import NavbarLaptop from "../components/Navbar-laptop";
+import { Helmet } from "react-helmet-async";
 
 export default function Account() {
   const [userData, setUserData] = useState(null);
@@ -128,6 +129,11 @@ export default function Account() {
 
   return (
     <>
+      <Helmet>
+        <title>Account</title>
+        <meta name="description" content="account section of lifetodo app" />
+        <meta name="keywords" content="React, SEO, Helmet" />
+      </Helmet>
       <Navbar />
       <NavbarLaptop />
       <div className="account-container">
