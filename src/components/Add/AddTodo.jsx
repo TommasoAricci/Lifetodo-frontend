@@ -7,7 +7,6 @@ import $ from "jquery";
 import "jquery-confirm/dist/jquery-confirm.min.css";
 import "jquery-confirm/dist/jquery-confirm.min.js";
 import Button from "../../components/Button";
-import AddButton from "../Add/AddButton";
 
 export default function AddTodo({ editTodos, handleNewCheckbox }) {
   const {

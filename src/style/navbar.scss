@@ -46,7 +46,7 @@ $accent-color: #6200ea;
     .navDiv {
       padding: 10px 20px;
       background-color: #2c2c2e;
-      border-radius: 12px; 
+      border-radius: 12px;
       cursor: pointer;
       transition: background-color 0.2s ease, transform 0.2s ease;
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -95,12 +95,12 @@ $accent-color: #6200ea;
   }
 }
 
-.account-button {
+.account-button, .laptop-account-button {
   background-color: #ffd700 !important;
   top: 100px !important;
 }
 
-.logout-button {
+.logout-button, .laptop-logout-button {
   background-color: red !important;
 }
 
@@ -110,7 +110,9 @@ $accent-color: #6200ea;
 }
 
 .logout-button,
-.account-button {
+.account-button,
+.laptop-account-button,
+.laptop-logout-button {
   background-color: #6200ea;
   color: white;
   border-radius: 50%;
@@ -119,6 +121,7 @@ $accent-color: #6200ea;
   height: 48px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
   transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .logout-button:hover,
@@ -134,9 +137,34 @@ $accent-color: #6200ea;
   display: none;
 }
 
+.laptop-buttons{
+  display: flex;
+  gap: 10px;
+
+  .laptop-bottom-menu {
+    width: 50px;
+    height: 50px;
+    background-color: #6200ea;
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    transition: visibility 0s, opacity 0.3s ease, transform 0.2s ease;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 /* Mobile Layout */
 @media only screen and (min-width: 768px) {
-  .mainMobile, .hamburger-react, .logout-button, .account-button {
+  .mainMobile,
+  .hamburger-react,
+  .logout-button,
+  .account-button {
     display: none;
   }
 
@@ -145,7 +173,7 @@ $accent-color: #6200ea;
     top: 0;
     left: 0;
     height: 100vh;
-    width: 180px;
+    width: 200px;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -155,22 +183,44 @@ $accent-color: #6200ea;
     padding-left: 15px;
     padding-right: 15px;
     gap: 10px;
-  
+
     .mainClose {
       display: none;
     }
-  
+
     .image {
       border-radius: 10px;
       align-self: center;
     }
-  
+
     nav {
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
       align-items: center;
       gap: 30px;
+
+      .navDiv {
+        padding: 10px 20px;
+        background-color: #ffd700;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: #ffd700 0.2s ease, transform 0.2s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+
+        &:hover {
+          background-color: #ffd700;
+          color: #ffffff;
+          transform: scale(1.05);
+        }
+
+        h2 {
+          color: #1e303f;
+          text-transform: uppercase;
+          margin: 0;
+          font-size: 1.2rem;
+        }
+      }
     }
   }
 }

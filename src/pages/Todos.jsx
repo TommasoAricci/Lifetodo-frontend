@@ -156,7 +156,7 @@ export default function Todos() {
         <div className="todos">
           {filteredTodos.map((todo) => (
             <div
-              onClick={() => view(todo.title, todo.items)}
+              onClick={() => {location.pathname !== "/wall" && view(todo.title, todo.items)}}
               className="todo"
               key={todo._id}
             >

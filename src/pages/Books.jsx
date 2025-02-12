@@ -26,10 +26,13 @@ export default function Books() {
 
   const [booksList, setBooksList] = useState([]);
   const [bookInfo, setBookInfo] = useState({});
+  const [infoLoaded, setInfoLoaded] = useState(false);
   const location = useLocation();
   const filteredBooks = booksList.filter(
     (thought) => thought.user._id === userData?._id
   );
+
+  console.log(filteredBooks);
 
   console.log(bookInfo);
 
@@ -102,10 +105,17 @@ export default function Books() {
         .then((res) => res.json())
         .then((data) => {
           setBookInfo(data);
+          setInfoLoaded(true);
         });
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleInfo = () => {
+    setViewContent(!viewContent);
+    setBookInfo({});
+    setInfoLoaded(false);
   };
 
   return (
@@ -158,10 +168,22 @@ export default function Books() {
             <div className={viewContent ? "view" : "hidden"}>
               <div className="view-content">
                 <p>
-                  <strong></strong>
+                  <strong>
+                    {infoLoaded ? (
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html:
+                            bookInfo?.volumeInfo?.description ||
+                            "No description available.",
+                        }}
+                      />
+                    ) : (
+                      "Loading..."
+                    )}
+                  </strong>
                 </p>
                 <Button
-                  func={() => setViewContent(false)}
+                  func={() => handleInfo()}
                   type="button"
                   icon={faClose}
                   secondClass="close-view"
