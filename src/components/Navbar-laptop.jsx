@@ -49,7 +49,7 @@ export default function Navbar() {
                 location.pathname === "/music" ? "navDiv active" : "navDiv"
               }
             >
-              <h2>My Music</h2>
+              <h2>Music</h2>
             </div>
           </Link>
           <Link to="/books" style={linkStyle}>
@@ -58,16 +58,22 @@ export default function Navbar() {
                 location.pathname === "/books" ? "navDiv active" : "navDiv"
               }
             >
-              <h2>My Books</h2>
+              <h2>Books</h2>
             </div>
           </Link>
         </nav>
 
-        <button className="bottom-menu">
-            <FontAwesomeIcon icon={faUser} className="icon" />
-          </button>
-        <div className="logout-laptop">
-
+        <div className="laptop-buttons">
+          <Link to="/account">
+            <button className="laptop-bottom-menu laptop-account-button">
+              <FontAwesomeIcon icon={faUser} className="icon" />
+            </button>
+          </Link>
+          <Link to="/logout">
+            <button className="laptop-bottom-menu laptop-logout-button">
+              <FontAwesomeIcon icon={faRightFromBracket} className="icon" />
+            </button>
+          </Link>
         </div>
       </div>
     </>

@@ -2,18 +2,32 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useStore } from "../../store";
 import Button from "../Button";
+import Overlay from "../Overlay";
 import {
   faXmark,
   faMagnifyingGlass,
   faAdd,
+  faInfo,
+  faClose,
 } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 export default function AddBooks({ handleNewBook }) {
-  const { userData, setBookSent, bookSent, booksToChoose, setBooksToChoose } =
-    useStore();
+  const {
+    userData,
+    setBookSent,
+    bookSent,
+    booksToChoose,
+    setBooksToChoose,
+    viewInfo,
+    setViewInfo,
+  } = useStore();
   const [loading, setLoading] = useState(false);
+  const [bookInfo, setBookInfo] = useState({});
+  const [infoLoaded, setInfoLoaded] = useState(false);
   const { newBookOpen, bookTitle, setBookTitle } = useStore();
+
+  console.log(booksToChoose);
 
   // get books from api
 
@@ -59,8 +73,31 @@ export default function AddBooks({ handleNewBook }) {
     }
   }, [bookSent, setBookSent]);
 
+  //
+
+  const getInfo = async (id) => {
+    setViewInfo(true);
+    try {
+      await fetch(`https://www.googleapis.com/books/v1/volumes/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setBookInfo(data);
+          setInfoLoaded(true);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleInfo = () => {
+    setViewInfo(!viewInfo);
+    setBookInfo({});
+    setInfoLoaded(false);
+  };
+
   return (
     <>
+      <Overlay />
       <div className={newBookOpen ? "search-song" : "hidden"}>
         <form className="search-song-form" onSubmit={handleBookSubmit}>
           <input
@@ -93,15 +130,48 @@ export default function AddBooks({ handleNewBook }) {
                     icon={faAdd}
                     func={() =>
                       handleAddBookToList(
-                        book.volumeInfo.title,
-                        book.volumeInfo.authors[0],
-                        book.volumeInfo.infoLink,
-                        book.volumeInfo.imageLinks.thumbnail,
-                        book.id
+                        book.volumeInfo?.title || "",
+                        book.volumeInfo?.authors?.[0] || "",
+                        book.volumeInfo?.description || "",
+                        book.volumeInfo?.imageLinks?.thumbnail || "",
+                        book.id || ""
                       )
                     }
                     type="button"
                   />
+                  <Button
+                    icon={faInfo}
+                    type="button"
+                    func={() => {
+                      getInfo(book.id);
+                    }}
+                    secondClass={"info-button"}
+                  />
+                  <div className={viewInfo ? "view" : "hidden"}>
+                    <div className="view-content">
+                      <p>
+                        <strong>
+                          {infoLoaded ? (
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html:
+                                  bookInfo?.volumeInfo?.description ||
+                                  "No description available.",
+                              }}
+                            />
+                          ) : (
+                            "Loading..."
+                          )}
+                        </strong>
+                      </p>
+                      <Button
+                        func={() => handleInfo()}
+                        type="button"
+                        icon={faClose}
+                        secondClass="close-view"
+                      />
+                    </div>
+                  </div>
                 </div>
               ))
             )}

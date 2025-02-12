@@ -71,6 +71,7 @@ export const StoreProvider = ({ children }) => {
   const [bookData, setBookData] = useState(null);
   const [bookId, setBookId] = useState("");
   const [booksToChoose, setBooksToChoose] = useState([]);
+  const [viewInfo, setViewInfo] = useState(false);
 
   // login - logout
 
@@ -78,6 +79,11 @@ export const StoreProvider = ({ children }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+
+  // account
+
+  const [editMode, setEditMode] = useState(false);
+  const [edited, setEdited] = useState(false);
 
   useEffect(() => {
     if (token) {
@@ -120,11 +126,6 @@ export const StoreProvider = ({ children }) => {
       })
       .catch((error) => console.error("Errore:", error));
   }, [token]);
-
-  // account
-
-  const [editMode, setEditMode] = useState(false);
-  const [edited, setEdited] = useState(false);
 
   return (
     <StoreContext.Provider
@@ -211,6 +212,8 @@ export const StoreProvider = ({ children }) => {
         setBookId,
         booksToChoose,
         setBooksToChoose,
+        viewInfo,
+        setViewInfo,
       }}
     >
       {children}

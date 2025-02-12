@@ -78,7 +78,7 @@ export default function Navbar() {
                 location.pathname === "/music" ? "navDiv active" : "navDiv"
               }
             >
-              <h2>My Music</h2>
+              <h2>Music</h2>
             </div>
           </Link>
           <Link to="/books" style={linkStyle}>
@@ -87,7 +87,7 @@ export default function Navbar() {
                 location.pathname === "/books" ? "navDiv active" : "navDiv"
               }
             >
-              <h2>My Books</h2>
+              <h2>Books</h2>
             </div>
           </Link>
         </nav>

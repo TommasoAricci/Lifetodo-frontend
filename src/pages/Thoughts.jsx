@@ -176,7 +176,7 @@ export default function Thoughts() {
           <div className="thoughts">
             {filteredThoughts.map((thought) => (
               <div
-                onClick={() => view(thought.title, thought.description)}
+                onClick={() => {location.pathname !== "/wall" && view(thought.title, thought.description)}}
                 className="thought"
                 key={thought._id}
               >
