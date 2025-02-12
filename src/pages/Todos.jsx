@@ -9,6 +9,7 @@ import $ from "jquery";
 import Button from "../components/Button";
 import Overlay from "../components/Overlay";
 import NavbarLaptop from "../components/Navbar-laptop";
+import { Helmet } from "react-helmet-async";
 const { useStore } = require("../store");
 
 export default function Todos() {
@@ -72,8 +73,8 @@ export default function Todos() {
     $.confirm({
       theme: "modern",
       animation: "opacity",
-      title: "Are you sure?", // Aggiungi un'emoji qui
-      content: "Sei sicuro di voler eliminare questo elemento?",
+      title: "Are you sure?",
+      content: "Press delete to remove this list",
       buttons: {
         ok: {
           text: "Delete",
@@ -133,6 +134,11 @@ export default function Todos() {
 
   return (
     <>
+      <Helmet>
+        <title>todos</title>
+        <meta name="description" content="todos section of lifetodo app" />
+        <meta name="keywords" content="React, SEO, Helmet" />
+      </Helmet>
       <Navbar />
       <NavbarLaptop />
       <AddButton handleNewCheckbox={handleNewCheckbox} />
@@ -148,15 +154,17 @@ export default function Todos() {
         </div>
 
         {location.pathname === "/wall" && filteredTodos.length > 0 && (
-        <div className="smallTitleWrapper">
-          <small id="smallTitleWall">todos</small>
-        </div>
-      )}
+          <div className="smallTitleWrapper">
+            <small id="smallTitleWall">todos</small>
+          </div>
+        )}
 
         <div className="todos">
           {filteredTodos.map((todo) => (
             <div
-              onClick={() => {location.pathname !== "/wall" && view(todo.title, todo.items)}}
+              onClick={() => {
+                location.pathname !== "/wall" && view(todo.title, todo.items);
+              }}
               className="todo"
               key={todo._id}
             >

@@ -14,6 +14,7 @@ import Logout from "./Logout";
 import Account from "./pages/Account";
 import Music from "./pages/Music";
 import Books from "./pages/Books";
+import { HelmetProvider } from "react-helmet-async";
 
 // Definisci le rotte
 const router = createBrowserRouter([
@@ -89,9 +90,11 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <StoreProvider>
-    <React.StrictMode>
-      <RouterProvider router={router}></RouterProvider>
-    </React.StrictMode>
-  </StoreProvider>
+  <HelmetProvider>
+    <StoreProvider>
+      <React.StrictMode>
+        <RouterProvider router={router}></RouterProvider>
+      </React.StrictMode>
+    </StoreProvider>
+  </HelmetProvider>
 );

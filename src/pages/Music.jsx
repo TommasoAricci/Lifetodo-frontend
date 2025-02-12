@@ -12,6 +12,7 @@ import $ from "jquery";
 import AddMusic from "../components/Add/AddMusic";
 import Overlay from "../components/Overlay";
 import NavbarLaptop from "../components/Navbar-laptop";
+import { Helmet } from "react-helmet-async";
 const { useStore } = require("../store");
 
 export default function Music() {
@@ -154,7 +155,7 @@ export default function Music() {
       theme: "modern",
       animation: "opacity",
       title: "Are you sure?", // Aggiungi un'emoji qui
-      content: "Sei sicuro di voler eliminare questo elemento?",
+      content: "Press delete to remove this song",
       buttons: {
         ok: {
           text: "Delete",
@@ -196,10 +197,15 @@ export default function Music() {
 
   return (
     <>
+      <Helmet>
+        <title>music</title>
+        <meta name="description" content="music section of lifetodo app" />
+        <meta name="keywords" content="React, SEO, Helmet" />
+      </Helmet>
       <Navbar />
       <NavbarLaptop />
       <AddButton handleNewSong={handleNewSong} />
-      <AddMusic  handleNewSong={handleNewSong} />
+      <AddMusic handleNewSong={handleNewSong} />
       <Overlay />
       <div className={location.pathname === "/music" ? "mainAbout" : "hidden"}>
         <div id="aboutTitle">

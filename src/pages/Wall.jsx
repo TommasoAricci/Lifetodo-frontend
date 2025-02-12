@@ -6,6 +6,8 @@ import Todos from "./Todos";
 import Music from "./Music";
 import Thoughts from "./Thoughts";
 import NavbarLaptop from "../components/Navbar-laptop";
+import { Helmet } from "react-helmet-async";
+
 const { useStore } = require("../store");
 
 export default function Wall() {
@@ -32,6 +34,12 @@ export default function Wall() {
         <Todos />
         <Music />
         <Books />
+        
+        <Helmet>
+          <title>wall</title>
+          <meta name="description" content="wall section of lifetodo app" />
+          <meta name="keywords" content="React, SEO, Helmet" />
+        </Helmet>
       </div>
     </>
   );

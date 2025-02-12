@@ -16,6 +16,7 @@
     "jquery-confirm": "^3.3.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-helmet-async": "^2.0.5",
     "react-router-dom": "^7.1.1",
     "react-scripts": "5.0.1",
     "react-transition-group": "^4.4.5",
@@ -50,5 +51,5 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   },
-"proxy": "http://localhost:4000"
+  "proxy": "http://localhost:4000"
 }

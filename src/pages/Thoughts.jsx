@@ -9,6 +9,7 @@ import $ from "jquery";
 import Button from "../components/Button";
 import Overlay from "../components/Overlay";
 import NavbarLaptop from "../components/Navbar-laptop";
+import { Helmet } from "react-helmet-async";
 const { useStore } = require("../store");
 
 export default function Thoughts() {
@@ -77,7 +78,7 @@ export default function Thoughts() {
       theme: "modern",
       animation: "opacity",
       title: "Are you sure?",
-      content: "Sei sicuro di voler eliminare questo elemento?",
+      content: "Press delete to remove this note",
       buttons: {
         ok: {
           text: "Delete",
@@ -149,6 +150,11 @@ export default function Thoughts() {
 
   return (
     <>
+      <Helmet>
+        <title>notes</title>
+        <meta name="description" content="notes section of lifetodo app" />
+        <meta name="keywords" content="React, SEO, Helmet" />
+      </Helmet>
       <Navbar />
       <NavbarLaptop />
       <AddButton handleNewThought={handleNewThought} />
@@ -167,16 +173,19 @@ export default function Thoughts() {
         </div>
 
         {location.pathname === "/wall" && filteredThoughts.length > 0 && (
-        <div className="smallTitleWrapper">
-          <small id="smallTitleWall">notes</small>
-        </div>
-      )}
+          <div className="smallTitleWrapper">
+            <small id="smallTitleWall">notes</small>
+          </div>
+        )}
 
         <div className="mainWall">
           <div className="thoughts">
             {filteredThoughts.map((thought) => (
               <div
-                onClick={() => {location.pathname !== "/wall" && view(thought.title, thought.description)}}
+                onClick={() => {
+                  location.pathname !== "/wall" &&
+                    view(thought.title, thought.description);
+                }}
                 className="thought"
                 key={thought._id}
               >

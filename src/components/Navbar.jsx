@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "../style/navbar.scss";
-import image from "../images/copia.jpg";
+import image from "../images/logo.png";
 import { Link, useLocation } from "react-router-dom";
 import { Squash as Hamburger } from "hamburger-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -49,7 +49,7 @@ export default function Navbar() {
         <nav>
           <Link to="/wall" style={linkStyle}>
             <div
-              className={location.pathname === "/" ? "navDiv active" : "navDiv"}
+              className={location.pathname === "/wall" ? "navDiv active" : "navDiv"}
             >
               <h2>Wall</h2>
             </div>
