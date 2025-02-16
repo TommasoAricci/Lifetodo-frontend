@@ -1,7 +1,5 @@
 import React from "react";
 import "../style/pages/Login.scss";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../store";
 import { Helmet } from "react-helmet-async";
@@ -69,7 +67,6 @@ export default function Login() {
               placeholder="username"
               onChange={(e) => setUsername(e.target.value)}
             />
-            <FontAwesomeIcon icon={faUser} className="input-icon faUser" />
             <input
               type="password"
               id="password"
@@ -77,7 +74,6 @@ export default function Login() {
               placeholder="password"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <FontAwesomeIcon icon={faLock} className="input-icon faLock" />
             <button type="submit">Register</button>
           </div>
         </form>

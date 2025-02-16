@@ -11,10 +11,7 @@ import { Helmet } from "react-helmet-async";
 const { useStore } = require("../store");
 
 export default function Wall() {
-  const { userData, newThoughtOpen } = useStore();
-
-  console.log(newThoughtOpen);
-
+  const { userData } = useStore();
   return (
     <>
       <Navbar />
