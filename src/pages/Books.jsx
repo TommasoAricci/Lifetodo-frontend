@@ -33,7 +33,7 @@ export default function Books() {
     (thought) => thought.user._id === userData?._id
   );
 
-  console.log(bookInfo);
+  console.log(filteredBooks);
 
   const handleNewBook = () => {
     setNewBookOpen(!newBookOpen);
@@ -173,7 +173,13 @@ export default function Books() {
               <div className="view-content book-info">
                 {infoLoaded ? (
                   <>
-                    <h1>{bookInfo?.volumeInfo?.title}</h1>
+                    <h1
+                      style={{
+                        fontSize: "25px",
+                      }}
+                    >
+                      {bookInfo?.volumeInfo?.title}
+                    </h1>
                     <img
                       src={bookInfo?.volumeInfo?.imageLinks?.thumbnail || ""}
                       alt={bookInfo?.volumeInfo?.title || "Book Image"}

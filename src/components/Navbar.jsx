@@ -19,7 +19,8 @@ export default function Navbar() {
     newCheckboxOpen,
     setNewCheckboxOpen,
     newSongOpen,
-    setNewSongOpen
+    setNewSongOpen,
+    setNewBookOpen
   } = useStore();
   const location = useLocation();
 
@@ -33,9 +34,10 @@ export default function Navbar() {
       setViewContent(false);
       setNewCheckboxOpen(false);
       setNewSongOpen(false);
+      setNewBookOpen(false);
     }
   }, [newThougthOpen, isOpen, viewContent, newCheckboxOpen, setNewCheckboxOpen,
-    setNewThoughtOpen, setViewContent, newSongOpen, setNewSongOpen]);
+    setNewThoughtOpen, setViewContent, newSongOpen, setNewSongOpen, setNewBookOpen]);
 
   const linkStyle = {
     textDecoration: "none",

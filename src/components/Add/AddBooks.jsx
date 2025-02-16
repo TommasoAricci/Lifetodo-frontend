@@ -27,8 +27,6 @@ export default function AddBooks({ handleNewBook }) {
   const [infoLoaded, setInfoLoaded] = useState(false);
   const { newBookOpen, bookTitle, setBookTitle } = useStore();
 
-  console.log(booksToChoose);
-
   // get books from api
 
   const handleBookSubmit = async (e) => {
@@ -131,10 +129,10 @@ export default function AddBooks({ handleNewBook }) {
                       icon={faAdd}
                       func={() =>
                         handleAddBookToList(
-                          book.volumeInfo?.title || "",
-                          book.volumeInfo?.authors?.[0] || "",
-                          book.volumeInfo?.description || "",
-                          book.volumeInfo?.imageLinks?.thumbnail || "",
+                          book.volumeInfo?.title || "No title",
+                          book.volumeInfo?.authors?.[0] || "No author",
+                          book.volumeInfo?.description || "No description available",
+                          book.volumeInfo?.imageLinks?.thumbnail || "No image",
                           book.id || ""
                         )
                       }

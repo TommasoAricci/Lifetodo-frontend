@@ -97,6 +97,7 @@ export default function AddThought({ editThought, handleNewThought }) {
                 onChange={(e) => setThoughtTitle(e.target.value)}
                 value={thoughtTitle}
                 placeholder="Title"
+                required
               ></textarea>
               <textarea
                 name="description"
@@ -104,6 +105,7 @@ export default function AddThought({ editThought, handleNewThought }) {
                 onChange={(e) => setThoughtDescription(e.target.value)}
                 value={thoughtDescription}
                 placeholder="Text"
+                required
               />
               <div className="add-thought-buttons-div">
                 <Button icon={faFloppyDisk} func={null} type="submit" />

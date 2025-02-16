@@ -93,6 +93,7 @@ export default function AddTodo({ editTodos, handleNewCheckbox }) {
             placeholder="Title"
             value={checkboxTitle}
             onChange={(e) => setCheckboxTitle(e.target.value)}
+            required
           ></textarea>
 
           <div className="checkbox-list">
