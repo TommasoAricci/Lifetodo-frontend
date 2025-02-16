@@ -11,7 +11,7 @@ import { useStore } from "../store";
 import $ from "jquery";
 import "jquery-confirm/dist/jquery-confirm.min.css";
 import "jquery-confirm/dist/jquery-confirm.min.js";
-import userPic from "../images/copia.jpg";
+import logo from "../images/logo.png";
 import Button from "../components/Button";
 import Navbar from "../components/Navbar";
 import NavbarLaptop from "../components/Navbar-laptop";
@@ -142,9 +142,8 @@ export default function Account() {
             <div className="profile-header">
               <div className="profile-img">
                 <img
-                  src={userData.profilePicture || userPic}
-                  alt="User Profile"
-                  style={{ width: "140px", height: "130px" }}
+                  src={logo}
+                  alt="logo"
                 />
               </div>
               <div className="user-info">
