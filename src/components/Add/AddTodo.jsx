@@ -34,13 +34,13 @@ export default function AddTodo({ editTodos, handleNewCheckbox }) {
     const items = checkboxItems;
 
     try {
-      const token = localStorage.getItem("token"); // Assumendo che il token sia salvato nel localStorage
+      const token = localStorage.getItem("token");
 
       await fetch(`${process.env.REACT_APP_BASE_URL}/api/todo`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Includi il token nell'header
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ title, items }),
       });
@@ -62,7 +62,7 @@ export default function AddTodo({ editTodos, handleNewCheckbox }) {
       buttons: {
         close: {
           text: "Chiudi",
-          isHidden: true, // Nasconde il pulsante
+          isHidden: true,
           action: function () {},
         },
       },

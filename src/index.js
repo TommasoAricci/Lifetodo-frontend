@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { StoreProvider } from "./store";
 import "./style/index.scss";
-import App from "./pages/App";
 import Wall from "./pages/Wall";
 import Thoughts from "./pages/Thoughts";
 import Todos from "./pages/Todos";
@@ -16,7 +15,6 @@ import Music from "./pages/Music";
 import Books from "./pages/Books";
 import { HelmetProvider } from "react-helmet-async";
 
-// Definisci le rotte
 const router = createBrowserRouter([
   {
     path: "/",
@@ -33,10 +31,6 @@ const router = createBrowserRouter([
   {
     path: "/logout",
     element: <Logout />,
-  },
-  {
-    path: "/app",
-    element: <App />,
   },
   {
     path: "/account",

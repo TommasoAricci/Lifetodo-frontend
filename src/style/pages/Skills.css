@@ -1,0 +1,72 @@
+.mainSkills {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra orizzontalmente */
+  justify-content: center;
+  height: 100%;
+  text-align: center; /* Allinea il testo al centro */
+}
+.mainSkills .skills-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center; /* Centra le tabs orizzontalmente */
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+.mainSkills .skills-container .languages, .mainSkills .skills-container .libraries, .mainSkills .skills-container .extra, .mainSkills .skills-container .graphic {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center; /* Centra le tabs orizzontalmente */
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+.mainSkills .skills-container #skills-h3 {
+  font-size: large;
+  color: #FFD700;
+}
+.mainSkills .skill-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #333, #444);
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.skill-badge img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* Per rendere le immagini circolari */
+}
+
+.skill-badge span {
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+.skill-badge:hover {
+  background: linear-gradient(135deg, #00bcd4, #008ba3);
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.skill-badge:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+}

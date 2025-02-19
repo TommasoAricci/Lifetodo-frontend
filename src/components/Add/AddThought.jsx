@@ -70,7 +70,7 @@ export default function AddThought({ editThought, handleNewThought }) {
       },
     });
     setNewThoughtOpen(false);
-  }, [setNewThoughtOpen]); // Nessuna dipendenza, poiché non usa variabili esterne.
+  }, [setNewThoughtOpen]);
 
   useEffect(() => {
     if (thoughtSent) {

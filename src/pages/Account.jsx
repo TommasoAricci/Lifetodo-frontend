@@ -79,7 +79,7 @@ export default function Account() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_BASE_URL}api/update`,
+        `${process.env.REACT_APP_BASE_URL}/api/update`,
         {
           method: "PUT",
           headers: {
@@ -112,7 +112,7 @@ export default function Account() {
       buttons: {
         close: {
           text: "Chiudi",
-          isHidden: true, // Nasconde il pulsante
+          isHidden: true,
           action: function () {},
         },
       },

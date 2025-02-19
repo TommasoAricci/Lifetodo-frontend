@@ -1,0 +1,94 @@
+.todos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+}
+.todos .todo {
+  width: 300px;
+  height: 250px;
+  background: #2c2c2e;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+.todos .todo:hover {
+  background: #3c3c3e;
+}
+.todos .todo h2 {
+  font-size: 18px;
+  text-align: center;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.todos .todo .checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.todos .todo .checkbox-list .checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.todos .todo .checkbox-list .checkbox-item input[type=checkbox] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #007bff;
+}
+.todos .todo .checkbox-list .checkbox-item label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.todos .todo .delete-button,
+.todos .todo .edit-button {
+  position: absolute;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border: none;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.todos .todo .delete-button:hover,
+.todos .todo .edit-button:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+.todos .todo .delete-button svg,
+.todos .todo .edit-button svg {
+  font-size: 16px;
+}
+.todos .todo .delete-button {
+  top: 10px;
+  right: 10px;
+}
+.todos .todo .edit-button {
+  top: 10px;
+  left: 10px;
+}
+
+@media only screen and (min-width: 768px) {
+  .todos {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

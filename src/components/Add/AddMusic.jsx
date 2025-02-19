@@ -37,13 +37,13 @@ export default function AddMusic({ handleNewSong }) {
       return;
     }
 
-    setLoading(true); // Imposta loading a true prima di fare la richiesta
+    setLoading(true);
 
     try {
       const response = await axios.get(
         `https://api.spotify.com/v1/search?q=${encodeURIComponent(
           songTitle
-        )}&type=track&limit=8`,
+        )}&type=track&limit=10`,
         {
           headers: {
             Authorization: `Bearer ${songToken}`,
@@ -104,7 +104,7 @@ export default function AddMusic({ handleNewSong }) {
           />
           <div className="songs-list-to-add">
             {loading ? (
-              <div className="loading-indicator">Caricamento...</div> // Mostra il caricamento se `loading` è true
+              <div className="loading-indicator">Caricamento...</div>
             ) : (
               songsToChoose.map((song) => (
                 <div key={song.id} className="song-item">

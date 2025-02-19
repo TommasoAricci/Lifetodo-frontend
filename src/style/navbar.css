@@ -1,0 +1,204 @@
+.mainMobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: #2c2c2e;
+  color: #ffffff;
+  padding: 20px;
+  gap: 10px;
+  box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+}
+.mainMobile .image {
+  border-radius: 10px;
+  align-self: center;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.mainMobile nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 20px;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.mainMobile nav .navDiv {
+  padding: 10px 20px;
+  background-color: #2c2c2e;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.mainMobile nav .navDiv:hover {
+  background-color: #6200ea;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+.mainMobile nav .navDiv h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+.mainMobile nav .active {
+  background-color: #03a9f4;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.mainClose {
+  display: none;
+}
+
+.hamburger-react {
+  position: fixed !important;
+  top: 35px;
+  right: 20px;
+  background-color: #2c2c2e;
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  z-index: 10000;
+}
+.hamburger-react:hover {
+  background-color: #3c3c3e;
+  transform: scale(1.05);
+  color: rgb(255, 255, 255);
+}
+
+.account-button, .laptop-account-button {
+  background-color: #ffd700 !important;
+  top: 100px !important;
+}
+
+.logout-button, .laptop-logout-button {
+  background-color: red !important;
+}
+
+.icon {
+  color: #1e303f !important;
+  font-size: 25px !important;
+}
+
+.logout-button,
+.account-button,
+.laptop-account-button,
+.laptop-logout-button {
+  background-color: #6200ea;
+  color: white;
+  border-radius: 50%;
+  padding: 10px;
+  width: 48px;
+  height: 48px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.logout-button:hover,
+.account-button:hover {
+  background-color: #03a9f4;
+}
+
+.hidden {
+  display: none;
+}
+
+.mainLaptop {
+  display: none;
+}
+
+.laptop-buttons {
+  display: flex;
+  gap: 10px;
+}
+.laptop-buttons .laptop-bottom-menu {
+  width: 50px;
+  height: 50px;
+  background-color: #6200ea;
+  color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  transition: visibility 0s, opacity 0.3s ease, transform 0.2s ease;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile Layout */
+@media only screen and (min-width: 768px) {
+  .mainMobile,
+  .hamburger-react,
+  .logout-button,
+  .account-button {
+    display: none;
+  }
+  .mainLaptop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: midnightblue;
+    color: white;
+    padding-left: 15px;
+    padding-right: 15px;
+    gap: 10px;
+  }
+  .mainLaptop .mainClose {
+    display: none;
+  }
+  .mainLaptop .image {
+    border-radius: 10px;
+    align-self: center;
+  }
+  .mainLaptop nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 30px;
+  }
+  .mainLaptop nav .navDiv {
+    padding: 10px 20px;
+    background-color: #ffd700;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: #ffd700 0.2s ease, transform 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .mainLaptop nav .navDiv:hover {
+    color: #ffffff;
+    transform: scale(1.05);
+  }
+  .mainLaptop nav .navDiv h2 {
+    color: #1e303f;
+    text-transform: uppercase;
+    margin: 0;
+    font-size: 1.2rem;
+  }
+  .mainLaptop nav .active {
+    background-color: #03a9f4;
+    color: #ffffff;
+    transform: scale(1.05);
+  }
+}

@@ -1,0 +1,199 @@
+.account-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #e0e0e0;
+  padding: 20px;
+  gap: 20px;
+  font-family: "Helvetica Neue", sans-serif;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+.profile-header img {
+  width: 100px;
+  border-radius: 10px;
+  align-self: center;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+.profile-header .user-info h1 {
+  font-size: 24px;
+  font-weight: 600;
+}
+.profile-header .user-info p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+}
+
+.account-details {
+  width: 100%;
+  max-width: 500px;
+  background-color: #2c2c2e;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  margin-top: 20px;
+}
+.account-details .detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+.account-details .detail-row label {
+  font-weight: 600;
+  color: #03a9f4;
+}
+.account-details .detail-row span {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+.actions .action-button {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  background-color: #03a9f4;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.2s, background-color 0.3s;
+}
+.actions .action-button:hover {
+  transform: scale(1.05);
+}
+.actions .action-button svg {
+  margin-right: 8px;
+}
+.actions .logout-button {
+  background-color: #f44336;
+}
+.actions .logout-button:hover {
+  background-color: #d32f2f;
+}
+
+.edit-div {
+  position: fixed !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background: #2c2c2e;
+  border-radius: 12px;
+  width: 300px;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  z-index: 9999;
+}
+.edit-div .edit-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.edit-div .edit-form label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.edit-div .edit-form input {
+  padding: 12px;
+  font-size: 14px;
+  background: #3c3c3e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #ffffff;
+  margin-bottom: 16px;
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.edit-div .edit-form input:focus {
+  border-color: rgba(255, 255, 255, 0.4);
+  background-color: #454547;
+}
+.edit-div .edit-form input:-webkit-autofill {
+  background-color: #3c3c3e !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 0 30px #3c3c3e inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
+}
+.edit-div .edit-form button {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: #3c3c3e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+.edit-div .edit-form button:hover {
+  background-color: #4c4c4e;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.edit-div .edit-form button:active {
+  background-color: #2c2c2e;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.loading {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.7);
+  animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#blackBoxAccount {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+@media only screen and (min-width: 768px) {
+  .edit-div {
+    position: fixed;
+    top: 50%;
+    left: calc(50% + 100px);
+    transform: translate(-50%, -50%);
+  }
+}

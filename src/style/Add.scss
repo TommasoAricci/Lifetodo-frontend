@@ -60,7 +60,7 @@ $note-text-color: #333333;
   &.bottom-menu-options {
     visibility: visible;
     opacity: 1;
-    transform: translateY(-5px); // Leggero effetto di spostamento verso l'alto
+    transform: translateY(-5px);
   }
 
   .separatore {
@@ -79,7 +79,7 @@ $note-text-color: #333333;
     border-radius: 12px;
 
     &:hover {
-      background-color: #3c3c3e; // Leggero contrasto all'hover
+      background-color: #3c3c3e;
     }
 
     .options-icon {
@@ -377,24 +377,24 @@ $note-text-color: #333333;
       overflow-y: scroll;
       display: flex;
       flex-direction: column;
-      gap: 10px; // Spaziatura tra gli elementi della lista
+      gap: 10px;
 
       .song-item {
         width: 100%;
-        display: flex; // Layout flessibile per affiancare iframe e bottone
-        align-items: center; // Centra verticalmente iframe e bottone
+        display: flex; 
+        align-items: center; 
         justify-content: center;
-        gap: 10px; // Spaziatura tra iframe e bottone
+        gap: 10px; 
 
         .song-iframe {
-          width: 80%; // Larghezza dell'iframe
-          height: 80px; // Altezza dell'iframe
-          border-radius: 12px; // Angoli arrotondati
-          overflow: hidden; // Evita overflow non desiderati
+          width: 80%; 
+          height: 80px; 
+          border-radius: 12px; 
+          overflow: hidden; 
         }
 
         .add-song-icon {
-          font-size: 1.2rem; // Dimensione dell'icona
+          font-size: 1.2rem; 
         }
       }
     }

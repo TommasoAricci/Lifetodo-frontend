@@ -90,7 +90,6 @@ export default function Thoughts() {
         cancel: {
           text: "Back",
           action: function () {
-            // Non eliminare l'elemento
           },
         },
       },

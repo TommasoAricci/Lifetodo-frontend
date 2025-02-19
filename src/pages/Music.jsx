@@ -108,7 +108,7 @@ export default function Music() {
           }
         );
         const token = tokenResponse.data.access_token;
-        setSongToken(token); // Salva il token nello stato
+        setSongToken(token);
       } catch (error) {
         console.error(
           "Errore durante l'ottenimento del token:",
@@ -142,7 +142,7 @@ export default function Music() {
         error.response || error.message
       );
     }
-  }, [songToken, songsFromDb]); // Dipendenze necessarie.
+  }, [songToken, songsFromDb]);
 
   useEffect(() => {
     handleFetchSongs();
@@ -154,7 +154,7 @@ export default function Music() {
     $.confirm({
       theme: "modern",
       animation: "opacity",
-      title: "Are you sure?", // Aggiungi un'emoji qui
+      title: "Are you sure?",
       content: "Press delete to remove this song",
       buttons: {
         ok: {

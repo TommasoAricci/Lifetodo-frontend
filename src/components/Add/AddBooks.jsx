@@ -107,7 +107,7 @@ export default function AddBooks({ handleNewBook }) {
           />
           <div className="books-list-to-add">
             {loading ? (
-              <div className="loading-indicator">Caricamento...</div> // Mostra il caricamento se `loading` è true
+              <div className="loading-indicator">Caricamento...</div>
             ) : (
               booksToChoose.map((book) => (
                 <div key={book.id} className="book-to-add">

@@ -86,7 +86,6 @@ export default function Todos() {
         cancel: {
           text: "Back",
           action: function () {
-            // Non eliminare l'elemento
           },
         },
       },
