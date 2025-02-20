@@ -89,8 +89,7 @@ export default function Thoughts() {
         },
         cancel: {
           text: "Back",
-          action: function () {
-          },
+          action: function () {},
         },
       },
     });
@@ -176,61 +175,66 @@ export default function Thoughts() {
             <small id="smallTitleWall">notes</small>
           </div>
         )}
-
-        <div className="mainWall">
-          <div className="thoughts">
-            {filteredThoughts.map((thought) => (
-              <div
-                onClick={() => {
-                  location.pathname !== "/wall" &&
-                    view(thought.title, thought.description);
-                }}
-                className="thought"
-                key={thought._id}
-              >
-                <h2>{thought.title}</h2>
-                <p>{thought.description}</p>
-
-                <Button
-                  func={(e) => {
-                    e.stopPropagation();
-                    confirmDelete(thought);
+        {filteredThoughts.length > 0 && (
+          <div className="mainWall">
+            <div className="thoughts">
+              {filteredThoughts.map((thought) => (
+                <div
+                  onClick={() => {
+                    location.pathname !== "/wall" &&
+                      view(thought.title, thought.description);
                   }}
-                  type="button"
-                  secondClass="delete-button"
-                  className="add-thought-icon"
-                  icon={faTrashCan}
-                />
+                  className="thought"
+                  key={thought._id}
+                >
+                  <h2>{thought.title}</h2>
+                  <p>{thought.description}</p>
 
+                  <Button
+                    func={(e) => {
+                      e.stopPropagation();
+                      confirmDelete(thought);
+                    }}
+                    type="button"
+                    secondClass="delete-button"
+                    className="add-thought-icon"
+                    icon={faTrashCan}
+                  />
+
+                  <Button
+                    func={(e) => {
+                      e.stopPropagation();
+                      handleEdit(
+                        thought.title,
+                        thought.description,
+                        thought._id
+                      );
+                    }}
+                    type="button"
+                    secondClass="edit-button"
+                    className="add-thought-icon"
+                    icon={faPen}
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className={viewContent ? "view" : "hidden"}>
+              <div className="view-content">
+                <h2>{thoughtTitle}</h2>
+                <p>
+                  <strong></strong> {thoughtDescription}
+                </p>
                 <Button
-                  func={(e) => {
-                    e.stopPropagation();
-                    handleEdit(thought.title, thought.description, thought._id);
-                  }}
+                  func={() => setViewContent(false)}
                   type="button"
-                  secondClass="edit-button"
-                  className="add-thought-icon"
-                  icon={faPen}
+                  icon={faClose}
+                  secondClass="close-view"
                 />
               </div>
-            ))}
-          </div>
-
-          <div className={viewContent ? "view" : "hidden"}>
-            <div className="view-content">
-              <h2>{thoughtTitle}</h2>
-              <p>
-                <strong></strong> {thoughtDescription}
-              </p>
-              <Button
-                func={() => setViewContent(false)}
-                type="button"
-                icon={faClose}
-                secondClass="close-view"
-              />
             </div>
           </div>
-        </div>
+        )}
       </>
     </>
   );

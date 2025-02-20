@@ -85,8 +85,7 @@ export default function Todos() {
         },
         cancel: {
           text: "Back",
-          action: function () {
-          },
+          action: function () {},
         },
       },
     });
@@ -157,58 +156,59 @@ export default function Todos() {
             <small id="smallTitleWall">todos</small>
           </div>
         )}
+        {filteredTodos.length > 0 && (
+          <div className="todos">
+            {filteredTodos.map((todo) => (
+              <div
+                onClick={() => {
+                  location.pathname !== "/wall" && view(todo.title, todo.items);
+                }}
+                className="todo"
+                key={todo._id}
+              >
+                <h2>{todo.title}</h2>
+                <div className="checkbox-list">
+                  {todo.items.map(
+                    (option, index) =>
+                      option.trim() !== "" && (
+                        <div key={index} className="checkbox-item">
+                          <input
+                            type="checkbox"
+                            id={`checkbox-${todo._id}-${index}`}
+                            name={`checkbox-${todo._id}-${index}`}
+                            value={option}
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                          <label htmlFor={`checkbox-${todo._id}-${index}`}>
+                            {option}
+                          </label>
+                        </div>
+                      )
+                  )}
+                </div>
+                <Button
+                  func={(e) => {
+                    e.stopPropagation();
+                    confirmDeleteTodo(todo);
+                  }}
+                  icon={faTrashCan}
+                  type="button"
+                  secondClass="delete-button"
+                />
 
-        <div className="todos">
-          {filteredTodos.map((todo) => (
-            <div
-              onClick={() => {
-                location.pathname !== "/wall" && view(todo.title, todo.items);
-              }}
-              className="todo"
-              key={todo._id}
-            >
-              <h2>{todo.title}</h2>
-              <div className="checkbox-list">
-                {todo.items.map(
-                  (option, index) =>
-                    option.trim() !== "" && (
-                      <div key={index} className="checkbox-item">
-                        <input
-                          type="checkbox"
-                          id={`checkbox-${todo._id}-${index}`}
-                          name={`checkbox-${todo._id}-${index}`}
-                          value={option}
-                          onClick={(e) => e.stopPropagation()}
-                        />
-                        <label htmlFor={`checkbox-${todo._id}-${index}`}>
-                          {option}
-                        </label>
-                      </div>
-                    )
-                )}
+                <Button
+                  func={(e) => {
+                    e.stopPropagation();
+                    handleEdit(todo.title, todo.items, todo._id);
+                  }}
+                  icon={faPen}
+                  type="button"
+                  secondClass="edit-button"
+                />
               </div>
-              <Button
-                func={(e) => {
-                  e.stopPropagation();
-                  confirmDeleteTodo(todo);
-                }}
-                icon={faTrashCan}
-                type="button"
-                secondClass="delete-button"
-              />
-
-              <Button
-                func={(e) => {
-                  e.stopPropagation();
-                  handleEdit(todo.title, todo.items, todo._id);
-                }}
-                icon={faPen}
-                type="button"
-                secondClass="edit-button"
-              />
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         <div className={viewContent ? "view" : "hidden"}>
           <div className="view-content">

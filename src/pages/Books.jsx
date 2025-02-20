@@ -140,88 +140,91 @@ export default function Books() {
         </div>
       )}
 
-      <div className="booksList">
-        {filteredBooks.map((book) => (
-          <div key={book._id}>
-            <div className="book-container">
-              <div className="book">
-                <img src={book.image} alt={book.title} />
-                <div className="info">
-                  <h1>{book.title}</h1>
-                  <p>{book.author}</p>
+      {filteredBooks.length > 0 && (
+        <div className="booksList">
+          {filteredBooks.map((book) => (
+            <div key={book._id}>
+              <div className="book-container">
+                <div className="book">
+                  <img src={book.image} alt={book.title} />
+                  <div className="info">
+                    <h1>{book.title}</h1>
+                    <p>{book.author}</p>
+                  </div>
+                </div>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <Button
+                    icon={faTrashCan}
+                    type="button"
+                    func={() => confirmDeleteBook(book)}
+                  />
+                  <Button
+                    icon={faInfo}
+                    type="button"
+                    func={() => {
+                      getInfo(book.refId);
+                    }}
+                    secondClass={"info-button"}
+                  />
                 </div>
               </div>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button
-                  icon={faTrashCan}
-                  type="button"
-                  func={() => confirmDeleteBook(book)}
-                />
-                <Button
-                  icon={faInfo}
-                  type="button"
-                  func={() => {
-                    getInfo(book.refId);
-                  }}
-                  secondClass={"info-button"}
-                />
-              </div>
-            </div>
-            
-            <div className={viewContent ? "view" : "hidden"}>
-              <div className="view-content book-info">
-                {infoLoaded ? (
-                  <>
-                    <h1
-                      style={{
-                        fontSize: "25px",
-                      }}
-                    >
-                      {bookInfo?.volumeInfo?.title}
-                    </h1>
-                    <img
-                      src={bookInfo?.volumeInfo?.imageLinks?.thumbnail || ""}
-                      alt={bookInfo?.volumeInfo?.title || "Book Image"}
-                    />
-                    <div className="single-book-info">
-                      <p>
-                        <strong>Author:</strong>{" "}
-                        {bookInfo?.volumeInfo?.authors?.join(", ") || "Unknown"}
-                      </p>
-                      <p>
-                        <strong>Pages:</strong>{" "}
-                        {bookInfo?.volumeInfo?.pageCount || "N/A"}
-                      </p>
-                      <p>
-                        <strong>Genre:</strong>{" "}
-                        {bookInfo?.volumeInfo?.categories?.join(", ") ||
-                          "Unknown"}
-                      </p>
-                    </div>
-                    <p>
-                      <span
-                        dangerouslySetInnerHTML={{
-                          __html:
-                            bookInfo?.volumeInfo?.description ||
-                            "No description available.",
+
+              <div className={viewContent ? "view" : "hidden"}>
+                <div className="view-content book-info">
+                  {infoLoaded ? (
+                    <>
+                      <h1
+                        style={{
+                          fontSize: "25px",
                         }}
+                      >
+                        {bookInfo?.volumeInfo?.title}
+                      </h1>
+                      <img
+                        src={bookInfo?.volumeInfo?.imageLinks?.thumbnail || ""}
+                        alt={bookInfo?.volumeInfo?.title || "Book Image"}
                       />
-                    </p>
-                  </>
-                ) : (
-                  "Loading..."
-                )}
-                <Button
-                  func={() => handleInfo()}
-                  type="button"
-                  icon={faClose}
-                  secondClass="close-view"
-                />
+                      <div className="single-book-info">
+                        <p>
+                          <strong>Author:</strong>{" "}
+                          {bookInfo?.volumeInfo?.authors?.join(", ") ||
+                            "Unknown"}
+                        </p>
+                        <p>
+                          <strong>Pages:</strong>{" "}
+                          {bookInfo?.volumeInfo?.pageCount || "N/A"}
+                        </p>
+                        <p>
+                          <strong>Genre:</strong>{" "}
+                          {bookInfo?.volumeInfo?.categories?.join(", ") ||
+                            "Unknown"}
+                        </p>
+                      </div>
+                      <p>
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              bookInfo?.volumeInfo?.description ||
+                              "No description available.",
+                          }}
+                        />
+                      </p>
+                    </>
+                  ) : (
+                    "Loading..."
+                  )}
+                  <Button
+                    func={() => handleInfo()}
+                    type="button"
+                    icon={faClose}
+                    secondClass="close-view"
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }

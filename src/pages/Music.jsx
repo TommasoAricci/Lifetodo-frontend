@@ -43,6 +43,8 @@ export default function Music() {
     setDeletedSong(false);
   };
 
+  console.log(filteredSongs);
+
   useEffect(() => {
     if (songsFromDb.length > 0 && userData?._id) {
       const filtered = songsFromDb.filter(
@@ -108,7 +110,7 @@ export default function Music() {
           }
         );
         const token = tokenResponse.data.access_token;
-        setSongToken(token);
+        setSongToken(token); // Salva il token nello stato
       } catch (error) {
         console.error(
           "Errore durante l'ottenimento del token:",
@@ -219,9 +221,9 @@ export default function Music() {
         </div>
       )}
 
-      <div className="songs-list">
-        {filteredSongs.length > 0 &&
-          filteredSongs.map((song) => (
+      {filteredSongs.length > 0 && (
+        <div className="songs-list">
+          {filteredSongs.map((song) => (
             <div key={song._id} className="song-item">
               <iframe
                 title={`Spotify Minimal Embed for ${song.refId}`}
@@ -237,7 +239,8 @@ export default function Music() {
               />
             </div>
           ))}
-      </div>
+        </div>
+      )}
     </>
   );
 }
