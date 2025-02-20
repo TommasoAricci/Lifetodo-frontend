@@ -167,6 +167,7 @@ export default function Books() {
                 />
               </div>
             </div>
+            
             <div className={viewContent ? "view" : "hidden"}>
               <div className="view-content book-info">
                 {infoLoaded ? (
