@@ -1,4 +1,4 @@
-[RUN THE APP](https://lifeist-my.netlify.app/)
+[RUN THE APP](https://lifetodo-my.netlify.app/)
 
 # Lifetodo (Frontend)
 
