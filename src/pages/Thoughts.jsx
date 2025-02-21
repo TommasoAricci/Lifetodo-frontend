@@ -32,7 +32,7 @@ export default function Thoughts() {
   const [thoughts, setThoughts] = useState([]);
   const location = useLocation();
   const filteredThoughts = thoughts.filter(
-    (thought) => thought.user._id === userData?._id
+    (thought) => thought.user?._id === userData?._id
   );
 
   // THOUGHTS
@@ -175,7 +175,7 @@ export default function Thoughts() {
             <small id="smallTitleWall">notes</small>
           </div>
         )}
-        {filteredThoughts.length > 0 && (
+        {filteredThoughts?.length > 0 && (
           <div className="mainWall">
             <div className="thoughts">
               {filteredThoughts.map((thought) => (

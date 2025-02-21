@@ -30,7 +30,7 @@ export default function Todos() {
   } = useStore();
   const [todos, setTodos] = useState([]);
   const location = useLocation();
-  const filteredTodos = todos.filter((todo) => todo.user._id === userData?._id);
+  const filteredTodos = todos.filter((todo) => todo.user?._id === userData?._id);
 
   // CHECKBOX
 
@@ -156,7 +156,7 @@ export default function Todos() {
             <small id="smallTitleWall">todos</small>
           </div>
         )}
-        {filteredTodos.length > 0 && (
+        {filteredTodos?.length > 0 && (
           <div className="todos">
             {filteredTodos.map((todo) => (
               <div

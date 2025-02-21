@@ -48,7 +48,7 @@ export default function Music() {
   useEffect(() => {
     if (songsFromDb.length > 0 && userData?._id) {
       const filtered = songsFromDb.filter(
-        (song) => song.user._id === userData?._id
+        (song) => song.user?._id === userData?._id
       );
       setFilteredSongs(filtered);
     }
@@ -221,7 +221,7 @@ export default function Music() {
         </div>
       )}
 
-      {filteredSongs.length > 0 && (
+      {filteredSongs?.length > 0 && (
         <div className="songs-list">
           {filteredSongs.map((song) => (
             <div key={song._id} className="song-item">

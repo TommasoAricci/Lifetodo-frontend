@@ -30,7 +30,7 @@ export default function Books() {
   const [infoLoaded, setInfoLoaded] = useState(false);
   const location = useLocation();
   const filteredBooks = booksList.filter(
-    (thought) => thought.user._id === userData?._id
+    (thought) => thought.user?._id === userData?._id
   );
 
   const handleNewBook = () => {
@@ -142,7 +142,7 @@ export default function Books() {
 
       {filteredBooks.length > 0 && (
         <div className="booksList">
-          {filteredBooks.map((book) => (
+          {filteredBooks?.map((book) => (
             <div key={book._id}>
               <div className="book-container">
                 <div className="book">
