@@ -20,7 +20,7 @@ export default function Navbar() {
     setNewCheckboxOpen,
     newSongOpen,
     setNewSongOpen,
-    setNewBookOpen
+    setNewBookOpen,
   } = useStore();
   const location = useLocation();
 
@@ -36,8 +36,18 @@ export default function Navbar() {
       setNewSongOpen(false);
       setNewBookOpen(false);
     }
-  }, [newThougthOpen, isOpen, viewContent, newCheckboxOpen, setNewCheckboxOpen,
-    setNewThoughtOpen, setViewContent, newSongOpen, setNewSongOpen, setNewBookOpen]);
+  }, [
+    newThougthOpen,
+    isOpen,
+    viewContent,
+    newCheckboxOpen,
+    setNewCheckboxOpen,
+    setNewThoughtOpen,
+    setViewContent,
+    newSongOpen,
+    setNewSongOpen,
+    setNewBookOpen,
+  ]);
 
   const linkStyle = {
     textDecoration: "none",
@@ -51,7 +61,9 @@ export default function Navbar() {
         <nav>
           <Link to="/wall" style={linkStyle}>
             <div
-              className={location.pathname === "/wall" ? "navDiv active" : "navDiv"}
+              className={
+                location.pathname === "/wall" ? "navDiv active" : "navDiv"
+              }
             >
               <h2>Wall</h2>
             </div>
@@ -63,15 +75,6 @@ export default function Navbar() {
               }
             >
               <h2>Notes</h2>
-            </div>
-          </Link>
-          <Link to="/todos" style={linkStyle}>
-            <div
-              className={
-                location.pathname === "/todos" ? "navDiv active" : "navDiv"
-              }
-            >
-              <h2>Todos</h2>
             </div>
           </Link>
           <Link to="/music" style={linkStyle}>
@@ -90,6 +93,15 @@ export default function Navbar() {
               }
             >
               <h2>Books</h2>
+            </div>
+          </Link>
+          <Link to="/movies" style={linkStyle}>
+            <div
+              className={
+                location.pathname === "/movies" ? "navDiv active" : "navDiv"
+              }
+            >
+              <h2>Movies</h2>
             </div>
           </Link>
         </nav>

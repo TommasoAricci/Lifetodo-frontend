@@ -34,15 +34,6 @@ export default function Navbar() {
               <h2>Notes</h2>
             </div>
           </Link>
-          <Link to="/todos" style={linkStyle}>
-            <div
-              className={
-                location.pathname === "/todos" ? "navDiv active" : "navDiv"
-              }
-            >
-              <h2>Todos</h2>
-            </div>
-          </Link>
           <Link to="/music" style={linkStyle}>
             <div
               className={
@@ -59,6 +50,15 @@ export default function Navbar() {
               }
             >
               <h2>Books</h2>
+            </div>
+          </Link>
+          <Link to="/movies" style={linkStyle}>
+            <div
+              className={
+                location.pathname === "/movies" ? "navDiv active" : "navDiv"
+              }
+            >
+              <h2>Movies</h2>
             </div>
           </Link>
         </nav>

@@ -13,6 +13,7 @@ import Logout from "./pages/Logout";
 import Account from "./pages/Account";
 import Music from "./pages/Music";
 import Books from "./pages/Books";
+import Movies from "./pages/Movies";
 import { HelmetProvider } from "react-helmet-async";
 
 const router = createBrowserRouter([
@@ -77,6 +78,14 @@ const router = createBrowserRouter([
     element: (
       <Authentication>
         <Books />
+      </Authentication>
+    ),
+  },
+  {
+    path: "/movies",
+    element: (
+      <Authentication>
+        <Movies />
       </Authentication>
     ),
   },

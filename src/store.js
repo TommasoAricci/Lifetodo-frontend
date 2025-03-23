@@ -73,6 +73,15 @@ export const StoreProvider = ({ children }) => {
   const [booksToChoose, setBooksToChoose] = useState([]);
   const [viewInfo, setViewInfo] = useState(false);
 
+  // movies
+
+  const [newMovieOpen, setNewMovieOpen] = useState(false);
+  const [movieTitle, setMovieTitle] = useState("");
+  const [movieSent, setMovieSent] = useState(false);
+  const [movieData, setMovieData] = useState(null);
+  const [movieId, setMovieId] = useState("");
+  const [moviesToChoose, setMoviesToChoose] = useState([]);
+
   // login - logout
 
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -214,6 +223,19 @@ export const StoreProvider = ({ children }) => {
         setBooksToChoose,
         viewInfo,
         setViewInfo,
+        // movies
+        newMovieOpen,
+        setNewMovieOpen,
+        movieTitle,
+        setMovieTitle,
+        movieSent,
+        setMovieSent,
+        movieData,
+        setMovieData,
+        movieId,
+        setMovieId,
+        moviesToChoose,
+        setMoviesToChoose,
       }}
     >
       {children}

@@ -14,7 +14,7 @@ export default function AddButton({
   handleNewCheckbox,
   handleNewSong,
   handleNewBook,
-  newThoughtOpen,
+  handleNewMovie
 }) {
   // VARIABLES
 
@@ -34,6 +34,8 @@ export default function AddButton({
       handleNewSong();
     } else if (location.pathname === "/books") {
       handleNewBook();
+    } else if (location.pathname === "/movies") {
+      handleNewMovie();
     }
   };
 
