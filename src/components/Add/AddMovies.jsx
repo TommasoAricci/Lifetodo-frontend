@@ -9,11 +9,9 @@ import {
   faInfo,
   faClose,
 } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 
 export default function AddMovies({ handleNewMovie }) {
   const {
-    userData,
     setMovieSent,
     movieSent,
     moviesToChoose,
