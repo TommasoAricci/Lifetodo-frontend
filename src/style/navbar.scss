@@ -46,12 +46,6 @@ $accent-color: #6200ea;
       transition: background-color 0.2s ease, transform 0.2s ease;
       border: 1px solid rgba(255, 255, 255, 0.2);
 
-      &:hover {
-        background-color: #6200ea;
-        color: #ffffff;
-        transform: scale(1.05);
-      }
-
       h2 {
         margin: 0;
         font-size: 1.2rem;
@@ -90,12 +84,14 @@ $accent-color: #6200ea;
   }
 }
 
-.account-button, .laptop-account-button {
+.account-button,
+.laptop-account-button {
   background-color: #ffd700 !important;
   top: 100px !important;
 }
 
-.logout-button, .laptop-logout-button {
+.logout-button,
+.laptop-logout-button {
   background-color: red !important;
 }
 
@@ -132,7 +128,7 @@ $accent-color: #6200ea;
   display: none;
 }
 
-.laptop-buttons{
+.laptop-buttons {
   display: flex;
   gap: 10px;
 
@@ -142,9 +138,8 @@ $accent-color: #6200ea;
     background-color: #6200ea;
     color: rgba(255, 255, 255, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    border-radius: 5px;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
     transition: visibility 0s, opacity 0.3s ease, transform 0.2s ease;
     z-index: 9999;
     display: flex;
@@ -173,7 +168,8 @@ $accent-color: #6200ea;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    background-color: midnightblue;
+    /*     background-color: rgba(25, 25, 112, 0.1);
+ */
     color: white;
     padding-left: 15px;
     padding-right: 15px;
@@ -184,7 +180,7 @@ $accent-color: #6200ea;
     }
 
     .image {
-      border-radius: 10px;
+      border-radius: 5px;
       align-self: center;
     }
 
@@ -196,28 +192,30 @@ $accent-color: #6200ea;
       gap: 30px;
 
       .navDiv {
-        padding: 10px 20px;
-        background-color: #ffd700;
-        border-radius: 12px;
+        padding: 10px;
         cursor: pointer;
         transition: #ffd700 0.2s ease, transform 0.2s ease;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 
         &:hover {
-          color: #ffffff;
+          background-color: #fff;
           transform: scale(1.05);
+          color: black;
         }
 
         h2 {
-          color: #1e303f;
-          text-transform: uppercase;
+          color: white;
+          text-transform: lowercase;
           margin: 0;
-          font-size: 1.2rem;
+
+          &:hover {
+            color: black;
+          }
         }
       }
 
       .active {
-        background-color: #03a9f4;
+        background-color: #6200ea;
         color: #ffffff;
         transform: scale(1.05);
       }

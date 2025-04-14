@@ -17,17 +17,28 @@ export default function Movies() {
     setNewMovieOpen,
     setMovieTitle,
     setMoviesToChoose,
+    userData,
   } = useStore();
   const [moviesList, setMoviesList] = useState([]);
   const [movieInfo, setMovieInfo] = useState(null);
   const [infoLoaded, setInfoLoaded] = useState(false);
   const [viewContent, setViewContent] = useState(false);
+  const [filteredMovies, setFilteredMovies] = useState([]);
 
   const handleNewMovie = () => {
     setNewMovieOpen(!newMovieOpen);
     setMovieTitle("");
     setMoviesToChoose([]);
   };
+
+    useEffect(() => {
+      if (moviesList.length > 0 && userData?._id) {
+        const filtered = moviesList.filter(
+          (song) => song.user?._id === userData?._id
+        );
+        setFilteredMovies(filtered);
+      }
+    }, [moviesList, userData]);
 
   const getMoviesList = () => {
     try {
@@ -115,7 +126,7 @@ export default function Movies() {
       <NavbarLaptop />
 
       <div className="booksList moviesList">
-        {moviesList.map((movie) => (
+        {filteredMovies.map((movie) => (
           <div key={movie._id} className="book-container movie-container">
             <div className="book movie">
               <img src={movie.image} alt={movie.title} />

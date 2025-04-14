@@ -43,8 +43,6 @@ export default function Music() {
     setDeletedSong(false);
   };
 
-  console.log(filteredSongs);
-
   useEffect(() => {
     if (songsFromDb.length > 0 && userData?._id) {
       const filtered = songsFromDb.filter(
