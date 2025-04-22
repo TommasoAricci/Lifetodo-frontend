@@ -86,17 +86,16 @@ $accent-color: #6200ea;
 
 .account-button,
 .laptop-account-button {
-  background-color: #ffd700 !important;
+  background-color: #2c2c2e;
   top: 100px !important;
 }
 
 .logout-button,
 .laptop-logout-button {
-  background-color: red !important;
+  background-color: #2c2c2e;
 }
 
 .icon {
-  color: #1e303f !important;
   font-size: 25px !important;
 }
 
@@ -104,7 +103,6 @@ $accent-color: #6200ea;
 .account-button,
 .laptop-account-button,
 .laptop-logout-button {
-  background-color: #6200ea;
   color: white;
   border-radius: 50%;
   padding: 10px;
@@ -135,17 +133,11 @@ $accent-color: #6200ea;
   .laptop-bottom-menu {
     width: 50px;
     height: 50px;
-    background-color: #6200ea;
     color: rgba(255, 255, 255, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: visibility 0s, opacity 0.3s ease, transform 0.2s ease;
     z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
 }
 
@@ -189,33 +181,27 @@ $accent-color: #6200ea;
       flex-direction: column;
       justify-content: space-evenly;
       align-items: center;
-      gap: 30px;
+      gap: 20px;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
 
       .navDiv {
-        padding: 10px;
+        padding: 10px 20px;
+        background-color: #2c2c2e;
+        border-radius: 12px;
         cursor: pointer;
-        transition: #ffd700 0.2s ease, transform 0.2s ease;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-
-        &:hover {
-          background-color: #fff;
-          transform: scale(1.05);
-          color: black;
-        }
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
 
         h2 {
-          color: white;
-          text-transform: lowercase;
           margin: 0;
-
-          &:hover {
-            color: black;
-          }
+          font-size: 1.2rem;
         }
       }
 
       .active {
-        background-color: #6200ea;
+        background-color: #03a9f4;
         color: #ffffff;
         transform: scale(1.05);
       }
