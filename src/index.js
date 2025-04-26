@@ -14,6 +14,7 @@ import Account from "./pages/Account";
 import Music from "./pages/Music";
 import Books from "./pages/Books";
 import Movies from "./pages/Movies";
+import Reset from "./pages/Reset";
 import { HelmetProvider } from "react-helmet-async";
 
 const router = createBrowserRouter([
@@ -88,6 +89,10 @@ const router = createBrowserRouter([
         <Movies />
       </Authentication>
     ),
+  },
+  {
+    path: "reset",
+    element: <Reset />,
   },
 ]);
 

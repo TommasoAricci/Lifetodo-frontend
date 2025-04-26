@@ -87,6 +87,7 @@ export const StoreProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [fullName, setFullName] = useState("");
 
   // account
@@ -203,6 +204,8 @@ export const StoreProvider = ({ children }) => {
         setPassword,
         fullName,
         setFullName,
+        newPassword,
+        setNewPassword,
         // account
         editMode,
         setEditMode,

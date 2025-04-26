@@ -74,6 +74,9 @@ export default function Login() {
           </div>
         </form>
         <div className="login-footer">
+          <a style={{ color: "#FFD700" }} href="/reset">
+            <small>Forgot your password?</small>
+          </a>
           <p>
             Don't have an account? <a href="/register">Register</a>
           </p>
