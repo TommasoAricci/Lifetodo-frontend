@@ -9,6 +9,7 @@ import { useStore } from "../store";
 import AddMovies from "../components/Add/AddMovies";
 import AddButton from "../components/Add/AddButton";
 import $ from "jquery";
+import { useLocation } from "react-router-dom";
 
 export default function Movies() {
   const {
@@ -24,6 +25,8 @@ export default function Movies() {
   const [infoLoaded, setInfoLoaded] = useState(false);
   const [viewContent, setViewContent] = useState(false);
   const [filteredMovies, setFilteredMovies] = useState([]);
+
+  const location = useLocation();
 
   const handleNewMovie = () => {
     setNewMovieOpen(!newMovieOpen);
@@ -124,6 +127,18 @@ export default function Movies() {
       </Helmet>
       <Navbar />
       <NavbarLaptop />
+
+      <div className={location.pathname === "/movies" ? "mainAbout" : "hidden"}>
+        <div id="aboutTitle">
+          <h1>My Movies</h1>
+        </div>
+      </div>
+
+      {location.pathname === "/wall" && filteredMovies.length > 0 && (
+        <div className="smallTitleWrapper">
+          <small id="smallTitleWall">movies</small>
+        </div>
+      )}
 
       <div className="booksList moviesList">
         {filteredMovies.map((movie) => (

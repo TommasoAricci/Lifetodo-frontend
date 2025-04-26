@@ -1,5 +1,5 @@
 .songs-list {
-  width: 100%;
+  width: 80%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -35,8 +35,8 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
-    .song-item{
-      .song-iframe{
+    .song-item {
+      .song-iframe {
         width: 300px;
       }
     }

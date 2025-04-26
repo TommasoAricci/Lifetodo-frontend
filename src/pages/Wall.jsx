@@ -5,6 +5,7 @@ import Books from "./Books";
 import Todos from "./Todos";
 import Music from "./Music";
 import Thoughts from "./Thoughts";
+import Movies from "./Movies";
 import NavbarLaptop from "../components/Navbar-laptop";
 import { Helmet } from "react-helmet-async";
 
@@ -31,7 +32,8 @@ export default function Wall() {
         <Todos />
         <Music />
         <Books />
-        
+        <Movies />
+
         <Helmet>
           <title>wall</title>
           <meta name="description" content="wall section of lifetodo app" />
