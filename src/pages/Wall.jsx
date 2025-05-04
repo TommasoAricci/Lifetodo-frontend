@@ -29,7 +29,6 @@ export default function Wall() {
         </div>
 
         <Thoughts />
-        <Todos />
         <Music />
         <Books />
         <Movies />
